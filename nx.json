@@ -33,5 +33,15 @@
         "{workspaceRoot}/.eslintrc.json"
       ]
     }
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      },
+      "library": {
+        "unitTestRunner": "vitest"
+      }
+    }
   }
 }

@@ -23,6 +23,9 @@
     "paths": {
       "@filledout/core": [
         "packages/core/src/index.ts"
+      ],
+      "@filledout/react": [
+        "packages/react/src/index.ts"
       ]
     }
   },
