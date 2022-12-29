@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
+    "preserveSymlinks": true,
     "declaration": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,

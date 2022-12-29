@@ -1,0 +1,1 @@
+export { SimpleFormPage } from './ui';
