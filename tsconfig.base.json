@@ -14,24 +14,15 @@
     "importHelpers": false,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2022",
-      "dom"
-    ],
+    "lib": ["es2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@filledout/core": [
-        "packages/core/src/index.ts"
-      ],
-      "@filledout/react": [
-        "packages/react/src/index.ts"
-      ]
+      "@filledout/core": ["packages/core/src/index.ts"],
+      "@filledout/react": ["packages/react/src/index.ts"],
+      "@filledout/utils": ["packages/utils/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
