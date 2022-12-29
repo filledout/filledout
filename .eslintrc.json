@@ -1,19 +1,18 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
+  "ignorePatterns": ["**/*"],
   "plugins": [
-    "@nrwl/nx"
+    "@nrwl/nx",
+    "@typescript-eslint",
+    "react",
+    "effector",
+    "import",
+    "unused-imports",
+    "prettier"
   ],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
@@ -23,9 +22,7 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -33,23 +30,26 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
+
       "extends": [
-        "plugin:@nrwl/nx/typescript"
+        "plugin:@nrwl/nx/typescript",
+        "plugin:effector/recommended",
+        "plugin:effector/scope",
+        "@feature-sliced",
+        "@feature-sliced/eslint-config/rules/public-api/lite",
+        "@feature-sliced/eslint-config/rules/import-order",
+        "plugin:json/recommended",
+        "prettier"
       ],
-      "rules": {}
+
+      "rules": {
+        "prettier/prettier": "warn"
+      }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nrwl/nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     }
   ]

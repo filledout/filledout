@@ -1,0 +1,170 @@
+import type { Store } from 'effector';
+
+import { useStoreMap, useUnit } from 'effector-react';
+
+import { get } from 'object-path';
+
+import { useMemo } from 'react';
+
+import type { FieldModel, FormMeta } from './types';
+
+import { ValidationVisibilityCondition } from './types';
+
+import { getFieldFormMeta, getFieldMeta } from './utils';
+
+type MappedField<V> = {
+  path: string;
+
+  error: string;
+
+  dirty: boolean;
+
+  touched: boolean;
+
+  hasError: boolean;
+
+  shouldShowValidation: boolean;
+
+  disabled: boolean;
+
+  value: V;
+
+  focused: boolean;
+
+  onChange: (value: V) => any;
+
+  onBlur: () => any;
+
+  onFocus: () => any;
+};
+
+const useDirty = ($dirty: FormMeta['$dirty'], path: string) =>
+  useStoreMap({
+    store: $dirty,
+
+    keys: [path],
+
+    defaultValue: false,
+
+    fn: (dirty, [path]) => dirty[path]
+  });
+
+const useTouched = ($touched: FormMeta['$touched'], path: string) =>
+  useStoreMap({
+    store: $touched,
+
+    keys: [path],
+
+    defaultValue: false,
+
+    fn: (touched, [path]) => touched[path]
+  });
+
+const useError = ($errors: FormMeta['$errors'], path: string) =>
+  useStoreMap({
+    store: $errors,
+
+    keys: [path],
+
+    defaultValue: null,
+
+    fn: (errors, [path]) => {
+      const result = get(errors, path);
+
+      if (Array.isArray(result)) return null;
+
+      return result;
+    }
+  });
+
+const useValue = <V, R>($values: Store<V>, path: string) =>
+  useStoreMap({
+    store: $values,
+
+    keys: [path],
+
+    fn: (values, [path]) => get(values as any, path) as R
+  });
+
+const useFocused = ($focusedField: FormMeta['$focusedField'], path: string) =>
+  useStoreMap({
+    store: $focusedField,
+
+    keys: [path],
+
+    fn: (focusedField, [path]) => focusedField == path
+  });
+
+const useField = <V>(field: FieldModel<V>): MappedField<V> => {
+  const { path } = useMemo(() => getFieldMeta(field), [field]);
+
+  const {
+    $dirty,
+    $errors,
+    $values,
+    $touched,
+    $disabled,
+    $submitted,
+    $focusedField,
+    blured,
+    change,
+    focused,
+    showValidationWhen
+  } = getFieldFormMeta(field);
+
+  const isSubmitted = useUnit($submitted);
+
+  const error = useError($errors, path);
+
+  const dirty = useDirty($dirty, path);
+
+  const touched = useTouched($touched, path);
+
+  const units = useUnit({
+    blured,
+    change,
+    focused,
+    disabled: $disabled
+  });
+
+  const hasError = error !== undefined && error !== null;
+
+  const shouldShowValidation =
+    !showValidationWhen.length ||
+    (showValidationWhen.includes(ValidationVisibilityCondition.Dirty) &&
+      dirty) ||
+    (showValidationWhen.includes(ValidationVisibilityCondition.Submitted) &&
+      isSubmitted) ||
+    (showValidationWhen.includes(ValidationVisibilityCondition.Touched) &&
+      touched);
+
+  return {
+    path,
+
+    error: error == ' ' ? null : error,
+
+    dirty,
+
+    touched,
+
+    hasError,
+
+    shouldShowValidation,
+
+    disabled: units.disabled,
+
+    value: useValue($values, path),
+
+    focused: useFocused($focusedField, path),
+
+    onChange: (value: V) => units.change([path, value]),
+
+    onBlur: () => units.blured([path]),
+
+    onFocus: () => units.focused([path])
+  };
+};
+
+export type { MappedField };
+
+export { useField, useValue };
