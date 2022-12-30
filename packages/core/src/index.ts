@@ -1,7 +1,11 @@
 import { Lib } from './types/create-lib';
 
-const createLib = ({}) => {
-  return null as Lib;
+const createLib = <Params>({}) => {
+  const createForm = () => {};
+
+  return {
+    createForm
+  };
 };
 
 export { createLib };
