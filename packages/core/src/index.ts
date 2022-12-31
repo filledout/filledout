@@ -1,7 +1,7 @@
-import { Lib } from './types/create-lib';
+import { createFormFactory } from './create-form';
 
-const createLib = <Params>({}) => {
-  const createForm = () => {};
+const createLib = <Params>() => {
+  const createForm = createFormFactory<Params>();
 
   return {
     createForm
@@ -9,3 +9,5 @@ const createLib = <Params>({}) => {
 };
 
 export { createLib };
+
+export type { FormModel } from './types/common';

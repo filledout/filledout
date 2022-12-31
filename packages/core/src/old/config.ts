@@ -1,16 +1,18 @@
 enum FieldKey {
+  // state
   $value = '$value',
-  $touched = '$touched',
-  $dirty = '$dirty',
-  $focused = '$focused',
+  $isDirty = '$dirty',
   $errors = '$errors',
-  changed = 'changed',
-  path = 'path',
+  $isTouched = '$touched',
+  $isFocused = '$focused',
+
+  set = 'set',
   change = 'change',
   blured = 'blured',
+  changed = 'changed',
   focused = 'focused',
-  meta = '__meta__',
-  formMeta = '__formMeta__'
+
+  name = 'name'
 }
 
 export { FieldKey };

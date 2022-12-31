@@ -7,7 +7,7 @@ import {
   NameValuePair,
   RejectionPayload
 } from './types/common';
-import { CreateFormFactory, CreateFormParams } from './types/create-form';
+import { CreateFormParams } from './types/create-form';
 import { DeepPartial } from './types/util';
 
 const createFormFactory = <Params>() => {
@@ -79,7 +79,25 @@ const createFormFactory = <Params>() => {
 
     const $isSubmitted = $submitCount.map(count => count > 0);
 
-    const fields = createFields();
+    const meta = {
+      $dirty,
+      $errors,
+      $values,
+      $focused,
+      $isDirty,
+      $touched,
+      $submitCount,
+      $initialValues,
+
+      put,
+      set,
+      reset,
+      patch,
+      blured,
+      change
+    };
+
+    const fields = createFields(meta);
 
     return {
       $dirty,

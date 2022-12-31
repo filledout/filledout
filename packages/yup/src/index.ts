@@ -1,1 +1,1 @@
-export * from './lib/yup';
+export type { YupValidateParams } from './types';

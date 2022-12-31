@@ -15,7 +15,13 @@ type FlattenObject<V> = {};
 
 type FieldErrors = {};
 
-type Fields<V> = {};
+type Fields<V> = {
+  [P in keyof V]: V[P] extends Array<any>
+    ? ListFieldModel<V[P]>
+    : V[P] extends object
+    ? FieldModel<V[P]> & Fields<V[P]>
+    : FieldModel<V[P]>;
+};
 
 type BaseFieldModel<V> = {
   $value: Store<V>;
@@ -34,7 +40,14 @@ type BaseFieldModel<V> = {
 
 type FieldModel<V> = BaseFieldModel<V>;
 
-type ListFieldModel<V> = BaseFieldModel<V> & {};
+type ListFieldModel<V> = BaseFieldModel<V> & {
+  pop: () => V;
+  shift: () => V;
+  push: (payload: V) => void;
+  unshift: (payload: V) => void;
+  remove: (index: number) => void;
+  insert: (index: number, payload: V) => void;
+};
 
 type FormUnits<V> = {
   // state
@@ -98,11 +111,13 @@ type FormModel<V, P> = FormUnits<V> & {
 type FormMeta<V> = FormUnits<V>;
 
 export {
+  Fields,
   FormMeta,
   FormModel,
   FieldModel,
   NamePayload,
   FieldErrors,
   NameValuePair,
+  ListFieldModel,
   RejectionPayload
 };

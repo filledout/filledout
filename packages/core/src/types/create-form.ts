@@ -2,7 +2,7 @@ import { Store } from 'effector';
 import { FormModel } from './common';
 
 type CreateFormParams<V> = {
-  isDisabled: Store<boolean>;
+  isDisabled?: Store<boolean>;
 
   initialValues: Store<V> | V;
 };
