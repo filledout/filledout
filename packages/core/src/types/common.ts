@@ -1,6 +1,6 @@
 import { DeepPartial } from '@filledout/utils';
 import { Event, Store } from 'effector';
-import { ValidateOnEventType, ValidationVisibilityCondition } from './enums';
+import { ValidationVisibilityCondition } from './enums';
 
 type NamePayload = {
   name: string;
@@ -13,8 +13,6 @@ type NameValuePair<V = unknown> = NamePayload & {
 type RejectionPayload<V> = { values: V; errors: Record<string, FieldErrors> };
 
 type ValidationTriggersConfiguration = {
-  validateOn?: ValidateOnEventType[];
-
   showValidationOn?: ValidationVisibilityCondition[];
 };
 
@@ -135,6 +133,7 @@ export {
   NamePayload,
   FieldErrors,
   NameValuePair,
+  BaseFieldModel,
   ListFieldModel,
   RejectionPayload,
   ValidationTriggersConfiguration

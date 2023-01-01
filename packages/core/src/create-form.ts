@@ -20,7 +20,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 >) => {
   const createForm = <V>({
     errors,
-    validateOn,
     isDisabled,
     reinitialize,
     initialValues,
@@ -120,7 +119,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       rejected,
       submitted,
 
-      validateOn,
       showValidationOn
     };
 
@@ -254,7 +252,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       submitted,
 
       fields,
-      validateOn,
       showValidationOn
     };
 

@@ -7,7 +7,11 @@ import { get } from 'object-path';
 
 import { FieldKey } from './config';
 
-import type { Fields, FormMeta } from './types/common';
+import type { BaseFieldModel, Fields, FormMeta } from './types/common';
+
+const getFieldFormMeta = <V = any>(field: BaseFieldModel<any>) => {
+  return (field as any)[FieldKey.units] as FormMeta<V>;
+};
 
 const createFields = <V>(units: FormMeta<V>) => {
   const cache: Record<string, any> = {};
@@ -207,4 +211,4 @@ const createFields = <V>(units: FormMeta<V>) => {
   ) as Fields<V>;
 };
 
-export { createFields };
+export { createFields, getFieldFormMeta };
