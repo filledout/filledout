@@ -14,6 +14,14 @@ enum FieldKey {
   focused = 'focused',
   changed = 'changed',
 
+  // TODO: implement
+  // pop,
+  // shift,
+  // push,
+  // unshift,
+  // remove,
+  // insert,
+
   // hidden fields
   units = '__units__'
 }

@@ -52,6 +52,7 @@ importers:
       nx: ^15.4.2
       object-path: ^0.11.8
       object-path-immutable: ^4.1.2
+      patronum: ^1.12.3
       prettier: ^2.1.2
       react: 18.2.0
       react-dom: 18.2.0
@@ -127,6 +128,7 @@ importers:
       eslint-plugin-unused-imports: 1.1.5_zvhxdeyqnrlgdni7abrbl4bfse
       jsdom: 20.0.3
       nx: 15.4.2
+      patronum: 1.12.3_effector@22.4.1
       prettier: 2.8.1
       react-test-renderer: 18.2.0_react@18.2.0
       rollup: 3.9.0
@@ -6159,6 +6161,14 @@ packages:
 
   /pathval/1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
+    dev: true
+
+  /patronum/1.12.3_effector@22.4.1:
+    resolution: {integrity: sha512-srIlxQ0+B/CoH4nKD1mU9LDSSiluTD4zN4AoWS+KNafi3UKKe16GmUkj2OtSoxMK79UpoE/CvnqMPyKeU9ivDg==}
+    peerDependencies:
+      effector: ^22.1.2
+    dependencies:
+      effector: 22.4.1
     dev: true
 
   /picocolors/1.0.0:

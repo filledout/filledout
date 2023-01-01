@@ -1,1 +1,2 @@
-export type { YupValidateParams } from './types';
+export type { ApplyYupValidateParams, ApplyYupValidationResult } from './types';
+export { applyYupValidationFlow } from './validate';

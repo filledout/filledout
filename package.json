@@ -48,6 +48,7 @@
     "eslint-plugin-unused-imports": "^1.0.0",
     "jsdom": "~20.0.3",
     "nx": "^15.4.2",
+    "patronum": "^1.12.3",
     "prettier": "^2.1.2",
     "react-test-renderer": "18.2.0",
     "rollup": "^3.9.0",
