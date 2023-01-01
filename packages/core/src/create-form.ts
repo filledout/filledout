@@ -1,4 +1,7 @@
-import { createEvent, createStore, is, Store } from 'effector';
+import { DeepPartial } from '@filledout/utils';
+import deepmerge from 'deepmerge';
+import { createEvent, createStore, Event, is, sample, Store } from 'effector';
+import { set as setProperty } from 'object-path-immutable';
 import { createFields } from './create-fields';
 import {
   FieldErrors,
@@ -8,12 +11,13 @@ import {
   RejectionPayload
 } from './types/common';
 import { CreateFormParams } from './types/create-form';
-import { DeepPartial } from './types/util';
 
 const createFormFactory = <Params>() => {
   const createForm = <V>({
-    initialValues,
+    errors,
     isDisabled,
+    reinitialize,
+    initialValues,
     ...params
   }: CreateFormParams<V> & Params): FormModel<V, Params> => {
     // events
@@ -59,6 +63,9 @@ const createFormFactory = <Params>() => {
 
     const $touched = createStore<Record<string, boolean>>({});
 
+    const $externalErrors =
+      errors ?? createStore<Record<string, FieldErrors>>({});
+
     const $errors = createStore<Record<string, FieldErrors>>({});
 
     // calculated
@@ -86,18 +93,124 @@ const createFormFactory = <Params>() => {
       $focused,
       $isDirty,
       $touched,
+      $isDisabled,
       $submitCount,
       $initialValues,
+      $externalErrors,
 
       put,
       set,
       reset,
       patch,
       blured,
-      change
+      change,
+      submit,
+      focused,
+      changed,
+      rejected,
+      submitted
     };
 
     const fields = createFields(meta);
+
+    sample({
+      clock: patch as Event<V>,
+
+      source: $values,
+
+      fn: (values, payload) =>
+        deepmerge(values as any, payload as any, {
+          arrayMerge: (_, sourceArray) => sourceArray
+        }) as V,
+
+      target: $values
+    });
+
+    sample({
+      clock: $initialValues.updates,
+
+      filter: () => Boolean(reinitialize),
+
+      target: reset
+    });
+
+    sample({
+      clock: reset,
+
+      source: $initialValues,
+
+      fn: (initialValues, values) => values ?? initialValues,
+
+      target: $values
+    });
+
+    sample({
+      clock: put,
+
+      target: $values
+    });
+
+    sample({
+      clock: [change, set],
+
+      source: $values,
+
+      fn: (values, { name, value }) => setProperty(values, name, value),
+
+      target: $values
+    });
+
+    sample({
+      clock: focused,
+
+      fn: ({ name }) => name,
+
+      target: $focused
+    });
+
+    sample({
+      clock: blured,
+
+      fn: () => null as unknown as string,
+
+      target: $focused
+    });
+
+    sample({
+      clock: submit,
+
+      source: $submitCount,
+
+      fn: count => count + 1,
+
+      target: $submitCount
+    });
+
+    sample({
+      clock: change,
+
+      source: $dirty,
+
+      fn: (state, { name }) => ({
+        ...state,
+        [name]: true
+      }),
+
+      target: $dirty
+    });
+
+    sample({
+      clock: blured,
+
+      source: $touched,
+
+      fn: (state, { name }) => ({
+        ...state,
+        [name]: true
+      }),
+
+      target: $touched
+    });
 
     return {
       $dirty,
@@ -113,6 +226,7 @@ const createFormFactory = <Params>() => {
       $isSubmitted,
       $submitCount,
       $initialValues,
+      $externalErrors,
 
       put,
       set,

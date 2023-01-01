@@ -1,9 +1,10 @@
 enum FieldKey {
   $value = '$value',
+  $errors = '$errors',
   $isDirty = '$isDirty',
   $isFocused = '$isFocused',
   $isTouched = '$isTouched',
-  $errors = '$errors',
+  $externalErrors = '$externalErrors',
 
   name = 'name',
 
@@ -11,7 +12,10 @@ enum FieldKey {
   change = 'change',
   blured = 'blured',
   focused = 'focused',
-  changed = 'changed'
+  changed = 'changed',
+
+  // hidden fields
+  units = '__units__'
 }
 
 export { FieldKey };

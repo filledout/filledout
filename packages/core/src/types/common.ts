@@ -1,5 +1,5 @@
+import { DeepPartial } from '@filledout/utils';
 import { Event, Store } from 'effector';
-import { DeepPartial } from './util';
 
 type NamePayload = {
   name: string;
@@ -11,9 +11,17 @@ type NameValuePair<V = unknown> = NamePayload & {
 
 type RejectionPayload<V> = { values: V; errors: Record<string, FieldErrors> };
 
-type FlattenObject<V> = {};
+type DeepMapTo<Values, T> = {
+  [K in keyof Values]?: Values[K] extends any[]
+    ? Values[K][number] extends object
+      ? DeepMapTo<Values[K][number], T>[] | T | T[]
+      : T | T[]
+    : Values[K] extends object
+    ? DeepMapTo<Values[K], T>
+    : T;
+};
 
-type FieldErrors = {};
+type FieldErrors = Record<string, Record<string, any>>;
 
 type Fields<V> = {
   [P in keyof V]: V[P] extends Array<any>
@@ -67,6 +75,10 @@ type FormUnits<V> = {
 
   $errors: Store<Record<string, FieldErrors>>;
 
+  $externalErrors:
+    | Store<Record<string, FieldErrors>>
+    | Store<DeepMapTo<V, FieldErrors>>;
+
   // events
   submitted: Event<V>;
 
@@ -113,7 +125,9 @@ type FormMeta<V> = FormUnits<V>;
 export {
   Fields,
   FormMeta,
+  FormUnits,
   FormModel,
+  DeepMapTo,
   FieldModel,
   NamePayload,
   FieldErrors,
