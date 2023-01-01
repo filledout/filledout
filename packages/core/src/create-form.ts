@@ -2,6 +2,7 @@ import { DeepPartial } from '@filledout/utils';
 import deepmerge from 'deepmerge';
 import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
+import { reset as resetAll } from 'patronum/reset';
 import { createFields } from './create-fields';
 import {
   ErrorsMap,
@@ -241,6 +242,20 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
         target: $values
       });
     }
+
+    sample({
+      clock: reset,
+
+      source: $initialValues,
+
+      target: $values
+    });
+
+    resetAll({
+      clock: reset,
+
+      target: [$dirty, $errors, $focused, $submitCount, $touched]
+    });
 
     const form = {
       $dirty,
