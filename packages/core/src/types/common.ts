@@ -56,12 +56,8 @@ type BaseFieldModel<V> = {
 type FieldModel<V> = BaseFieldModel<V>;
 
 type ListFieldModel<V> = BaseFieldModel<V> & {
-  pop: () => V;
-  shift: () => V;
-  push: (payload: V) => void;
-  unshift: (payload: V) => void;
-  remove: (index: number) => void;
-  insert: (index: number, payload: V) => void;
+  remove: (index: 'first' | 'last' | number) => void;
+  add: (options: { at: 'start' | 'end' | number; value: V }) => void;
 };
 
 type FormUnits<V> = {

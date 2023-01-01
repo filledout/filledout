@@ -1,12 +1,13 @@
+/* eslint-disable effector/no-ambiguity-target */
 /* eslint-disable effector/enforce-store-naming-convention */
 import { nope } from '@filledout/utils';
-import { sample } from 'effector';
+import { createEvent, EventPayload, sample } from 'effector';
 
 import { get } from 'object-path';
 
 import { FieldKey } from './config';
 
-import type { Fields, FormMeta } from './types/common';
+import type { Fields, FormMeta, ListFieldModel } from './types/common';
 
 const createFields = <V>(units: FormMeta<V>) => {
   const cache: Record<string, any> = {};
@@ -109,28 +110,81 @@ const createFields = <V>(units: FormMeta<V>) => {
 
               // array methods
 
-              // case FieldKey.pop: {
-              //   units.change.prepend(() => {
-              //     const copy = [...value];
+              case FieldKey.remove: {
+                const remove = (cache[path] = createEvent<
+                  'first' | 'last' | number
+                >());
 
-              //     copy.pop();
-              //   });
-              // }
+                sample({
+                  clock: remove,
 
-              // case FieldKey.shift: {
-              // }
+                  source: units.$values,
 
-              // case FieldKey.push: {
-              // }
+                  fn: (values, payload) => {
+                    const value: any[] = [...get(values as object, path)];
 
-              // case FieldKey.unshift: {
-              // }
+                    if (payload == 'first') {
+                      value.shift();
+                    }
 
-              // case FieldKey.remove: {
-              // }
+                    if (payload == 'last') {
+                      value.pop();
+                    }
 
-              // case FieldKey.insert: {
-              // }
+                    if (typeof payload == 'number') {
+                      value.splice(payload, 1);
+                    }
+
+                    return {
+                      value,
+                      name: path
+                    };
+                  },
+
+                  target: units.changed
+                });
+
+                return remove;
+              }
+
+              case FieldKey.add: {
+                const add = (cache[path] = createEvent<{
+                  at: 'start' | 'end' | number;
+
+                  value: V;
+                }>());
+
+                sample({
+                  clock: add,
+
+                  source: units.$values,
+
+                  fn: (values, { value, at }) => {
+                    const result: any[] = [...get(values as object, path)];
+
+                    if (at == 'start') {
+                      result.unshift(value);
+                    }
+
+                    if (at == 'end') {
+                      result.push(value);
+                    }
+
+                    if (typeof at == 'number') {
+                      result.splice(at, 0, value);
+                    }
+
+                    return {
+                      name: path,
+                      value: result
+                    };
+                  },
+
+                  target: units.changed
+                });
+
+                return add;
+              }
             }
 
             return createProxy(path);

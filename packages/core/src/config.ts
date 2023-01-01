@@ -15,12 +15,8 @@ enum FieldKey {
   changed = 'changed',
 
   // TODO: implement
-  pop = 'pop',
-  shift = 'shift',
-  push = 'push',
-  unshift = 'unshift',
+  add = 'insert',
   remove = 'remove',
-  insert = 'insert',
 
   // hidden fields
   units = '__units__'
