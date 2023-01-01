@@ -22,30 +22,26 @@ const yupErrorToMapError = (err: ValidationError) => {
   const result: Record<any, any> = {};
 
   if (err.inner.length == 0) {
-    if (!result[err.path!]) {
-      result[err.path!] = {};
-    }
-
-    result[err.path!][err.message] = err.params;
+    result[err.path!] = [{ name: err.message, params: err.params }];
 
     return result;
   }
 
   err.inner.forEach(error => {
     if (!result[error.path!]) {
-      result[error.path!] = {};
+      result[error.path!] = [];
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { originalValue, value, path, ...params } = error.params! as any;
 
-    result[error.path!][error.message] = params;
+    result[error.path!].push({ name: error.message, params });
   });
 
   return result;
 };
 
-const validate = async ({ values, schema }: ValidateValuesParams) => {
+const validateBySchema = async ({ values, schema }: ValidateValuesParams) => {
   try {
     await schema.validate(values, { abortEarly: false });
   } catch (error) {
@@ -56,7 +52,7 @@ const validate = async ({ values, schema }: ValidateValuesParams) => {
 };
 
 const applyYupValidationFlow = (
-  { submit, rejected, submitted, $values, $errors }: FormModel<any>,
+  { submit, rejected, validate, submitted, $values, $errors }: FormModel<any>,
   { schema }: ApplyYupValidateParams
 ): ApplyYupValidationResult => {
   const $schema = is.store(schema)
@@ -64,7 +60,7 @@ const applyYupValidationFlow = (
     : createStore(schema as AnySchema);
 
   const baseValidateFx = createEffect<any, void, Record<string, FieldErrors>>(
-    validate
+    validateBySchema
   );
 
   const validateOnChangeFx = attach({
@@ -87,6 +83,7 @@ const applyYupValidationFlow = (
 
     source: {
       values: $values,
+
       schema: $schema
     },
 
@@ -121,7 +118,7 @@ const applyYupValidationFlow = (
   });
 
   sample({
-    clock: $values.updates,
+    clock: [$values.updates, validate],
 
     source: {
       schema: $schema,

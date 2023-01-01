@@ -17,6 +17,6 @@ const { createForm } = createLib<
   }
 });
 
-const { useField } = createReactLib();
+const { useField, useForm } = createReactLib();
 
-export { createForm, useField };
+export { createForm, useField, useForm };

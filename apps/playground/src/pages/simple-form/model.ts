@@ -22,6 +22,8 @@ const $$simpleFormPage = atom(() => {
     })
   });
 
+  $$form.$errors.watch(console.log);
+
   return {
     $$form,
     $$route

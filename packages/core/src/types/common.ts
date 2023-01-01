@@ -103,6 +103,8 @@ type FormUnits<V> = {
   submit: Event<void | unknown>;
 
   change: Event<NameValuePair>;
+
+  validate: Event<void>;
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types

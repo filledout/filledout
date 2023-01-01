@@ -1,4 +1,4 @@
-import { useField } from '../../shared/form';
+import { useField, useForm } from '../../shared/form';
 import { $$simpleFormPage } from './model';
 
 const Email = () => {
@@ -17,9 +17,13 @@ const Email = () => {
 };
 
 const SimpleFormPage = () => {
+  const { submit } = useForm($$simpleFormPage.$$form);
+
   return (
     <div>
       <Email />
+
+      <button onClick={submit}>Submit</button>
     </div>
   );
 };

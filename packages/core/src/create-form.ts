@@ -55,6 +55,8 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const change = createEvent<NameValuePair>();
 
+    const validate = createEvent<void>();
+
     const $initialValues = (
       is.store(initialValues) ? initialValues : createStore(initialValues)
     ) as Store<V>;
@@ -117,6 +119,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       focused,
       changed,
       rejected,
+      validate,
       submitted,
 
       showValidationOn
@@ -231,6 +234,14 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       target: $touched
     });
 
+    if (reinitialize) {
+      sample({
+        clock: $initialValues.updates,
+
+        target: $values
+      });
+    }
+
     const form = {
       $dirty,
       $errors,
@@ -257,6 +268,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       changed,
       focused,
       rejected,
+      validate,
       submitted,
 
       fields,

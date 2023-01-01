@@ -1,13 +1,14 @@
 import {
   BaseFieldModel,
   FormMeta,
+  FormModel,
   ValidationVisibilityCondition
 } from '@filledout/core';
 import { Store, StoreValue } from 'effector';
 import { useStoreMap, useUnit } from 'effector-react';
 import { get } from 'object-path';
 import { getFieldFormMeta } from 'packages/core/src/create-fields';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const createLib = () => {
   const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
@@ -159,7 +160,27 @@ const createLib = () => {
     };
   };
 
+  const useForm = (form: FormModel<any>) => {
+    const { validate, submit, isSubmitted } = useUnit({
+      submit: form.submit,
+      validate: form.validate,
+      isSubmitted: form.$isSubmitted
+    });
+
+    useEffect(() => {
+      validate();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return {
+      submit,
+      validate,
+      isSubmitted
+    };
+  };
+
   return {
+    useForm,
     useField,
     useDirty,
     useValue,
