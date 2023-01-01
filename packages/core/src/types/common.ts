@@ -55,9 +55,10 @@ type ErrorsMap = Record<string, FieldErrors>;
 
 type FieldModel<V> = BaseFieldModel<V>;
 
-type ListFieldModel<V> = BaseFieldModel<V> & {
-  remove: (index: 'first' | 'last' | number) => void;
-  add: (options: { at: 'start' | 'end' | number; value: V }) => void;
+type ListFieldModel<V extends Array<any>> = BaseFieldModel<V> & {
+  remove: Event<'first' | 'last' | number>;
+
+  add: Event<{ at: 'start' | 'end' | number; value: V[number] }>;
 };
 
 type FormUnits<V> = {

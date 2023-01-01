@@ -15,7 +15,7 @@ enum FieldKey {
   changed = 'changed',
 
   // TODO: implement
-  add = 'insert',
+  add = 'add',
   remove = 'remove',
 
   // hidden fields
