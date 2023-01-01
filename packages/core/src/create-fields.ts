@@ -106,6 +106,31 @@ const createFields = <V>(units: FormMeta<V>) => {
               case FieldKey.units: {
                 return units;
               }
+
+              // array methods
+
+              // case FieldKey.pop: {
+              //   units.change.prepend(() => {
+              //     const copy = [...value];
+
+              //     copy.pop();
+              //   });
+              // }
+
+              // case FieldKey.shift: {
+              // }
+
+              // case FieldKey.push: {
+              // }
+
+              // case FieldKey.unshift: {
+              // }
+
+              // case FieldKey.remove: {
+              // }
+
+              // case FieldKey.insert: {
+              // }
             }
 
             return createProxy(path);

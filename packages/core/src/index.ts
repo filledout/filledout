@@ -1,3 +1,4 @@
+import { FieldKey } from './config';
 import { createFormFactory } from './create-form';
 import { FormModel } from './types/common';
 import { CreateFormFactoryParams } from './types/create-form';
@@ -34,6 +35,6 @@ const createLib = <Params, Result>({
   };
 };
 
-export { createLib };
+export { createLib, FieldKey };
 
 export type { FormModel, FormMeta, FormUnits } from './types/common';
