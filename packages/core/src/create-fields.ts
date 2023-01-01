@@ -1,13 +1,13 @@
 /* eslint-disable effector/no-ambiguity-target */
 /* eslint-disable effector/enforce-store-naming-convention */
 import { nope } from '@filledout/utils';
-import { createEvent, EventPayload, sample } from 'effector';
+import { createEvent, sample } from 'effector';
 
 import { get } from 'object-path';
 
 import { FieldKey } from './config';
 
-import type { Fields, FormMeta, ListFieldModel } from './types/common';
+import type { Fields, FormMeta } from './types/common';
 
 const createFields = <V>(units: FormMeta<V>) => {
   const cache: Record<string, any> = {};
