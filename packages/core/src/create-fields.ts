@@ -81,7 +81,7 @@ const createFields = <V>(units: FormMeta<V>) => {
                 return (cache[path] = sample({
                   clock: units.changed,
 
-                  filter: ({ name }) => name == path,
+                  filter: ({ name: changedName }) => changedName == path,
 
                   fn: ({ value }) => value
                 }));
@@ -91,7 +91,7 @@ const createFields = <V>(units: FormMeta<V>) => {
                 return (cache[path] = sample({
                   clock: units.focused,
 
-                  filter: ({ name }) => name == path,
+                  filter: ({ name: focusedName }) => focusedName == name,
 
                   fn: nope
                 }));
@@ -103,8 +103,8 @@ const createFields = <V>(units: FormMeta<V>) => {
 
               case FieldKey.set: {
                 return (cache[path] = units.set.prepend((value: any) => ({
-                  value,
-                  name: path
+                  name,
+                  value
                 })));
               }
 
@@ -125,7 +125,7 @@ const createFields = <V>(units: FormMeta<V>) => {
                   source: units.$values,
 
                   fn: (values, payload) => {
-                    const value: any[] = [...get(values as object, path)];
+                    const value: any[] = [...get(values as object, name)];
 
                     if (payload == 'first') {
                       value.shift();
@@ -140,12 +140,12 @@ const createFields = <V>(units: FormMeta<V>) => {
                     }
 
                     return {
-                      value,
-                      name: path
+                      name,
+                      value
                     };
                   },
 
-                  target: units.changed
+                  target: units.change
                 });
 
                 return remove;
@@ -164,7 +164,7 @@ const createFields = <V>(units: FormMeta<V>) => {
                   source: units.$values,
 
                   fn: (values, { value, at }) => {
-                    const result: any[] = [...get(values as object, path)];
+                    const result: any[] = [...get(values as object, name)];
 
                     if (at == 'start') {
                       result.unshift(value);
@@ -179,12 +179,12 @@ const createFields = <V>(units: FormMeta<V>) => {
                     }
 
                     return {
-                      name: path,
+                      name,
                       value: result
                     };
                   },
 
-                  target: units.changed
+                  target: units.change
                 });
 
                 return add;

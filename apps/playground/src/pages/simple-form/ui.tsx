@@ -32,6 +32,7 @@ const Password = () => {
   );
 };
 
+$$simpleFormPage.$$form.$values.watch(v => console.log(v));
 const Roles = () => {
   const { onDelete, onAdd } = useUnit({
     onAdd: $$simpleFormPage.$$form.fields.roles.add,
