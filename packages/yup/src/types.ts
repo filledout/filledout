@@ -1,17 +1,18 @@
 import { Store } from 'effector';
-import { AnySchema } from 'yup';
+
+type SchemaType = any;
 
 type ApplyYupValidateParams = {
-  schema?: AnySchema | Store<AnySchema>;
+  schema?: SchemaType | Store<SchemaType>;
 };
 
 type ValidateValuesParams = {
   values: any;
-  schema: AnySchema;
+  schema: SchemaType;
 };
 
 type ApplyYupValidationResult = {
-  $schema: AnySchema;
+  $schema: Store<SchemaType>;
   $validating: Store<boolean>;
 };
 

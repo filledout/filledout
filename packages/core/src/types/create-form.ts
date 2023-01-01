@@ -18,8 +18,14 @@ type CreateFormParams<V> = {
     | Store<DeepMapTo<V, FieldErrors>>;
 };
 
-type CreateFormFactory<Params> = <V>(
-  params: CreateFormParams<V> & Params
-) => FormModel<V, Params>;
+type CreateFormFactoryParams<
+  FactoryInterceptorParams,
+  FactoryInterceptorResult
+> = {
+  factoryInterceptor: (
+    payload: FormModel<any>,
+    params: FactoryInterceptorParams
+  ) => FactoryInterceptorResult;
+};
 
-export { CreateFormFactory, CreateFormParams };
+export type { CreateFormFactoryParams, CreateFormParams };

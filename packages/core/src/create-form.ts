@@ -10,16 +10,24 @@ import {
   NameValuePair,
   RejectionPayload
 } from './types/common';
-import { CreateFormParams } from './types/create-form';
+import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 
-const createFormFactory = <Params>() => {
+const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
+  factoryInterceptor
+}: CreateFormFactoryParams<
+  FactoryInterceptorParams,
+  FactoryInterceptorResult
+>) => {
   const createForm = <V>({
     errors,
     isDisabled,
     reinitialize,
     initialValues,
     ...params
-  }: CreateFormParams<V> & Params): FormModel<V, Params> => {
+  }: CreateFormParams<V> & FactoryInterceptorParams): FormModel<
+    V,
+    FactoryInterceptorResult
+  > => {
     // events
     const submitted = createEvent<V>();
 
@@ -212,7 +220,7 @@ const createFormFactory = <Params>() => {
       target: $touched
     });
 
-    return {
+    const form = {
       $dirty,
       $errors,
       $values,
@@ -240,9 +248,14 @@ const createFormFactory = <Params>() => {
       rejected,
       submitted,
 
-      fields,
-      params: params as Params
+      fields
     };
+
+    return {
+      ...form,
+
+      ...(factoryInterceptor(form, params as FactoryInterceptorParams) ?? {})
+    } as FormModel<V, FactoryInterceptorResult>;
   };
 
   return createForm;

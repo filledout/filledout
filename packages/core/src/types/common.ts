@@ -106,8 +106,6 @@ type FormUnits<V> = {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type FormModel<V, P = {}> = FormUnits<V> & {
-  params: P;
-
   fields: Fields<V>;
 
   $isValid: Store<boolean>;

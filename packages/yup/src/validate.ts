@@ -12,7 +12,11 @@ import { FieldErrors } from 'packages/core/src/types/common';
 import { reset } from 'patronum/reset';
 import { AnySchema } from 'yup';
 import ValidationError from 'yup/lib/ValidationError';
-import { ValidateValuesParams, ApplyYupValidateParams } from './types';
+import {
+  ValidateValuesParams,
+  ApplyYupValidateParams,
+  ApplyYupValidationResult
+} from './types';
 
 const yupErrorToMapError = (err: ValidationError) => {
   const result: Record<any, any> = {};
@@ -51,14 +55,10 @@ const validate = async ({ values, schema }: ValidateValuesParams) => {
   }
 };
 
-const applyYupValidationFlow = ({
-  submit,
-  schema,
-  rejected,
-  submitted,
-  $values,
-  $errors
-}: FormModel<any, ApplyYupValidateParams>) => {
+const applyYupValidationFlow = (
+  { submit, rejected, submitted, $values, $errors }: FormModel<any>,
+  { schema }: ApplyYupValidateParams
+): ApplyYupValidationResult => {
   const $schema = is.store(schema)
     ? (schema as Store<AnySchema>)
     : createStore(schema as AnySchema);

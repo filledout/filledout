@@ -9,10 +9,10 @@ const { createForm } = createLib<
   ApplyYupValidateParams,
   ApplyYupValidationResult
 >({
-  factoryInterceptor: form => {
-    form;
+  factoryInterceptor: (form, params) => {
+    const result = applyYupValidationFlow(form, params);
 
-    applyYupValidationFlow;
+    return result;
   }
 });
 

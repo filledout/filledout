@@ -2,7 +2,7 @@ import { createFormFactory } from './create-form';
 import { FormModel } from './types/common';
 
 type CreateLibParams<P, T> = {
-  factoryInterceptor: (form: FormModel<any, P>) => T;
+  factoryInterceptor: (payload: FormModel<any>, params: P) => T;
 };
 
 const createLib = <Params, Result>({
