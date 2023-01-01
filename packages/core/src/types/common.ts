@@ -1,5 +1,6 @@
 import { DeepPartial } from '@filledout/utils';
 import { Event, Store } from 'effector';
+import { ValidateOnEventType, ValidationVisibilityCondition } from './enums';
 
 type NamePayload = {
   name: string;
@@ -10,6 +11,12 @@ type NameValuePair<V = unknown> = NamePayload & {
 };
 
 type RejectionPayload<V> = { values: V; errors: Record<string, FieldErrors> };
+
+type ValidationTriggersConfiguration = {
+  validateOn?: ValidateOnEventType[];
+
+  showValidationOn?: ValidationVisibilityCondition[];
+};
 
 type DeepMapTo<Values, T> = {
   [K in keyof Values]?: Values[K] extends any[]
@@ -105,21 +112,22 @@ type FormUnits<V> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type FormModel<V, P = {}> = FormUnits<V> & {
-  fields: Fields<V>;
+type FormModel<V, P = {}> = FormUnits<V> &
+  ValidationTriggersConfiguration & {
+    fields: Fields<V>;
 
-  $isValid: Store<boolean>;
+    $isValid: Store<boolean>;
 
-  $isDirty: Store<boolean>;
+    $isDirty: Store<boolean>;
 
-  $isFocused: Store<boolean>;
+    $isFocused: Store<boolean>;
 
-  $isTouched: Store<boolean>;
+    $isTouched: Store<boolean>;
 
-  $isSubmitted: Store<boolean>;
-} & P;
+    $isSubmitted: Store<boolean>;
+  } & P;
 
-type FormMeta<V> = FormUnits<V>;
+type FormMeta<V> = FormUnits<V> & ValidationTriggersConfiguration;
 
 export {
   Fields,
@@ -132,5 +140,6 @@ export {
   FieldErrors,
   NameValuePair,
   ListFieldModel,
-  RejectionPayload
+  RejectionPayload,
+  ValidationTriggersConfiguration
 };

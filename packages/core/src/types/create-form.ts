@@ -1,6 +1,10 @@
 import { Store } from 'effector';
-import { DeepMapTo, FieldErrors, FormModel } from './common';
-import { ValidateOnEventType, ValidationVisibilityCondition } from './enums';
+import {
+  DeepMapTo,
+  FieldErrors,
+  FormModel,
+  ValidationTriggersConfiguration
+} from './common';
 
 type CreateFormParams<V> = {
   reinitialize?: boolean;
@@ -9,14 +13,10 @@ type CreateFormParams<V> = {
 
   initialValues: Store<V> | V;
 
-  validateOn?: ValidateOnEventType[];
-
-  showValidationOn?: ValidationVisibilityCondition[];
-
   errors?:
     | Store<Record<string, FieldErrors>>
     | Store<DeepMapTo<V, FieldErrors>>;
-};
+} & ValidationTriggersConfiguration;
 
 type CreateFormFactoryParams<
   FactoryInterceptorParams,
@@ -26,6 +26,6 @@ type CreateFormFactoryParams<
     payload: FormModel<any>,
     params: FactoryInterceptorParams
   ) => FactoryInterceptorResult;
-};
+} & ValidationTriggersConfiguration;
 
 export type { CreateFormFactoryParams, CreateFormParams };
