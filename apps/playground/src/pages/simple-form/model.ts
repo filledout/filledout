@@ -8,7 +8,7 @@ const $$simpleFormPage = atom(() => {
 
   const $$form = createForm({
     initialValues: {
-      email: '',
+      email: 'dsad',
       password: '',
       roles: [] as string[]
     },

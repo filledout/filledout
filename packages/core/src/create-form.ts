@@ -4,7 +4,7 @@ import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
 import { createFields } from './create-fields';
 import {
-  FieldErrors,
+  ErrorsMap,
   FormModel,
   NamePayload,
   NameValuePair,
@@ -13,7 +13,8 @@ import {
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 
 const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
-  factoryInterceptor
+  factoryInterceptor,
+  showValidationOn: showValidationOnDefaults
 }: CreateFormFactoryParams<
   FactoryInterceptorParams,
   FactoryInterceptorResult
@@ -23,7 +24,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     isDisabled,
     reinitialize,
     initialValues,
-    showValidationOn,
+    showValidationOn = showValidationOnDefaults,
     ...params
   }: CreateFormParams<V> & FactoryInterceptorParams): FormModel<
     V,
@@ -72,10 +73,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $touched = createStore<Record<string, boolean>>({});
 
-    const $externalErrors =
-      errors ?? createStore<Record<string, FieldErrors>>({});
+    const $externalErrors = errors ?? createStore<ErrorsMap>({});
 
-    const $errors = createStore<Record<string, FieldErrors>>({});
+    const $errors = createStore<ErrorsMap>({});
 
     // calculated
 
@@ -166,9 +166,17 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $values,
 
-      fn: (values, { name, value }) => setProperty(values, name, value),
+      fn: (values, { name, value }) => {
+        return setProperty(values, name, value);
+      },
 
       target: $values
+    });
+
+    sample({
+      clock: change,
+
+      target: changed
     });
 
     sample({

@@ -10,7 +10,7 @@ type NameValuePair<V = unknown> = NamePayload & {
   value: V;
 };
 
-type RejectionPayload<V> = { values: V; errors: Record<string, FieldErrors> };
+type RejectionPayload<V> = { values: V; errors: ErrorsMap };
 
 type ValidationTriggersConfiguration = {
   showValidationOn?: ValidationVisibilityCondition[];
@@ -26,7 +26,7 @@ type DeepMapTo<Values, T> = {
     : T;
 };
 
-type FieldErrors = Record<string, Record<string, any>>;
+type FieldErrors = Record<string, any>[];
 
 type Fields<V> = {
   [P in keyof V]: V[P] extends Array<any>
@@ -51,6 +51,8 @@ type BaseFieldModel<V> = {
   focused: Event<void>;
 };
 
+type ErrorsMap = Record<string, FieldErrors>;
+
 type FieldModel<V> = BaseFieldModel<V>;
 
 type ListFieldModel<V> = BaseFieldModel<V> & {
@@ -74,11 +76,9 @@ type FormUnits<V> = {
 
   $touched: Store<Record<string, boolean>>;
 
-  $errors: Store<Record<string, FieldErrors>>;
+  $errors: Store<ErrorsMap>;
 
-  $externalErrors:
-    | Store<Record<string, FieldErrors>>
-    | Store<DeepMapTo<V, FieldErrors>>;
+  $externalErrors: Store<ErrorsMap> | Store<DeepMapTo<V, FieldErrors>>;
 
   // events
   submitted: Event<V>;
@@ -128,6 +128,7 @@ export {
   FormMeta,
   FormUnits,
   FormModel,
+  ErrorsMap,
   DeepMapTo,
   FieldModel,
   NamePayload,

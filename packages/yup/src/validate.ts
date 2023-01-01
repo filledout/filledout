@@ -9,7 +9,6 @@ import {
   Store
 } from 'effector';
 import { FieldErrors } from 'packages/core/src/types/common';
-import { ValidateOnEventType } from 'packages/core/src/types/enums';
 import { reset } from 'patronum/reset';
 import { AnySchema } from 'yup';
 import ValidationError from 'yup/lib/ValidationError';

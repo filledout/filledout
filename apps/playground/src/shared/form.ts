@@ -1,4 +1,5 @@
 import { createLib } from '@filledout/core';
+import { createLib as createReactLib } from '@filledout/react';
 import {
   applyYupValidationFlow,
   ApplyYupValidateParams,
@@ -16,4 +17,6 @@ const { createForm } = createLib<
   }
 });
 
-export { createForm };
+const { useField } = createReactLib();
+
+export { createForm, useField };

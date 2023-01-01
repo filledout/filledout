@@ -4,9 +4,10 @@ import {
   ValidationVisibilityCondition
 } from '@filledout/core';
 import { Store, StoreValue } from 'effector';
-import { useStoreMap } from 'effector-react';
+import { useStoreMap, useUnit } from 'effector-react';
 import { get } from 'object-path';
 import { getFieldFormMeta } from 'packages/core/src/create-fields';
+import { useMemo } from 'react';
 
 const createLib = () => {
   const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
@@ -96,7 +97,7 @@ const createLib = () => {
 
     const submitted = useSubmitted(meta);
 
-    const value = useValue(meta, name);
+    const value = useValue<StoreValue<F['$value']>>(meta, name);
 
     const dirty = useDirty(meta, name);
 
@@ -116,12 +117,43 @@ const createLib = () => {
       (showValidationWhen.includes(ValidationVisibilityCondition.Touched) &&
         touched);
 
+    const handlers = useUnit({
+      change: meta.change,
+      blur: meta.blured,
+      focus: meta.focused
+    });
+
+    const { onChange, onBlur, onFocus } = useMemo(() => {
+      const onChange = (value: StoreValue<F['$value']>) => {
+        handlers.change({ name, value });
+      };
+
+      const onBlur = () => {
+        handlers.blur({ name });
+      };
+
+      const onFocus = () => {
+        handlers.focus({ name });
+      };
+
+      return {
+        onBlur,
+        onFocus,
+        onChange
+      };
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [name]);
+
     return {
       value,
       dirty,
       errors,
+      onBlur,
+      onFocus,
       touched,
       focused,
+      onChange,
       externalErrors,
       shouldShowValidation
     };

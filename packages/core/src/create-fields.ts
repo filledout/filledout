@@ -98,7 +98,7 @@ const createFields = <V>(units: FormMeta<V>) => {
               }
 
               case FieldKey.name: {
-                return path;
+                return name;
               }
 
               case FieldKey.set: {
