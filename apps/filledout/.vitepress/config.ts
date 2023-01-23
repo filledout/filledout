@@ -9,7 +9,12 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Guide', link: '/guide/', activeMatch: '^/$|^/guide/' },
+      {
+        text: 'Guide',
+        link: '/guide/',
+        activeMatch: '^/$|^/guide/'
+      },
+
       {
         text: 'API',
         link: '/guide/'
@@ -17,7 +22,11 @@ export default defineConfig({
     ],
 
     sidebar: {
-      '/guide/': getGuideSidebar()
+      '/guide/': [
+        {
+          text: 'Introduction'
+        },
+      ]
     }
   }
 });
