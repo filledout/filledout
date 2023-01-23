@@ -1,5 +1,5 @@
 import StarterLayout from './components/starter-layout.vue';
-import DarkTheme from './styles/dark-theme.css';
+import DarkTheme from './styles/dark-theme.css?inline';
 
 export { DarkTheme };
 
