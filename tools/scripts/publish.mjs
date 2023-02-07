@@ -40,7 +40,7 @@ invariant(
   `No version provided or version did not match Semantic Versioning, expected: #.#.#-tag.# or #.#.#, got ${version}.`
 );
 
-const result = spawnSync('npm', ['publish', '--json', '--access', 'public']);
+const result = spawnSync(process.platform == 'win32' ?  'npm.cmd' : 'npm', ['publish', '--json', '--access', 'public']);
 
 const errorInfo = getLastJsonObjectFromString(result.stderr.toString());
 
