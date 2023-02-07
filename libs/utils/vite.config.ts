@@ -1,8 +1,10 @@
-import { defineConfig } from 'vite';
+import { mergeConfig } from 'vite';
 
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
-export default defineConfig({
+import config from '../../vite.config';
+
+export default mergeConfig(config, {
   plugins: [
     viteTsConfigPaths({
       root: '../../'
