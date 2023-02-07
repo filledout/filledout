@@ -1,1 +1,0 @@
-export { DynamicSchemaPage } from './ui';
