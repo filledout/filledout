@@ -1,6 +1,5 @@
 /* eslint-disable effector/no-ambiguity-target */
 /* eslint-disable effector/enforce-store-naming-convention */
-import { nope } from '@filledout/utils';
 import { createEvent, sample } from 'effector';
 
 import { get } from 'object-path';
@@ -8,6 +7,7 @@ import { get } from 'object-path';
 import { FieldKey } from './config';
 
 import type { BaseFieldModel, Fields, FormMeta } from './types/common';
+import { nope } from './utils';
 
 const getFieldFormMeta = <V = any>(field: BaseFieldModel<any>) => {
   return (field as any)[FieldKey.units] as FormMeta<V>;

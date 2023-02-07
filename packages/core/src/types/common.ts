@@ -1,6 +1,6 @@
-import { DeepPartial, NamePayload, NameValuePair } from '@filledout/utils';
 import { Event, Store } from 'effector';
 import { ValidationVisibilityCondition } from './enums';
+import { DeepPartial, NamePayload, NameValuePair } from './utils';
 
 type RejectionPayload<V> = { values: V; errors: ErrorsMap };
 

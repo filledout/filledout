@@ -1,4 +1,3 @@
-import { DeepPartial, NamePayload, NameValuePair } from '@filledout/utils';
 import deepmerge from 'deepmerge';
 import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
@@ -6,6 +5,7 @@ import { reset as resetAll } from 'patronum/reset';
 import { createFields } from './create-fields';
 import { ErrorsMap, FormModel, RejectionPayload } from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
+import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
 
 const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
   factoryInterceptor,
