@@ -1,4 +1,5 @@
 import {
+  getFieldFormMeta,
   BaseFieldModel,
   FormMeta,
   FormModel,
@@ -7,7 +8,6 @@ import {
 import { Store, StoreValue } from 'effector';
 import { useStoreMap, useUnit } from 'effector-react';
 import { get } from 'object-path';
-import { getFieldFormMeta } from 'packages/core/src/create-fields';
 import { useEffect, useMemo } from 'react';
 
 const createLib = () => {

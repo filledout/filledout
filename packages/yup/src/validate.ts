@@ -1,4 +1,4 @@
-import { FormModel } from '@filledout/core';
+import { FormModel, FieldErrors } from '@filledout/core';
 import {
   attach,
   combine,
@@ -8,7 +8,6 @@ import {
   sample,
   Store
 } from 'effector';
-import { FieldErrors } from 'packages/core/src/types/common';
 import { reset } from 'patronum/reset';
 import { AnySchema } from 'yup';
 import ValidationError from 'yup/lib/ValidationError';

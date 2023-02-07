@@ -1,4 +1,5 @@
 import { FieldKey } from './config';
+import { getFieldFormMeta } from './create-fields';
 import { createFormFactory } from './create-form';
 import { FormModel } from './types/common';
 import { CreateFormFactoryParams } from './types/create-form';
@@ -26,7 +27,7 @@ const createLib = <Params, Result>({
   };
 };
 
-export { createLib, FieldKey, ValidationVisibilityCondition };
+export { createLib, FieldKey, ValidationVisibilityCondition, getFieldFormMeta };
 
 export type {
   FormMeta,
