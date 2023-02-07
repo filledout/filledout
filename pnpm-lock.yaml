@@ -14,13 +14,13 @@ importers:
       '@nrwl/linter': 15.4.2
       '@nrwl/react': 15.4.2
       '@nrwl/rollup': 15.6.3
-      '@nrwl/vite': 15.6.3
+      '@nrwl/vite': 15.4.2
       '@nrwl/workspace': ^15.6.3
       '@rollup/plugin-url': ^7.0.0
       '@svgr/rollup': ^6.5.1
       '@testing-library/react': 13.4.0
       '@types/jest': 28.1.1
-      '@types/node': ^18.13.0
+      '@types/node': ^18.11.17
       '@types/object-path': ^0.11.1
       '@types/react': 18.0.25
       '@types/react-dom': 18.0.9
@@ -73,9 +73,9 @@ importers:
       vite: ^4.1.1
       vite-plugin-eslint: ^1.8.1
       vite-tsconfig-paths: ^4.0.5
-      vitepress: 1.0.0-alpha.45
+      vitepress: ^1.0.0-alpha.33
       vitest: ^0.25.8
-      vue: ^3.2.47
+      vue: ^3.2.45
       yup: ^0.32.11
     dependencies:
       atomic-router: 0.8.0_cliveijp3nbay2cvrupvo6s3zu
@@ -105,7 +105,7 @@ importers:
       '@nrwl/linter': 15.4.2_vc2rbr7kxfyl5eui63g7nw2fbm
       '@nrwl/react': 15.4.2_vbvkwdvvzgpgezupuxvyw7ldom
       '@nrwl/rollup': 15.6.3_bmj6cpsjfwn4kkdx2didbwi5hm
-      '@nrwl/vite': 15.6.3_vd4iytgfurudaihxxrg5ofixjm
+      '@nrwl/vite': 15.4.2_vd4iytgfurudaihxxrg5ofixjm
       '@nrwl/workspace': 15.6.3_2i2iku5jv2gvheihefsibamffu
       '@rollup/plugin-url': 7.0.0_rollup@3.14.0
       '@svgr/rollup': 6.5.1
@@ -2346,6 +2346,30 @@ packages:
       - typescript
     dev: true
 
+  /@nrwl/js/15.4.2_vbvkwdvvzgpgezupuxvyw7ldom:
+    resolution: {integrity: sha512-L/uBjbuHRf3iylrczcFruVZDLgOfBHnHcoYAa9qBcEn3XuSGJYzxrBetO+MSobMTbUAzmysPdT2rj1v6Q4Qi8A==}
+    dependencies:
+      '@nrwl/devkit': 15.4.2_nx@15.6.3+typescript@4.9.5
+      '@nrwl/linter': 15.4.2_vc2rbr7kxfyl5eui63g7nw2fbm
+      '@nrwl/workspace': 15.4.2_2i2iku5jv2gvheihefsibamffu
+      chalk: 4.1.0
+      fast-glob: 3.2.7
+      fs-extra: 10.1.0
+      ignore: 5.2.4
+      js-tokens: 4.0.0
+      minimatch: 3.0.5
+      source-map-support: 0.5.19
+      tree-kill: 1.2.2
+    transitivePeerDependencies:
+      - '@swc-node/register'
+      - '@swc/core'
+      - debug
+      - eslint
+      - nx
+      - prettier
+      - typescript
+    dev: true
+
   /@nrwl/js/15.6.3_vbvkwdvvzgpgezupuxvyw7ldom:
     resolution: {integrity: sha512-OkjpbNAL6732jGPR7Lz/6K6AScqjxMGuZCHmMqmlK0NpSRcOtYJpGsn4XZzPRsWteqXCvY/l3efceiL6eNPmRg==}
     dependencies:
@@ -2517,17 +2541,18 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/vite/15.6.3_vd4iytgfurudaihxxrg5ofixjm:
-    resolution: {integrity: sha512-vO5JUoS4nhOk42nVyhmU/itX+1GmxoXG3NgTmWtjtLgYwi7eo3lddtMdzgKLKH0Ktwo4kfApiHaU36iDadyS9A==}
+  /@nrwl/vite/15.4.2_vd4iytgfurudaihxxrg5ofixjm:
+    resolution: {integrity: sha512-nQQylap+HweSyud8qbBSRPKNzKMFePQiFb34qje48dcI3ZbK/16MgPgYNlQxhIKQrk2E3433c7rruIoggrolmQ==}
     peerDependencies:
       vite: ^4.0.1
       vitest: ^0.25.8
     dependencies:
-      '@nrwl/devkit': 15.6.3_nx@15.6.3+typescript@4.9.5
-      '@nrwl/js': 15.6.3_vbvkwdvvzgpgezupuxvyw7ldom
-      '@nrwl/workspace': 15.6.3_2i2iku5jv2gvheihefsibamffu
+      '@nrwl/devkit': 15.4.2_nx@15.6.3+typescript@4.9.5
+      '@nrwl/js': 15.4.2_vbvkwdvvzgpgezupuxvyw7ldom
+      '@nrwl/workspace': 15.4.2_2i2iku5jv2gvheihefsibamffu
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.9.5
       '@swc/helpers': 0.4.14
+      chalk: 4.1.0
       dotenv: 10.0.0
       enquirer: 2.3.6
       vite: 4.1.1_gyrp4zacqcjjrmgvdzgac5epyy
@@ -2539,7 +2564,6 @@ packages:
       - eslint
       - nx
       - prettier
-      - supports-color
       - typescript
     dev: true
 
@@ -5743,7 +5767,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
