@@ -25,8 +25,8 @@ const createi18n = ({ resources }: Params) => {
         resources,
 
         interpolation: {
-          escapeValue: false,
-        },
+          escapeValue: false
+        }
       });
   }
 
@@ -40,7 +40,7 @@ const createi18n = ({ resources }: Params) => {
     $i18n,
 
     setupFx,
-    changeLanguageFx,
+    changeLanguageFx
   };
 };
 

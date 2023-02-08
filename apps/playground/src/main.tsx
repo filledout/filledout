@@ -1,3 +1,5 @@
+import './shared/form/set-yup-locale';
+
 import { RouterProvider } from 'atomic-router-react';
 import { allSettled } from 'effector';
 import { Provider } from 'effector-react';

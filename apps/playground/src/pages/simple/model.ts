@@ -20,6 +20,14 @@ const $$simple = atom(() => {
     })
   });
 
+  $$form.submitted.watch(values => {
+    console.log('Submitted', values);
+  });
+
+  $$form.rejected.watch(({ values, errors }) => {
+    console.log('Rejected', values, errors);
+  });
+
   return {
     $$form
   };
