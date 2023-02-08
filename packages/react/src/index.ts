@@ -158,7 +158,7 @@ const createLib = () => {
     };
   };
 
-  const useForm = (form: FormModel<any>) => {
+  const useForm = <T>(form: FormModel<T>) => {
     const { validate, submit, isSubmitted } = useUnit({
       submit: form.submit,
       validate: form.validate,
@@ -172,7 +172,8 @@ const createLib = () => {
     return {
       submit,
       validate,
-      isSubmitted
+      isSubmitted,
+      fields: form.fields
     };
   };
 

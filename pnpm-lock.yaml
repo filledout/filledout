@@ -52,6 +52,7 @@ importers:
       eslint-plugin-sort-imports-es6-autofix: ^0.5.0
       eslint-plugin-unused-imports: ^1.1.5
       history: ^5.3.0
+      i18next: ^22.4.9
       jest: 28.1.1
       jest-environment-jsdom: 28.1.1
       jsdom: ~20.0.3
@@ -62,6 +63,7 @@ importers:
       prettier: ^2.8.3
       react: 18.2.0
       react-dom: 18.2.0
+      react-i18next: ^12.1.5
       react-test-renderer: 18.2.0
       regenerator-runtime: 0.13.7
       rollup: ^3.14.0
@@ -138,12 +140,14 @@ importers:
       eslint-plugin-react-hooks: 4.6.0_eslint@8.15.0
       eslint-plugin-sort-imports-es6-autofix: 0.5.0
       eslint-plugin-unused-imports: 1.1.5_cn4otbqvheuoq57vylb2jowfye
+      i18next: 22.4.9
       jest: 28.1.1_ucpl6toqp57nqodtp3vxxi6g5a
       jest-environment-jsdom: 28.1.1
       jsdom: 20.0.3
       nx: 15.6.3
       patronum: 1.14.2_effector@22.5.0
       prettier: 2.8.3
+      react-i18next: 12.1.5_iakk3dtjhjpukdoa4oua5khgci
       react-test-renderer: 18.2.0_react@18.2.0
       rollup: 3.14.0
       sass: 1.58.0
@@ -5938,6 +5942,12 @@ packages:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
 
+  /html-parse-stringify/3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+    dependencies:
+      void-elements: 3.1.0
+    dev: true
+
   /html-tags/3.2.0:
     resolution: {integrity: sha512-vy7ClnArOZwCnqZgvv+ddgHgJiAFXe3Ge9ML5/mBctVJoUoYPCdxVucOywjDARn6CVoh3dRSFdPHy2sX80L0Wg==}
     engines: {node: '>=8'}
@@ -5967,6 +5977,12 @@ packages:
   /human-signals/2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: true
+
+  /i18next/22.4.9:
+    resolution: {integrity: sha512-8gWMmUz460KJDQp/ob3MNUX84cVuDRY9PLFPnV8d+Qezz/6dkjxwOaH70xjrCNDO+JrUL25iXfAIN9wUkInNZw==}
+    dependencies:
+      '@babel/runtime': 7.20.13
     dev: true
 
   /iconv-lite/0.4.24:
@@ -8388,6 +8404,26 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
+  /react-i18next/12.1.5_iakk3dtjhjpukdoa4oua5khgci:
+    resolution: {integrity: sha512-7PQAv6DA0TcStG96fle+8RfTwxVbHVlZZJPoEszwUNvDuWpGldJmNWa3ZPesEsZQZGF6GkzwvEh6p57qpFD2gQ==}
+    peerDependencies:
+      i18next: '>= 19.0.0'
+      react: '>= 16.8.0'
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.20.13
+      html-parse-stringify: 3.0.1
+      i18next: 22.4.9
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: true
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
@@ -9747,6 +9783,11 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: true
+
+  /void-elements/3.1.0:
+    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /vscode-json-languageservice/4.2.1:
