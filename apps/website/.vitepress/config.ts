@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
+  base: 'filledout',
+
   lang: 'en-US',
 
   title: 'FilledOut ☄️🥛',
