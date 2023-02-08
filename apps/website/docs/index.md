@@ -13,8 +13,8 @@ hero:
       text: Get Started
       link: /guide/getting-started
     - theme: alt
-      text: API
-      link: /api/lib
+      text: Github
+      link: https://github.com/hyze2d/filledout
 
 features:
   - icon: ☂️

@@ -74,13 +74,21 @@ function guide() {
 
         { text: 'Setup', link: '/guide/setup' },
 
-        { text: 'Fields & Data Structure', link: '/guide/fields' },
+        { text: `Let's create a form`, link: '/guide/create-form' },
 
-        { text: 'Factory Extension', link: '/guide/factory-extension' },
-
-        { text: 'Validation', link: '/guide/validation' },
+        { text: `Fields`, link: '/guide/fields' },
 
         { text: 'Examples', link: '/guide/examples' }
+      ]
+    },
+
+    {
+      text: 'Validation',
+
+      items: [
+        { text: 'Introduction', link: '/guide/validation/introduction' },
+
+        { text: 'Yup', link: '/guide/validation/yup' }
       ]
     },
 
@@ -98,18 +106,6 @@ function guide() {
           text: 'Field HOC',
 
           link: '/guide/recipe/hoc'
-        },
-
-        {
-          text: 'Simple form',
-
-          link: '/guide/recipe/hoc'
-        },
-
-        {
-          text: 'Dynamic Validation',
-
-          link: '/guide/recipe/dynamic-validation'
         },
 
         {

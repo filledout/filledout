@@ -8,9 +8,9 @@ type FieldChildProps = {
   error?: string;
   focused?: boolean;
   hasError?: boolean;
-  onBlur: (...args: any[]) => any | void;
-  onFocus: (...args: any[]) => any | void;
-  onChange: (...args: any[]) => any | void;
+  onBlur?: (...args: any[]) => any | void;
+  onFocus?: (...args: any[]) => any | void;
+  onChange?: (...args: any[]) => any | void;
 };
 
 type FieldProps = {
@@ -65,14 +65,24 @@ const Field: FC<FieldProps> = ({ children, is }) => {
   });
 };
 
-function withField<P>(Component: ComponentType<P>) {
-  return ({ field, ...props }: P & { field: FieldModel<any> }) => {
+function withField<P extends FieldChildProps>(
+  Component: ComponentType<P>
+): ComponentType<
+  Omit<P, keyof FieldChildProps> & {
+    [T in keyof FieldChildProps]?: P[T];
+  }
+> {
+  return (({ field, ...props }: P & { field: FieldModel<any> }) => {
     return (
       <Field is={field}>
         <Component {...(props as any)} />
       </Field>
     );
-  };
+  }) as FC<
+    Omit<P, keyof FieldChildProps> & {
+      [T in keyof FieldChildProps]?: P[T];
+    }
+  >;
 }
 
 export { Field, withField };
