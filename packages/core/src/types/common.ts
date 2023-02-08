@@ -93,7 +93,7 @@ type FormUnits<V> = {
 
   patch: Event<DeepPartial<V>>;
 
-  submit: Event<void | unknown>;
+  submit: Event<void | any>;
 
   change: Event<NameValuePair>;
 

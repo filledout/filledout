@@ -44,7 +44,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const patch = createEvent<DeepPartial<V>>();
 
-    const submit = createEvent<void | unknown>();
+    const submit = createEvent<void | any>();
 
     const set = createEvent<NameValuePair>();
 
