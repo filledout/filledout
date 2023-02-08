@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  base: 'filledout',
+  base: '/filledout',
 
   lang: 'en-US',
 
