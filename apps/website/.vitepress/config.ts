@@ -30,6 +30,11 @@ export default defineConfig({
       }
     ],
 
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2023-present Anton Skorochkin',
+    },
+
     sidebar: {
       '/api': api(),
 
