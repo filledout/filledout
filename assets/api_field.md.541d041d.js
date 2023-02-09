@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as a,a as o}from"./app.e3c3242b.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/field.md"}'),s={name:"api/field.md"},n=o("p",null,"Field",-1),r=[n];function c(i,d,_,l,p,f){return t(),a("div",null,r)}const h=e(s,[["render",c]]);export{u as __pageData,h as default};
