@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,d as l}from"./app.be080515.js";const C=JSON.parse(`{"title":"Let's create a form","description":"","frontmatter":{},"headers":[],"relativePath":"guide/create-form.md"}`),p={name:"guide/create-form.md"},o=l("",4),e=[o];function t(c,r,y,F,D,A){return n(),a("div",null,e)}const d=s(p,[["render",t]]);export{C as __pageData,d as default};

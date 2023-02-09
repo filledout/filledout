@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as o,a}from"./app.e3c3242b.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/form.md"}'),r={name:"api/form.md"},s=a("p",null,"Form",-1),n=[s];function c(_,p,i,d,m,f){return t(),o("div",null,n)}const h=e(r,[["render",c]]);export{u as __pageData,h as default};

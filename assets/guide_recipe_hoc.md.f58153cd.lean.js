@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as n,d as l}from"./app.e3c3242b.js";const A=JSON.parse('{"title":"Field Hoc","description":"","frontmatter":{},"headers":[],"relativePath":"guide/recipe/hoc.md"}'),o={name:"guide/recipe/hoc.md"},p=l("",6),e=[p];function t(c,r,F,D,y,i){return a(),n("div",null,e)}const d=s(o,[["render",t]]);export{A as __pageData,d as default};
