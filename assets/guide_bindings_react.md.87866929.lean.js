@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as e,d as n}from"./app.be080515.js";const h=JSON.parse('{"title":"React","description":"","frontmatter":{},"headers":[],"relativePath":"guide/bindings/react.md"}'),o={name:"guide/bindings/react.md"},l=n("",9),p=[l];function t(c,r,i,d,y,u){return a(),e("div",null,p)}const F=s(o,[["render",t]]);export{h as __pageData,F as default};

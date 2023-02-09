@@ -1,1 +1,0 @@
-import{_ as e,o as a,c as n,d as s}from"./app.be080515.js";const m=JSON.parse('{"title":"Examples (WIP)","description":"","frontmatter":{},"headers":[],"relativePath":"guide/examples.md"}'),t={name:"guide/examples.md"},p=s("",5),o=[p];function l(r,i,c,d,u,_){return a(),n("div",null,o)}const y=e(t,[["render",l]]);export{m as __pageData,y as default};
