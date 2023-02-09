@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as a,a as o}from"./app.e3c3242b.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/lib.md"}'),s={name:"api/lib.md"},n=o("p",null,"Lib",-1),r=[n];function c(i,_,p,l,d,m){return t(),a("div",null,r)}const h=e(s,[["render",c]]);export{u as __pageData,h as default};
