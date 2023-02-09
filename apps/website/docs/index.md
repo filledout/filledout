@@ -6,7 +6,7 @@ hero:
   text: Forms with ease
   tagline: Dynamic forms powered by Effector
   image:
-    src: https://media.tenor.com/8kIoZ3dNzjcAAAAC/peepo-peepoblush.gif
+    src: /logo.png
     alt: Filledout
   actions:
     - theme: brand

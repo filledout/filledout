@@ -5,7 +5,7 @@ export default defineConfig({
 
   lang: 'en-US',
 
-  title: 'FilledOut ☄️🥛',
+  title: 'FilledOut',
 
   description: 'UI Framework-agnostic effector based form library',
 
