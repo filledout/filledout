@@ -12,6 +12,7 @@
         "outputPath": "dist/packages/yup",
         "main": "packages/yup/src/index.ts",
         "tsConfig": "packages/yup/tsconfig.lib.json",
+        "rollupConfig": ["packages/yup/rollup.config.js"],
         "assets": []
       }
     },
