@@ -10,7 +10,7 @@ import {
 } from 'effector';
 import { reset } from 'patronum/reset';
 import { AnySchema } from 'yup';
-import ValidationError from 'yup/lib/ValidationError';
+import { ValidationError } from 'yup';
 import {
   ValidateValuesParams,
   ApplyYupValidateParams,
