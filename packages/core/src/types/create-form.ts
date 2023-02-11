@@ -1,8 +1,6 @@
 import { Store } from 'effector';
 import {
-  DeepMapTo,
   ErrorsMap,
-  FieldErrors,
   FormModel,
   ValidationTriggersConfiguration
 } from './common';
@@ -14,7 +12,7 @@ type CreateFormParams<V> = {
 
   initialValues: Store<V> | V;
 
-  errors?: Store<ErrorsMap> | Store<DeepMapTo<V, FieldErrors>>;
+  errors?: Store<ErrorsMap>;
 } & ValidationTriggersConfiguration;
 
 type CreateFormFactoryParams<

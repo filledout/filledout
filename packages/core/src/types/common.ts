@@ -18,7 +18,7 @@ type DeepMapTo<Values, T> = {
     : T;
 };
 
-type FieldErrors = Record<string, any>[];
+type FieldErrors = { name: string; params: Record<string, any> }[];
 
 type Fields<V> = {
   [P in keyof V]: V[P] extends Array<any>
@@ -71,7 +71,7 @@ type FormUnits<V> = {
 
   $errors: Store<ErrorsMap>;
 
-  $externalErrors: Store<ErrorsMap> | Store<DeepMapTo<V, FieldErrors>>;
+  $externalErrors: Store<ErrorsMap>;
 
   // events
   submitted: Event<V>;
