@@ -4,11 +4,9 @@
       "effector/babel-plugin",
       {
         "factories": [
-          "src/config",
-          "src/create-fields",
-          "src/create-form",
-          "src/selector",
-          "src/utils",
+          "@filledout/core",
+          "patronum/reset",
+          "src/validate",
           "src/index"
         ]
       }
