@@ -86,7 +86,7 @@ const createLib = () => {
 
       keys: [],
 
-      fn: count => count > 1
+      fn: count => count >= 1
     });
 
   const useField = <F extends BaseFieldModel<any>>(field: F) => {
