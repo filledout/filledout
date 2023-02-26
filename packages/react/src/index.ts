@@ -1,8 +1,9 @@
 import {
-  getFieldFormMeta,
-  BaseFieldModel,
+  Fields,
   FormMeta,
   FormModel,
+  BaseFieldModel,
+  getFieldFormMeta,
   ValidationVisibilityCondition
 } from '@filledout/core';
 import { Store, StoreValue } from 'effector';
@@ -158,22 +159,35 @@ const createLib = () => {
     };
   };
 
-  const useForm = <T>(form: FormModel<T>) => {
-    const { validate, submit, isSubmitted } = useUnit({
-      submit: form.submit,
+  const useFields = <T>(form: FormModel<T>): Fields<T> => {
+    return form.fields;
+  };
+
+  const useForm = <T>(
+    form: FormModel<T>
+  ): {
+    fields: Fields<T>;
+    isSubmitted: boolean;
+    validate: () => void;
+    onSubmit: (payload: void | any) => void;
+  } => {
+    const { validate, onSubmit, isSubmitted } = useUnit({
+      onSubmit: form.submit,
       validate: form.validate,
       isSubmitted: form.$isSubmitted
     });
+
+    const fields = useFields(form);
 
     useEffect(() => {
       validate();
     }, []);
 
     return {
-      submit,
+      fields,
+      onSubmit,
       validate,
-      isSubmitted,
-      fields: form.fields
+      isSubmitted
     };
   };
 
@@ -183,6 +197,7 @@ const createLib = () => {
     useDirty,
     useValue,
     useErrors,
+    useFields,
     useFocused,
     useTouched,
     useSubmitted,

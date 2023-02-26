@@ -1,4 +1,4 @@
-import { Store } from 'effector';
+import { Effect, Store } from 'effector';
 import {
   ErrorsMap,
   FormModel,
@@ -11,6 +11,10 @@ type CreateFormParams<V> = {
   isDisabled?: Store<boolean>;
 
   initialValues: Store<V> | V;
+
+  onSubmit?: Effect<V, any>;
+
+  onReject?: Effect<{ values: V; errors: ErrorsMap }, any>;
 
   errors?: Store<ErrorsMap>;
 } & ValidationTriggersConfiguration;

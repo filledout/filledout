@@ -30,6 +30,7 @@ const createLib = <Params, Result>({
 export { createLib, FieldKey, ValidationVisibilityCondition, getFieldFormMeta };
 
 export type {
+  Fields,
   FormMeta,
   FormModel,
   FormUnits,

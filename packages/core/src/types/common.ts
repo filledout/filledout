@@ -87,7 +87,7 @@ type FormUnits<V> = {
   // methods
   put: Event<V>;
 
-  reset: Event<V | void>;
+  reset: Event<void>;
 
   set: Event<NameValuePair>;
 

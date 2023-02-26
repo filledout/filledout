@@ -6,6 +6,7 @@ import { createFields } from './create-fields';
 import { ErrorsMap, FormModel, RejectionPayload } from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
+import { nope } from './utils';
 
 const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
   factoryInterceptor,
@@ -16,6 +17,8 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 >) => {
   const createForm = <V>({
     errors,
+    onSubmit,
+    onReject,
     isDisabled,
     reinitialize,
     initialValues,
@@ -40,7 +43,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const put = createEvent<V>();
 
-    const reset = createEvent<V | void>();
+    const reset = createEvent<void>();
 
     const patch = createEvent<DeepPartial<V>>();
 
@@ -135,20 +138,18 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       target: $values
     });
 
-    sample({
-      clock: $initialValues.updates,
+    if (reinitialize) {
+      sample({
+        clock: $initialValues.updates,
 
-      filter: () => Boolean(reinitialize),
-
-      target: reset
-    });
+        target: [reset, put]
+      });
+    }
 
     sample({
       clock: reset,
 
       source: $initialValues,
-
-      fn: (initialValues, values) => values ?? initialValues,
 
       target: $values
     });
@@ -250,6 +251,22 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       target: [$dirty, $errors, $focused, $submitCount, $touched]
     });
+
+    if (onSubmit) {
+      sample({
+        clock: submitted,
+
+        target: onSubmit
+      });
+    }
+
+    if (onReject) {
+      sample({
+        clock: rejected,
+
+        target: onReject
+      });
+    }
 
     const form = {
       $dirty,
