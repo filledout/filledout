@@ -6,7 +6,7 @@ enum FieldKey {
   $isTouched = '$isTouched',
   $externalErrors = '$externalErrors',
 
-  name = 'name',
+  path = 'path',
 
   set = 'set',
   change = 'change',
