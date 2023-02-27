@@ -1,4 +1,4 @@
-import { FormModel, FieldErrors } from '@filledout/core';
+import { FieldErrors, FormModel } from '@filledout/core';
 import {
   attach,
   combine,
@@ -9,13 +9,8 @@ import {
   Store
 } from 'effector';
 import { reset } from 'patronum/reset';
-import { AnySchema } from 'yup';
-import { ValidationError } from 'yup';
-import {
-  ValidateValuesParams,
-  ApplyYupValidateParams,
-  ApplyYupValidationResult
-} from './types';
+import { AnySchema, ValidationError } from 'yup';
+import { ApplyYupParams, SchemaType, ValidateValuesParams } from './types';
 
 const yupErrorToMapError = (err: ValidationError) => {
   const result: Record<any, any> = {};
@@ -40,7 +35,10 @@ const yupErrorToMapError = (err: ValidationError) => {
   return result;
 };
 
-const validateBySchema = async ({ values, schema }: ValidateValuesParams) => {
+const validateBySchema = async ({
+  values,
+  schema
+}: ValidateValuesParams<any>) => {
   try {
     await schema.validate(values, { abortEarly: false });
   } catch (error) {
@@ -50,13 +48,10 @@ const validateBySchema = async ({ values, schema }: ValidateValuesParams) => {
   }
 };
 
-const applyYupValidationFlow = (
-  { submit, rejected, validate, submitted, $values, $errors }: FormModel<any>,
-  { schema }: ApplyYupValidateParams
-): ApplyYupValidationResult => {
+const applyYup = <V>($$form: FormModel<V>, { schema }: ApplyYupParams<V>) => {
   const $schema = is.store(schema)
-    ? (schema as Store<AnySchema>)
-    : createStore(schema as AnySchema);
+    ? (schema as Store<SchemaType<V>>)
+    : createStore(schema as SchemaType<V>);
 
   const baseValidateFx = createEffect<any, void, Record<string, FieldErrors>>(
     validateBySchema
@@ -78,10 +73,10 @@ const applyYupValidationFlow = (
   );
 
   sample({
-    clock: submit,
+    clock: $$form.submit,
 
     source: {
-      values: $values,
+      values: $$form.$values,
 
       schema: $schema
     },
@@ -92,37 +87,37 @@ const applyYupValidationFlow = (
   sample({
     clock: baseValidateFx.failData,
 
-    target: $errors
+    target: $$form.$errors
   });
 
   sample({
     clock: validateBeforeSubmitFx.doneData,
 
-    source: $values,
+    source: $$form.$values,
 
-    target: submitted
+    target: $$form.submitted
   });
 
   sample({
     clock: validateBeforeSubmitFx.failData,
 
-    source: $values,
+    source: $$form.$values,
 
     fn: (values, errors) => ({
       values,
       errors
     }),
 
-    target: rejected
+    target: $$form.rejected
   });
 
   sample({
-    clock: [$values.updates, validate],
+    clock: [$$form.$values.updates, $$form.validate],
 
     source: {
       schema: $schema,
 
-      values: $values
+      values: $$form.$values
     },
 
     target: validateOnChangeFx
@@ -131,13 +126,14 @@ const applyYupValidationFlow = (
   reset({
     clock: baseValidateFx.done,
 
-    target: [$errors]
+    target: [$$form.$errors]
   });
 
   return {
+    ...$$form,
     $schema,
     $validating
   };
 };
 
-export { applyYupValidationFlow };
+export { applyYup };

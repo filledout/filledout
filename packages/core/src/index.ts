@@ -6,7 +6,7 @@ import { CreateFormFactoryParams } from './types/create-form';
 import { ValidationVisibilityCondition } from './types/enums';
 
 type CreateLibParams<P, T> = {
-  factoryInterceptor: (payload: FormModel<any>, params: P) => T;
+  factoryInterceptor?: (payload: FormModel<any>, params: P) => T;
 } & Pick<CreateFormFactoryParams<P, T>, 'showValidationOn'>;
 
 const createLib = <Params, Result>({
@@ -34,8 +34,12 @@ export type {
   FormMeta,
   FormModel,
   FormUnits,
+  ErrorsMap,
   FieldModel,
   FieldErrors,
   BaseFieldModel,
-  ListFieldModel
+  ListFieldModel,
+  RejectionPayload
 } from './types/common';
+
+export type { CreateFormParams } from './types/create-form';

@@ -6,7 +6,6 @@ import { createFields } from './create-fields';
 import { ErrorsMap, FormModel, RejectionPayload } from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
-import { nope } from './utils';
 
 const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
   factoryInterceptor,
@@ -17,9 +16,11 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 >) => {
   const createForm = <V>({
     errors,
+    resetOn,
     onSubmit,
     onReject,
     isDisabled,
+    validateOn,
     reinitialize,
     initialValues,
     showValidationOn = showValidationOnDefaults,
@@ -268,6 +269,22 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       });
     }
 
+    if (resetOn) {
+      sample({
+        clock: resetOn,
+
+        target: reset
+      });
+    }
+
+    if (validateOn) {
+      sample({
+        clock: validateOn,
+
+        target: validate
+      });
+    }
+
     const form = {
       $dirty,
       $errors,
@@ -304,7 +321,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     return {
       ...form,
 
-      ...(factoryInterceptor(form, params as FactoryInterceptorParams) ?? {})
+      ...(factoryInterceptor
+        ? factoryInterceptor(form, params as FactoryInterceptorParams) ?? {}
+        : {})
     } as FormModel<V, FactoryInterceptorResult>;
   };
 

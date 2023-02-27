@@ -11,7 +11,11 @@ import { useStoreMap, useUnit } from 'effector-react';
 import { get } from 'object-path';
 import { useEffect, useMemo } from 'react';
 
-const createLib = () => {
+type Params = {
+  validateOnUseForm: boolean;
+};
+
+const createLib = ({ validateOnUseForm = false }: Params) => {
   const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
     useStoreMap({
       store: $dirty,
@@ -164,7 +168,8 @@ const createLib = () => {
   };
 
   const useForm = <T>(
-    form: FormModel<T>
+    form: FormModel<T>,
+    { validate: shouldValidate = validateOnUseForm } = {}
   ): {
     fields: Fields<T>;
     isSubmitted: boolean;
@@ -179,9 +184,11 @@ const createLib = () => {
 
     const fields = useFields(form);
 
-    useEffect(() => {
-      validate();
-    }, []);
+    if (shouldValidate) {
+      useEffect(() => {
+        validate();
+      }, []);
+    }
 
     return {
       fields,

@@ -1,4 +1,4 @@
-import { Effect, Store } from 'effector';
+import { Effect, Event, Store } from 'effector';
 import {
   ErrorsMap,
   FormModel,
@@ -16,6 +16,10 @@ type CreateFormParams<V> = {
 
   onReject?: Effect<{ values: V; errors: ErrorsMap }, any>;
 
+  resetOn?: (Event<any> | Effect<any, any>)[];
+
+  validateOn?: (Event<any> | Effect<any, any>)[];
+
   errors?: Store<ErrorsMap>;
 } & ValidationTriggersConfiguration;
 
@@ -23,7 +27,7 @@ type CreateFormFactoryParams<
   FactoryInterceptorParams,
   FactoryInterceptorResult
 > = {
-  factoryInterceptor: (
+  factoryInterceptor?: (
     payload: FormModel<any>,
     params: FactoryInterceptorParams
   ) => FactoryInterceptorResult;

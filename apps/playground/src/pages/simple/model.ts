@@ -1,4 +1,4 @@
-import { object, string } from 'yup';
+import { array, object, string } from 'yup';
 import { atom } from '../../shared/factory';
 import { createForm } from '../../shared/form';
 
@@ -18,7 +18,9 @@ const $$simple = atom(() => {
 
         .email()
 
-        .label('Email')
+        .label('Email'),
+
+      interests: array().of(string().required()).required()
     })
   });
 
