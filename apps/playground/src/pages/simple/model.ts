@@ -7,6 +7,14 @@ const $$simple = atom(() => {
     initialValues: {
       email: '',
 
+      user: {
+        firstName: '',
+
+        role: {
+          name: ''
+        }
+      },
+
       interests: []
     },
 
@@ -20,7 +28,24 @@ const $$simple = atom(() => {
 
         .label('Email'),
 
-      interests: array().of(string().required()).required()
+      interests: array()
+        .of(
+          object({
+            id: string(),
+
+            name: string()
+          })
+        )
+
+        .required(),
+
+      user: object({
+        firstName: string(),
+
+        role: object({
+          name: string()
+        })
+      })
     })
   });
 

@@ -116,7 +116,7 @@ const createLib = ({ validateOnUseForm = false }: Params) => {
 
     const showValidationWhen = meta.showValidationOn!;
 
-    const name = field.name;
+    const name = field.path;
 
     const submitted = useSubmitted(meta);
 
