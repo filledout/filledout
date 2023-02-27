@@ -4,15 +4,32 @@ import {
   FormModel,
   BaseFieldModel,
   getFieldFormMeta,
-  ValidationVisibilityCondition
+  ValidationVisibilityCondition,
+  FieldKey
 } from '@filledout/core';
 import { Store, StoreValue } from 'effector';
 import { useStoreMap, useUnit } from 'effector-react';
-import { get } from 'object-path';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 type Params = {
   validateOnUseForm: boolean;
+};
+
+const get = <T extends object, R = any>(
+  source: T,
+  path: string | string[]
+): R => {
+  const split = Array.isArray(path) ? path : path.split('.');
+
+  const name = split[0];
+
+  const value = source[name as keyof T];
+
+  if (typeof value === 'object' && split.length > 1) {
+    return get(value as any, split.slice(1));
+  }
+
+  return value as R;
 };
 
 const createLib = ({ validateOnUseForm = false }: Params) => {
@@ -163,8 +180,52 @@ const createLib = ({ validateOnUseForm = false }: Params) => {
     };
   };
 
-  const useFields = <T>(form: FormModel<T>): Fields<T> => {
-    return form.fields;
+  const fieldKeys = Object.values(FieldKey);
+
+  const useFields = <T>(form: FormModel<T>) => {
+    const cacheRef = useRef<Record<string, any>>({});
+
+    useEffect(
+      () => () => {
+        cacheRef.current = {};
+      },
+
+      []
+    );
+
+    return useMemo(() => {
+      const spawn = (parent: string, name: string) => {
+        const path = `${parent ? `${parent}.` : ''}${name}`;
+
+        if (fieldKeys.includes(name as FieldKey)) {
+          return get(form.fields, path);
+        }
+
+        if (cacheRef.current[path]) return cacheRef.current[path];
+
+        return new Proxy(
+          {},
+
+          {
+            get: (_, key: string): any => {
+              return (cacheRef.current[`${path}.${key}`] = spawn(path, key));
+            }
+          }
+        );
+      };
+
+      return new Proxy(
+        {},
+
+        {
+          get: (_, key: string) => {
+            if (cacheRef.current[key]) return cacheRef.current[key];
+
+            return (cacheRef.current[key] = spawn('', key));
+          }
+        }
+      );
+    }, [form]) as Fields<T>;
   };
 
   const useForm = <T>(
@@ -173,7 +234,7 @@ const createLib = ({ validateOnUseForm = false }: Params) => {
   ): {
     fields: Fields<T>;
     isSubmitted: boolean;
-    onSubmit: (payload: void | any) => void;
+    onSubmit: (payload: void) => void;
   } => {
     const fields = useFields(form);
 

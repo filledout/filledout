@@ -1,4 +1,4 @@
-import { FC, useTransition } from 'react';
+import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Field } from '../../shared/form';
 import { useForm } from '../../shared/form/factory';
@@ -23,15 +23,27 @@ const Simple = () => {
   // proxy caching also needed to save object reference for memo-ed props to work properly
 
   const { t } = useTranslation();
-  const { fields, submit } = useForm($$simple.$$form);
+
+  const { fields, onSubmit } = useForm($$simple.$$form);
+
+  const oldEmail = useRef<any>(null);
+
+  oldEmail.current = fields.email;
 
   return (
-    <div>
+    <form
+      onSubmit={event => {
+        event?.preventDefault();
+
+        onSubmit();
+      }}
+    >
       <Field is={fields.email}>
         {({ errors, shouldShowValidation, value, onChange }) => {
           return (
             <>
               <Input value={value} onChange={onChange} />
+
               {shouldShowValidation && errors?.[0] && (
                 <div>
                   {t(errors?.[0].name, {
@@ -44,8 +56,8 @@ const Simple = () => {
         }}
       </Field>
 
-      <button onClick={submit}>Submit</button>
-    </div>
+      <button type='submit'>Submit</button>
+    </form>
   );
 };
 
