@@ -31,31 +31,31 @@ const createFields = <V>(units: FormMeta<V>) => {
 
             switch (key) {
               case FieldKey.$errors: {
-                return (cached[path] = units.$errors.map(
+                return (cache[path] = units.$errors.map(
                   state => state[path] ?? {}
                 ));
               }
 
               case FieldKey.$isDirty: {
-                return (cached[path] = units.$dirty.map(
+                return (cache[path] = units.$dirty.map(
                   state => state[path] ?? false
                 ));
               }
 
               case FieldKey.$isFocused: {
-                return (cached[path] = units.$focused.map(
+                return (cache[path] = units.$focused.map(
                   state => state == path
                 ));
               }
 
               case FieldKey.$isTouched: {
-                return (cached[path] = units.$touched.map(
+                return (cache[path] = units.$touched.map(
                   state => state[path] ?? false
                 ));
               }
 
               case FieldKey.$value: {
-                return (cached[path] = units.$values.map(
+                return (cache[path] = units.$values.map(
                   state => get(state as object, path) ?? null
                 ));
               }

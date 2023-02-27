@@ -173,16 +173,15 @@ const createLib = ({ validateOnUseForm = false }: Params) => {
   ): {
     fields: Fields<T>;
     isSubmitted: boolean;
-    validate: () => void;
     onSubmit: (payload: void | any) => void;
   } => {
+    const fields = useFields(form);
+
     const { validate, onSubmit, isSubmitted } = useUnit({
       onSubmit: form.submit,
       validate: form.validate,
       isSubmitted: form.$isSubmitted
     });
-
-    const fields = useFields(form);
 
     if (shouldValidate) {
       useEffect(() => {
@@ -193,7 +192,6 @@ const createLib = ({ validateOnUseForm = false }: Params) => {
     return {
       fields,
       onSubmit,
-      validate,
       isSubmitted
     };
   };
