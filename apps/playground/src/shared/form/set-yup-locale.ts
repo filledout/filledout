@@ -5,7 +5,7 @@ setLocale({
     required: 'yup:mixed.required',
     default: 'yup.mixed.default',
     oneOf: 'yup.mixed.oneOf',
-    notOneOf: 'yup.mixed.notOneOf',
+    notOneOf: 'yup.mixed.notOneOf'
   },
 
   string: {
@@ -17,7 +17,7 @@ setLocale({
     url: 'yup.string.url',
     trim: 'yup.string.trim',
     lowercase: 'yup.string.lowercase',
-    uppercase: 'yup.string.uppercase',
+    uppercase: 'yup.string.uppercase'
   },
 
   number: {
@@ -27,16 +27,16 @@ setLocale({
     moreThan: 'yup.number.moreThan',
     positive: 'yup.number.positive',
     negative: 'yup.number.negative',
-    integer: 'yup.number.integer',
+    integer: 'yup.number.integer'
   },
 
   date: {
     min: 'yup.date.min',
-    max: 'yup.date.max',
+    max: 'yup.date.max'
   },
 
   array: {
     min: 'yup.array.min',
-    max: 'yup.array.max',
-  },
+    max: 'yup.array.max'
+  }
 });
