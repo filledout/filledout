@@ -9,7 +9,7 @@ import {
   Store
 } from 'effector';
 import { reset } from 'patronum/reset';
-import { AnySchema, ValidationError } from 'yup';
+import { ValidationError } from 'yup';
 import { ApplyYupParams, SchemaType, ValidateValuesParams } from './types';
 
 const yupErrorToMapError = (err: ValidationError) => {
