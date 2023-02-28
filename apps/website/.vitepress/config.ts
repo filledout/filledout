@@ -144,5 +144,59 @@ function api() {
 }
 
 function guide() {
-  return [];
+  return [
+    {
+      text: 'Guide',
+
+      items: [
+        {
+          text: 'Getting started',
+
+          link: '/guide/getting-started'
+        },
+
+        {
+          text: 'Field',
+
+          link: '/guide/field-decorator'
+        },
+
+        {
+          text: `Let's make a form`,
+
+          link: '/guide/first-form'
+        },
+
+        {
+          text: `Manipulating the form`,
+
+          link: '/guide/manipulating-the-form'
+        },
+
+        {
+          text: `What about lists and dynamic values?`,
+
+          link: '/guide/arrays'
+        },
+
+        {
+          text: `Validation`,
+
+          link: '/guide/validation'
+        },
+
+        {
+          text: `UI bindings`,
+
+          link: '/guide/ui'
+        },
+
+        {
+          text: `What's next?`,
+
+          link: '/guide/whatsnext'
+        },
+      ]
+    }
+  ];
 }
