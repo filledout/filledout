@@ -5,11 +5,17 @@ export default defineConfig({
 
   lang: 'en-US',
 
-  title: 'FilledOut',
+  title: 'Filledout',
 
   description: 'UI Framework-agnostic effector based form library',
 
   srcDir: 'docs',
+
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
+    ['link', { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }]
+  ],
 
   themeConfig: {
     nav: [
@@ -24,7 +30,7 @@ export default defineConfig({
       {
         text: 'API',
 
-        link: '/api/lib',
+        link: '/api/create-lib',
 
         activeMatch: '^/$|^/api/'
       }
@@ -32,7 +38,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-present Anton Skorochkin',
+      copyright: 'Copyright © 2023-present Anton Skorochkin'
     },
 
     sidebar: {
@@ -49,11 +55,29 @@ function api() {
       text: 'Core',
 
       items: [
-        { text: 'Lib', link: '/api/lib' },
+        {
+          text: 'createLib',
 
-        { text: 'Form', link: '/api/form' },
+          link: '/api/create-lib'
+        },
 
-        { text: 'Field', link: '/api/field' }
+        {
+          text: 'createForm',
+
+          link: '/api/create-form'
+        },
+
+        {
+          text: 'FormModel',
+
+          link: '/api/form-model'
+        },
+
+        {
+          text: 'FieldModel',
+
+          link: '/api/field-model'
+        }
       ]
     },
 
@@ -64,7 +88,37 @@ function api() {
         {
           text: 'React',
 
-          link: '/api/react'
+          items: [
+            {
+              text: 'createLib',
+
+              link: '/api/react/create-lib'
+            },
+
+            {
+              text: 'useField',
+
+              link: '/api/react/use-field'
+            },
+
+            {
+              text: 'useFields',
+
+              link: '/api/react/use-fields'
+            },
+
+            {
+              text: 'useForm',
+
+              link: '/api/react/use-form'
+            },
+
+            {
+              text: 'selectors',
+
+              link: '/api/react/selectors'
+            }
+          ]
         }
       ]
     }
@@ -72,55 +126,5 @@ function api() {
 }
 
 function guide() {
-  return [
-    {
-      text: 'Guide',
-
-      items: [
-        { text: 'Getting Started', link: '/guide/getting-started' },
-
-        { text: 'Setup', link: '/guide/setup' },
-
-        { text: `Let's create a form`, link: '/guide/create-form' },
-
-        { text: `Fields`, link: '/guide/fields' },
-
-        { text: 'Examples', link: '/guide/examples' }
-      ]
-    },
-
-    {
-      text: 'Validation',
-
-      items: [
-        { text: 'Introduction', link: '/guide/validation/introduction' },
-
-        { text: 'Yup', link: '/guide/validation/yup' }
-      ]
-    },
-
-    {
-      text: 'Bindings',
-
-      items: [{ text: 'React', link: '/guide/bindings/react' }]
-    },
-
-    {
-      text: 'Recipes',
-
-      items: [
-        {
-          text: 'Field HOC',
-
-          link: '/guide/recipe/hoc'
-        },
-
-        {
-          text: 'Localization',
-
-          link: '/guide/recipe/localization'
-        }
-      ]
-    }
-  ];
+  return [];
 }

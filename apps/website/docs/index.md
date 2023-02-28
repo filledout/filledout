@@ -19,42 +19,11 @@ hero:
 features:
   - icon: ☂️
     title: UI Framework-agnostic
-    details: Most forms are usually bound to a certain framework/library and do not exist outside of ui framework's context. Filledout is standalone library with a separate ui bindings.
+    details: Written in effector with separate bindings for UI frameworks
   - icon: 🔒
     title: Typesafe
-    details: Tired of using string paths as field keys? Proxy powered fully typed fields refrence solves the problem.
+    details: No string paths used to reference fields - typesafe field references powered by js proxy
   - icon: 💨
-    title: Feature packed
-    details: Has most demanded features out of the box and ready to extend if there's missing ones.
+    title: All you need
+    details: Has most features you want from form library and can be extended at will
 ---
-
-
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
-} from 'vitepress/theme'
-
-const members = [
-  {
-    avatar: '/hyze2d-photo.jpg',
-    name: 'Anton Skorochkin',
-    links: [
-      { icon: 'github', link: 'https://github.com/hyze2d' },
-      
-      { icon: 'twitter', link: 'https://twitter.com/hyze2dev' }
-    ]
-  }
-]
-</script>
-
-<VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>
-      Team
-    </template>
-  </VPTeamPageTitle>
-  <VPTeamMembers :members="members" />
-</VPTeamPage>
