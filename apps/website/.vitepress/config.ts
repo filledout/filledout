@@ -82,6 +82,24 @@ function api() {
     },
 
     {
+      text: 'Validators',
+
+      items: [
+        {
+          text: 'yup',
+
+          link: '/api/validators/yup'
+        },
+
+        {
+          text: 'zod',
+
+          link: '/api/validators/zod'
+        }
+      ]
+    },
+
+    {
       text: 'Bindings',
 
       items: [
