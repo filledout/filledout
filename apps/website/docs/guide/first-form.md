@@ -28,12 +28,13 @@ Let's connect our form to UI in ui.tsx file nearby
 
 ```tsx
 import { $$form } from './model.ts';
+import { useForm } from '...'; // you can get useForm from @filledout/react lib initialization
 
 const Login = () => {
   // onSubmit can be manually mapped by using useUnit from $$form.submit
   // fields can also be separatly mapped using useFields hook
   // check api reference on useForm on topic of mount validation call
-  const { onSubmit, fields } = useForm();
+  const { onSubmit, fields } = useForm($$form);
 
   return (
     <form
