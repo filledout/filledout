@@ -1,7 +1,7 @@
 import { FieldModel } from '@filledout/core';
+import { useField } from '@filledout/react';
 import React, { ComponentType, FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useField } from './factory';
 
 type FieldChildProps = {
   value?: any;

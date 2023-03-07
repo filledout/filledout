@@ -43,6 +43,12 @@ type BaseFieldModel<V> = {
   focused: Event<void>;
 };
 
+type FieldUIEvent<V = any> = {
+  name: string;
+  path: string;
+  payload: V;
+};
+
 type ErrorsMap = Record<string, FieldErrors>;
 
 type FieldModel<V> = BaseFieldModel<V>;
@@ -100,6 +106,8 @@ type FormUnits<V> = {
   change: Event<NameValuePair>;
 
   validate: Event<void>;
+
+  dispatch: Event<FieldUIEvent>;
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -129,6 +137,7 @@ export {
   DeepMapTo,
   FieldModel,
   FieldErrors,
+  FieldUIEvent,
   BaseFieldModel,
   ListFieldModel,
   RejectionPayload,

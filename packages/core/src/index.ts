@@ -37,6 +37,7 @@ export type {
   ErrorsMap,
   FieldModel,
   FieldErrors,
+  FieldUIEvent,
   BaseFieldModel,
   ListFieldModel,
   RejectionPayload

@@ -3,7 +3,12 @@ import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
 import { reset as resetAll } from 'patronum/reset';
 import { createFields } from './create-fields';
-import { ErrorsMap, FormModel, RejectionPayload } from './types/common';
+import {
+  ErrorsMap,
+  FieldUIEvent,
+  FormModel,
+  RejectionPayload
+} from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
 
@@ -35,6 +40,8 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     const blured = createEvent<NamePayload>();
 
     const focused = createEvent<NamePayload>();
+
+    const dispatch = createEvent<FieldUIEvent>();
 
     const changed = createEvent<NameValuePair>();
 
@@ -96,6 +103,12 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $isSubmitted = $submitCount.map(count => count > 0);
 
+    const $subscribers = createStore([]);
+
+    const subscribe = createEvent();
+
+    const unsubscribe = createEvent();
+
     const meta = {
       $dirty,
       $errors,
@@ -105,6 +118,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       $touched,
       $isDisabled,
       $submitCount,
+      $subscribers,
       $initialValues,
       $externalErrors,
 
@@ -118,6 +132,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       focused,
       changed,
       rejected,
+      dispatch,
       validate,
       submitted,
 
@@ -312,6 +327,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       focused,
       rejected,
       validate,
+      dispatch,
       submitted,
 
       fields,

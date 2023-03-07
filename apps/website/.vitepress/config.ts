@@ -174,7 +174,7 @@ function guide() {
         },
 
         {
-          text: `What about lists and dynamic values?`,
+          text: `Dynamic values`,
 
           link: '/guide/arrays'
         },

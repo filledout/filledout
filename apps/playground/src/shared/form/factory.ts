@@ -3,7 +3,6 @@ import {
   createLib,
   ValidationVisibilityCondition
 } from '@filledout/core';
-import { createLib as createReactLib } from '@filledout/react';
 import { applyYup, ApplyYupParams } from '@filledout/yup';
 
 const lib = createLib({
@@ -24,27 +23,4 @@ const createForm = <V>(params: CreateFormParams<V> & ApplyYupParams<V>) => {
   };
 };
 
-const {
-  useDirty,
-  useErrors,
-  useExternalErrors,
-  useField,
-  useFocused,
-  useForm,
-  useSubmitted,
-  useTouched,
-  useValue
-} = createReactLib({ validateOnUseForm: true });
-
-export {
-  createForm,
-  useDirty,
-  useErrors,
-  useExternalErrors,
-  useField,
-  useFocused,
-  useForm,
-  useSubmitted,
-  useTouched,
-  useValue
-};
+export { createForm };

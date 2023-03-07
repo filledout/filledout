@@ -5,15 +5,21 @@ import {
   BaseFieldModel,
   getFieldFormMeta,
   ValidationVisibilityCondition,
-  FieldKey
+  FieldKey,
+  FieldModel
 } from '@filledout/core';
-import { Store, StoreValue } from 'effector';
+import {
+  Store,
+  StoreValue,
+  Scope,
+  scopeBind,
+  sample,
+  clearNode
+} from 'effector';
 import { useStoreMap, useUnit } from 'effector-react';
-import { useEffect, useMemo, useRef } from 'react';
+import { Provider } from 'effector-react';
 
-type Params = {
-  validateOnUseForm: boolean;
-};
+import { useContext, useEffect, useMemo, useRef } from 'react';
 
 const get = <T extends object, R = any>(
   source: T,
@@ -32,243 +38,248 @@ const get = <T extends object, R = any>(
   return value as R;
 };
 
-const createLib = ({ validateOnUseForm = false }: Params) => {
-  const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
-    useStoreMap({
-      store: $dirty,
+const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $dirty,
 
-      keys: [name],
+    keys: [name],
 
-      defaultValue: false,
+    defaultValue: false,
 
-      fn: (dirty, [name]) => dirty[name]
-    });
+    fn: (dirty, [name]) => dirty[name]
+  });
 
-  const useTouched = ({ $touched }: FormMeta<any>, name: string) =>
-    useStoreMap({
-      store: $touched,
+const useTouched = ({ $touched }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $touched,
 
-      keys: [name],
+    keys: [name],
 
-      defaultValue: false,
+    defaultValue: false,
 
-      fn: (touched, [name]) => touched[name]
-    });
+    fn: (touched, [name]) => touched[name]
+  });
 
-  const useErrors = ({ $errors }: FormMeta<any>, name: string) =>
-    useStoreMap({
-      store: $errors,
+const useErrors = ({ $errors }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $errors,
 
-      keys: [name],
+    keys: [name],
 
-      defaultValue: null,
+    defaultValue: null,
 
-      fn: (errors, [name]) => {
-        return errors[name] ?? null;
-      }
-    });
+    fn: (errors, [name]) => {
+      return errors[name] ?? null;
+    }
+  });
 
-  const useExternalErrors = (
-    { $externalErrors }: FormMeta<any>,
-    name: string
-  ) =>
-    useStoreMap({
-      store: $externalErrors as Store<Record<string, any>>,
+const useExternalErrors = ({ $externalErrors }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $externalErrors as Store<Record<string, any>>,
 
-      keys: [name],
+    keys: [name],
 
-      defaultValue: null,
+    defaultValue: null,
 
-      fn: (errors, [name]) => {
-        return errors[name] ?? get(errors, name) ?? null;
-      }
-    });
+    fn: (errors, [name]) => {
+      return errors[name] ?? get(errors, name) ?? null;
+    }
+  });
 
-  const useValue = <V>({ $values }: FormMeta<any>, name: string) =>
-    useStoreMap({
-      store: $values,
+const useValue = <V>({ $values }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $values,
 
-      keys: [name],
+    keys: [name],
 
-      fn: (values, [name]) => get(values as any, name) as V
-    });
+    fn: (values, [name]) => get(values as any, name) as V
+  });
 
-  const useFocused = ({ $focused }: FormMeta<any>, name: string) =>
-    useStoreMap({
-      store: $focused,
+const useFocused = ({ $focused }: FormMeta<any>, name: string) =>
+  useStoreMap({
+    store: $focused,
 
-      keys: [name],
+    keys: [name],
 
-      fn: (focused, [name]) => focused === name
-    });
+    fn: (focused, [name]) => focused === name
+  });
 
-  const useSubmitted = ({ $submitCount }: FormMeta<any>) =>
-    useStoreMap({
-      store: $submitCount,
+const useSubmitted = ({ $submitCount }: FormMeta<any>) =>
+  useStoreMap({
+    store: $submitCount,
 
-      keys: [],
+    keys: [],
 
-      fn: count => count >= 1
-    });
+    fn: count => count >= 1
+  });
 
-  const useField = <F extends BaseFieldModel<any>>(field: F) => {
-    const meta = getFieldFormMeta<StoreValue<F['$value']>>(field);
+const useField = <F extends BaseFieldModel<any>>(field: F) => {
+  const meta = getFieldFormMeta<StoreValue<F['$value']>>(field);
 
-    const showValidationWhen = meta.showValidationOn!;
+  const showValidationWhen = meta.showValidationOn!;
 
-    const name = field.path;
+  const name = field.path;
 
-    const submitted = useSubmitted(meta);
+  const submitted = useSubmitted(meta);
 
-    const value = useValue<StoreValue<F['$value']>>(meta, name);
+  const value = useValue<StoreValue<F['$value']>>(meta, name);
 
-    const dirty = useDirty(meta, name);
+  const dirty = useDirty(meta, name);
 
-    const touched = useTouched(meta, name);
+  const touched = useTouched(meta, name);
 
-    const errors = useErrors(meta, name);
+  const errors = useErrors(meta, name);
 
-    const focused = useFocused(meta, name);
+  const focused = useFocused(meta, name);
 
-    const externalErrors = useExternalErrors(meta, name);
+  const externalErrors = useExternalErrors(meta, name);
 
-    const shouldShowValidation =
-      (showValidationWhen.includes(ValidationVisibilityCondition.Dirty) &&
-        dirty) ||
-      (showValidationWhen.includes(ValidationVisibilityCondition.Submitted) &&
-        submitted) ||
-      (showValidationWhen.includes(ValidationVisibilityCondition.Touched) &&
-        touched);
+  const shouldShowValidation =
+    (showValidationWhen.includes(ValidationVisibilityCondition.Dirty) &&
+      dirty) ||
+    (showValidationWhen.includes(ValidationVisibilityCondition.Submitted) &&
+      submitted) ||
+    (showValidationWhen.includes(ValidationVisibilityCondition.Touched) &&
+      touched);
 
-    const handlers = useUnit({
-      change: meta.change,
-      blur: meta.blured,
-      focus: meta.focused
-    });
+  const handlers = useUnit({
+    change: meta.change,
+    blur: meta.blured,
+    focus: meta.focused
+  });
 
-    const { onChange, onBlur, onFocus } = useMemo(() => {
-      const onChange = (value: StoreValue<F['$value']>) => {
-        handlers.change({ name, value });
-      };
+  const { onChange, onBlur, onFocus } = useMemo(() => {
+    const onChange = (value: StoreValue<F['$value']>) => {
+      handlers.change({ name, value });
+    };
 
-      const onBlur = () => {
-        handlers.blur({ name });
-      };
+    const onBlur = () => {
+      handlers.blur({ name });
+    };
 
-      const onFocus = () => {
-        handlers.focus({ name });
-      };
-
-      return {
-        onBlur,
-        onFocus,
-        onChange
-      };
-    }, [name]);
+    const onFocus = () => {
+      handlers.focus({ name });
+    };
 
     return {
-      value,
-      dirty,
-      errors,
       onBlur,
       onFocus,
-      touched,
-      focused,
-      onChange,
-      externalErrors,
-      shouldShowValidation
+      onChange
     };
+  }, [name]);
+
+  return {
+    value,
+    dirty,
+    errors,
+    onBlur,
+    onFocus,
+    touched,
+    focused,
+    onChange,
+    externalErrors,
+    shouldShowValidation
   };
+};
 
-  const fieldKeys = Object.values(FieldKey);
+const fieldKeys = Object.values(FieldKey);
 
-  const useFields = <T>(form: FormModel<T>) => {
-    const cacheRef = useRef<Record<string, any>>({});
+const useFields = <T>(form: FormModel<T>) => {
+  const cacheRef = useRef<Record<string, any>>({});
 
-    useEffect(
-      () => () => {
-        cacheRef.current = {};
-      },
+  useEffect(
+    () => () => {
+      cacheRef.current = {};
+    },
 
-      []
-    );
+    []
+  );
 
-    return useMemo(() => {
-      const spawn = (parent: string, name: string) => {
-        const path = `${parent ? `${parent}.` : ''}${name}`;
+  return useMemo(() => {
+    const spawn = (parent: string, name: string) => {
+      const path = `${parent ? `${parent}.` : ''}${name}`;
 
-        if (fieldKeys.includes(name as FieldKey)) {
-          return get(form.fields, path);
-        }
+      if (fieldKeys.includes(name as FieldKey)) {
+        return get(form.fields, path);
+      }
 
-        if (cacheRef.current[path]) return cacheRef.current[path];
-
-        return new Proxy(
-          {},
-
-          {
-            get: (_, key: string): any => {
-              return (cacheRef.current[`${path}.${key}`] = spawn(path, key));
-            }
-          }
-        );
-      };
+      if (cacheRef.current[path]) return cacheRef.current[path];
 
       return new Proxy(
         {},
 
         {
-          get: (_, key: string) => {
-            if (cacheRef.current[key]) return cacheRef.current[key];
-
-            return (cacheRef.current[key] = spawn('', key));
+          get: (_, key: string): any => {
+            return (cacheRef.current[`${path}.${key}`] = spawn(path, key));
           }
         }
       );
-    }, [form]) as Fields<T>;
-  };
-
-  const useForm = <T>(
-    form: FormModel<T>,
-    { validate: shouldValidate = validateOnUseForm } = {}
-  ): {
-    fields: Fields<T>;
-    isSubmitted: boolean;
-    onSubmit: (payload: void) => void;
-  } => {
-    const fields = useFields(form);
-
-    const { validate, onSubmit, isSubmitted } = useUnit({
-      onSubmit: form.submit,
-      validate: form.validate,
-      isSubmitted: form.$isSubmitted
-    });
-
-    if (shouldValidate) {
-      useEffect(() => {
-        validate();
-      }, []);
-    }
-
-    return {
-      fields,
-      onSubmit,
-      isSubmitted
     };
-  };
+
+    return new Proxy(
+      {},
+
+      {
+        get: (_, key: string) => {
+          if (cacheRef.current[key]) return cacheRef.current[key];
+
+          return (cacheRef.current[key] = spawn('', key));
+        }
+      }
+    );
+  }, [form]) as Fields<T>;
+};
+
+const useFieldListeners = (
+  field: FieldModel<any>,
+  listeners: Record<string | number | symbol, (payload: any) => any>
+) => {
+  const meta = getFieldFormMeta(field);
+  // @ts-expect-error Until effector-react context gonna be public
+  const scope: Scope = useContext(Provider['_context']);
+
+  useEffect(() => {
+    const _dispatch = scope
+      ? scopeBind(meta.dispatch, { scope })
+      : meta.dispatch;
+
+    console.log(scope);
+
+    return () => {};
+  }, []);
+};
+
+const useForm = <T>(
+  form: FormModel<T>
+): {
+  fields: Fields<T>;
+  isSubmitted: boolean;
+  onSubmit: (payload: void) => void;
+} => {
+  const fields = useFields(form);
+
+  const { onSubmit, isSubmitted } = useUnit({
+    onSubmit: form.submit,
+    isSubmitted: form.$isSubmitted
+  });
 
   return {
-    useForm,
-    useField,
-    useDirty,
-    useValue,
-    useErrors,
-    useFields,
-    useFocused,
-    useTouched,
-    useSubmitted,
-    useExternalErrors
+    fields,
+    onSubmit,
+    isSubmitted
   };
 };
 
-export { createLib };
+export {
+  useForm,
+  useField,
+  useDirty,
+  useValue,
+  useErrors,
+  useFields,
+  useFocused,
+  useTouched,
+  useSubmitted,
+  useFieldListeners,
+  useExternalErrors
+};

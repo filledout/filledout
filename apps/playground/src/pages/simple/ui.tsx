@@ -1,7 +1,7 @@
+import { useFieldListeners, useForm } from '@filledout/react';
 import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Field } from '../../shared/form';
-import { useForm } from '../../shared/form/factory';
 import { $$simple } from './model';
 
 const Input: FC<{ value: string; onChange: (value: string) => void }> = ({
@@ -26,9 +26,15 @@ const Simple = () => {
 
   const { fields, onSubmit } = useForm($$simple.$$form);
 
-  const oldEmail = useRef<any>(null);
+  useFieldListeners(fields.email, {
+    focus: () => {
+      console.log('focus');
+    },
 
-  oldEmail.current = fields.email;
+    blur: () => {
+      console.log('focus');
+    }
+  });
 
   return (
     <form
