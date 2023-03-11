@@ -1,6 +1,5 @@
-import { FieldKey } from './config';
-import { getFieldFormMeta } from './create-fields';
 import { createFormFactory } from './create-form';
+import { Selector } from './select';
 import { FormModel } from './types/common';
 import { CreateFormFactoryParams } from './types/create-form';
 import { ValidationVisibilityCondition } from './types/enums';
@@ -8,6 +7,8 @@ import { ValidationVisibilityCondition } from './types/enums';
 type CreateLibParams<P, T> = {
   factoryInterceptor?: (payload: FormModel<any>, params: P) => T;
 } & Pick<CreateFormFactoryParams<P, T>, 'showValidationOn'>;
+
+const select = new Selector();
 
 const createLib = <Params, Result>({
   factoryInterceptor,
@@ -27,7 +28,7 @@ const createLib = <Params, Result>({
   };
 };
 
-export { createLib, FieldKey, ValidationVisibilityCondition, getFieldFormMeta };
+export { createLib, select, ValidationVisibilityCondition };
 
 export type {
   Fields,

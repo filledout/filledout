@@ -4,12 +4,12 @@ type DeepPartial<T> = T extends object
     }
   : T;
 
-type NamePayload = {
-  name: string;
+type PathPayload = {
+  path: string;
 };
 
-type NameValuePair<V = unknown> = NamePayload & {
+type PathValuePair<V = unknown> = PathPayload & {
   value: V;
 };
 
-export { DeepPartial, NamePayload, NameValuePair };
+export { DeepPartial, PathPayload, PathValuePair };

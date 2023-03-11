@@ -1,6 +1,6 @@
 import { Event, Store } from 'effector';
 import { ValidationVisibilityCondition } from './enums';
-import { DeepPartial, NamePayload, NameValuePair } from './utils';
+import { DeepPartial, PathPayload, PathValuePair } from './utils';
 
 type RejectionPayload<V> = { values: V; errors: ErrorsMap };
 
@@ -84,11 +84,11 @@ type FormUnits<V> = {
   // events
   submitted: Event<V>;
 
-  blured: Event<NamePayload>;
+  blured: Event<PathPayload>;
 
-  focused: Event<NamePayload>;
+  focused: Event<PathPayload>;
 
-  changed: Event<NameValuePair>;
+  changed: Event<PathValuePair>;
 
   rejected: Event<RejectionPayload<V>>;
 
@@ -97,13 +97,13 @@ type FormUnits<V> = {
 
   reset: Event<void>;
 
-  set: Event<NameValuePair>;
+  set: Event<PathValuePair>;
 
   patch: Event<DeepPartial<V>>;
 
   submit: Event<void | any>;
 
-  change: Event<NameValuePair>;
+  change: Event<PathValuePair>;
 
   validate: Event<void>;
 

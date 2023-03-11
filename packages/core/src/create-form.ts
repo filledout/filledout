@@ -2,7 +2,6 @@ import deepmerge from 'deepmerge';
 import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
 import { reset as resetAll } from 'patronum/reset';
-import { createFields } from './create-fields';
 import {
   ErrorsMap,
   FieldUIEvent,
@@ -10,7 +9,7 @@ import {
   RejectionPayload
 } from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
-import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
+import { DeepPartial, PathPayload, PathValuePair } from './types/utils';
 
 const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
   factoryInterceptor,
@@ -37,13 +36,13 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     // events
     const submitted = createEvent<V>();
 
-    const blured = createEvent<NamePayload>();
+    const blured = createEvent<PathPayload>();
 
-    const focused = createEvent<NamePayload>();
+    const focused = createEvent<PathPayload>();
 
     const dispatch = createEvent<FieldUIEvent>();
 
-    const changed = createEvent<NameValuePair>();
+    const changed = createEvent<PathValuePair>();
 
     const rejected = createEvent<RejectionPayload<V>>();
 
@@ -57,9 +56,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const submit = createEvent<void | any>();
 
-    const set = createEvent<NameValuePair>();
+    const set = createEvent<PathValuePair>();
 
-    const change = createEvent<NameValuePair>();
+    const change = createEvent<PathValuePair>();
 
     const validate = createEvent<void>();
 
@@ -149,8 +148,8 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $values,
 
-      fn: (values, { name, value }) => {
-        return setProperty(values, name, value);
+      fn: (values, { path, value }) => {
+        return setProperty(values, path, value);
       },
 
       target: $values
@@ -165,7 +164,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     sample({
       clock: focused,
 
-      fn: ({ name }) => name,
+      fn: ({ path }) => path,
 
       target: $focused
     });
@@ -193,9 +192,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $dirty,
 
-      fn: (state, { name }) => ({
+      fn: (state, { path }) => ({
         ...state,
-        [name]: true
+        [path]: true
       }),
 
       target: $dirty
@@ -206,9 +205,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $touched,
 
-      fn: (state, { name }) => ({
+      fn: (state, { path }) => ({
         ...state,
-        [name]: true
+        [path]: true
       }),
 
       target: $touched
