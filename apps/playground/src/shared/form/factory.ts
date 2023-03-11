@@ -3,7 +3,7 @@ import {
   createLib,
   ValidationVisibilityCondition
 } from '@filledout/core';
-import { applyYup, ApplyYupParams } from '@filledout/yup';
+import { applyZod, ApplyZodParams } from '@filledout/zod';
 
 const lib = createLib({
   showValidationOn: [
@@ -13,13 +13,13 @@ const lib = createLib({
   ]
 });
 
-const createForm = <V>(params: CreateFormParams<V> & ApplyYupParams<V>) => {
+const createForm = <V>(params: CreateFormParams<V> & ApplyZodParams<V>) => {
   const $$form = lib.createForm<V>(params);
 
   return {
     ...$$form,
 
-    ...applyYup($$form, params)
+    ...applyZod($$form, params)
   };
 };
 

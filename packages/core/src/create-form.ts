@@ -102,12 +102,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $isSubmitted = $submitCount.map(count => count > 0);
 
-    // const $subscribers = createStore([]);
-
-    // const subscribe = createEvent();
-
-    // const unsubscribe = createEvent();
-
     sample({
       clock: patch as Event<V>,
 

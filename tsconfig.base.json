@@ -22,7 +22,9 @@
     "paths": {
       "@filledout/core": ["packages/core/src/index.ts"],
       "@filledout/react": ["packages/react/src/index.ts"],
-      "@filledout/yup": ["packages/yup/src/index.ts"]
+      "@filledout/yup": ["packages/yup/src/index.ts"],
+      "@filledout/zod": ["packages/zod/src/index.ts"],
+
     }
   },
   "exclude": ["node_modules", "tmp"]

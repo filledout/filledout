@@ -1,8 +1,31 @@
-import { array, object, string } from 'yup';
+import { array, object, string } from 'zod';
 import { atom } from '../../shared/factory';
 import { createForm } from '../../shared/form';
 
 const $$simple = atom(() => {
+  const schema = object({
+    email: string()
+      .email()
+
+      .nullable(),
+
+    interests: array(
+      object({
+        id: string(),
+
+        name: string()
+      })
+    ).min(1),
+
+    user: object({
+      firstName: string().email(),
+
+      role: object({
+        name: string()
+      })
+    })
+  });
+
   const $$form = createForm({
     initialValues: {
       email: '',
@@ -18,36 +41,10 @@ const $$simple = atom(() => {
       interests: []
     },
 
-    schema: object({
-      email: string()
-        .required()
-
-        .nullable()
-
-        .email()
-
-        .label('Email'),
-
-      interests: array()
-        .of(
-          object({
-            id: string(),
-
-            name: string()
-          })
-        )
-
-        .required(),
-
-      user: object({
-        firstName: string(),
-
-        role: object({
-          name: string()
-        })
-      })
-    })
+    schema
   });
+
+  $$form.rejected.watch(console.log);
 
   return {
     $$form

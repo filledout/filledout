@@ -13,7 +13,7 @@ const Simple = () => {
         onSubmit();
       }}
     >
-      <Field.Input field={fields.email} />
+      <Field.Input field={fields.email} label='Email' />
 
       <button type='submit'>Submit</button>
     </form>
