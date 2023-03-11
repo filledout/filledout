@@ -1,9 +1,9 @@
 import { FieldDescriptor, useField } from '@filledout/react';
-import React, { ComponentType, FC } from 'react';
+import { ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type FieldChildProps = {
-  value?: any;
+type FieldWrappedComponentProps<V = any> = {
+  value?: V;
   error?: string;
   focused?: boolean;
   hasError?: boolean;
@@ -12,12 +12,8 @@ type FieldChildProps = {
   onChange?: (...args: any[]) => any | void;
 };
 
-type FieldProps = {
-  field: FieldDescriptor<any, any>;
-
-  children:
-    | React.ReactElement<FieldChildProps>
-    | ((props: ReturnType<typeof useField>) => any);
+type UseFieldPropsParams<V = any, T = any> = {
+  field: FieldDescriptor<V, T>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -31,7 +27,10 @@ const compose =
     f(x);
   };
 
-const Field: FC<FieldProps> = ({ children, field: _field }) => {
+function useFieldProps<T extends FieldDescriptor<any, any>>(
+  _field: T,
+  props: FieldWrappedComponentProps
+) {
   const field = useField(_field);
 
   const { t } = useTranslation();
@@ -39,49 +38,37 @@ const Field: FC<FieldProps> = ({ children, field: _field }) => {
   const {
     value,
     errors,
-    externalErrors,
-    focused,
-    shouldShowValidation,
     onBlur,
     onFocus,
-    onChange
+    focused,
+    onChange,
+    externalErrors,
+    shouldShowValidation
   } = field;
 
   const error = errors?.[0] ?? externalErrors?.[0];
 
-  if (typeof children == 'function') {
-    return children(field);
-  }
-
-  return React.cloneElement(children, {
+  return {
     value,
     focused,
     hasError: shouldShowValidation,
     error: error ? t(error.name, { replace: error.params }) : undefined,
-    onBlur: compose(onBlur, children.props.onBlur),
-    onFocus: compose(onFocus, children.props.onFocus),
-    onChange: compose(onChange, children.props.onChange)
-  });
-};
+    onBlur: compose(onBlur, props.onBlur),
+    onFocus: compose(onFocus, props.onFocus),
+    onChange: compose(onChange, props.onChange)
+  };
+}
 
-function withField<P extends FieldChildProps>(
+function withField<P extends FieldWrappedComponentProps>(
   Component: ComponentType<P>
-): ComponentType<
-  Omit<P, keyof FieldChildProps> & {
-    [T in keyof FieldChildProps]?: P[T];
-  }
-> {
-  return (({ field, ...props }: P & { field: FieldDescriptor<any, any> }) => {
-    return (
-      <Field field={field}>
-        <Component {...(props as any)} />
-      </Field>
-    );
-  }) as FC<
-    Omit<P, keyof FieldChildProps> & {
-      [T in keyof FieldChildProps]?: P[T];
-    }
+) {
+  return (({ field, ...props }: P & UseFieldPropsParams) => {
+    const _props = useFieldProps(field, props);
+
+    return <Component {...props} {...(_props as any)} />;
+  }) as ComponentType<
+    Omit<P, 'value' | 'onChange' | 'error' | 'hasError'> & UseFieldPropsParams
   >;
 }
 
-export { Field, withField };
+export { withField };

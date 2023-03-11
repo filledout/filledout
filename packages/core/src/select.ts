@@ -247,7 +247,7 @@ class Selector {
       $value: this.value<T, V>($$form, path)
     };
 
-    return $$field as any;
+    return $$field;
   }
 
   public listField<T extends Array<any>, V>(

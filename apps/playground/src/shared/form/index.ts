@@ -1,2 +1,2 @@
 export { createForm } from './factory';
-export { Field, withField } from './field';
+export { withField } from './field';
