@@ -1,5 +1,4 @@
-import { FieldModel } from '@filledout/core';
-import { useField } from '@filledout/react';
+import { FieldDescriptor, useField } from '@filledout/react';
 import React, { ComponentType, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +13,7 @@ type FieldChildProps = {
 };
 
 type FieldProps = {
-  is: FieldModel<any>;
+  field: FieldDescriptor<any, any>;
 
   children:
     | React.ReactElement<FieldChildProps>
@@ -32,8 +31,8 @@ const compose =
     f(x);
   };
 
-const Field: FC<FieldProps> = ({ children, is }) => {
-  const field = useField(is);
+const Field: FC<FieldProps> = ({ children, field: _field }) => {
+  const field = useField(_field);
 
   const { t } = useTranslation();
 
@@ -72,9 +71,9 @@ function withField<P extends FieldChildProps>(
     [T in keyof FieldChildProps]?: P[T];
   }
 > {
-  return (({ field, ...props }: P & { field: FieldModel<any> }) => {
+  return (({ field, ...props }: P & { field: FieldDescriptor<any, any> }) => {
     return (
-      <Field is={field}>
+      <Field field={field}>
         <Component {...(props as any)} />
       </Field>
     );

@@ -1,7 +1,7 @@
 import { createEvent, sample, Store } from 'effector';
 import { get } from 'object-path-immutable';
 import { typedPath, DefaultHandlers } from 'typed-path';
-import { FieldModel, FormModel, ListFieldModel } from './types/common';
+import { FormModel } from './types/common';
 import { nope } from './utils';
 
 type PathSelector<V, T> = (values: V) => T;
@@ -52,10 +52,7 @@ class Selector {
     return $$form.$focused.map(state => state === path);
   }
 
-  public path<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
-  ) {
+  public path<T, V>(_: FormModel<V>, selector: PathSelector<V, T> | string) {
     const path =
       typeof selector == 'string' ? selector : this.getPath(selector);
 
@@ -232,20 +229,18 @@ class Selector {
     return remove;
   }
 
-  public field<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T>
-  ): FieldModel<T> {
+  public field<T, V>($$form: FormModel<V>, selector: PathSelector<V, T>) {
     const path = this.getPath(selector);
 
-    const $$field: FieldModel<T> = {
+    const $$field = {
       blured: this.blured<T, V>($$form, path),
       change: this.change<T, V>($$form, path),
       changed: this.changed<T, V>($$form, path),
-      $errors: this.errors<T, V>($$form, path),
       focused: this.focused<T, V>($$form, path),
       path: this.path<T, V>($$form, path),
       set: this.set<T, V>($$form, path),
+
+      $errors: this.errors<T, V>($$form, path),
       $isDirty: this.isDirty<T, V>($$form, path),
       $isFocused: this.isFocused<T, V>($$form, path),
       $isTouched: this.isTouched<T, V>($$form, path),

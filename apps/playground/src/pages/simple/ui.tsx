@@ -18,23 +18,9 @@ const Input: FC<{ value: string; onChange: (value: string) => void }> = ({
 };
 
 const Simple = () => {
-  // calls validation on mount (in case you dont have dynamic $initialValues)
-  // fields are proxies and to prevent re-generation of proxies we cache them using special hook useFields or useForm uses it under the hood (after unmount it's gonna cleanup the proxies)
-  // proxy caching also needed to save object reference for memo-ed props to work properly
-
   const { t } = useTranslation();
 
   const { fields, onSubmit } = useForm($$simple.$$form);
-
-  // useFieldListeners(fields.email, {
-  //   focus: () => {
-  //     console.log('focus');
-  //   },
-
-  //   blur: () => {
-  //     console.log('focus');
-  //   }
-  // });
 
   return (
     <form
@@ -44,11 +30,11 @@ const Simple = () => {
         onSubmit();
       }}
     >
-      <Field is={fields.email}>
+      <Field field={fields.email}>
         {({ errors, shouldShowValidation, value, onChange }) => {
           return (
             <>
-              <Input value={value} onChange={onChange} />
+              <Input value={value as string} onChange={onChange} />
 
               {shouldShowValidation && errors?.[0] && (
                 <div>

@@ -20,14 +20,6 @@ type DeepMapTo<Values, T> = {
 
 type FieldErrors = { name: string; params: Record<string, any> }[];
 
-type Fields<V> = {
-  [P in keyof V]: V[P] extends Array<any>
-    ? ListFieldModel<V[P][number]>
-    : V[P] extends object
-    ? FieldModel<V[P]> & Fields<V[P]>
-    : FieldModel<V[P]>;
-};
-
 type BaseFieldModel<V> = {
   $value: Store<V>;
   $isDirty: Store<boolean>;
@@ -50,16 +42,6 @@ type FieldUIEvent<V = any> = {
 };
 
 type ErrorsMap = Record<string, FieldErrors>;
-
-type FieldModel<V> = BaseFieldModel<V>;
-
-type ListFieldModel<V> = BaseFieldModel<V> & {
-  remove: Event<'first' | 'last' | number>;
-
-  add: Event<{ at: 'start' | 'end' | number; value: V }>;
-
-  [x: number]: FieldModel<V> & Fields<V>;
-};
 
 type FormUnits<V> = {
   // state
@@ -127,17 +109,14 @@ type FormModel<V, P = {}> = FormUnits<V> &
 type FormMeta<V> = FormUnits<V> & ValidationTriggersConfiguration;
 
 export {
-  Fields,
   FormMeta,
   FormUnits,
   FormModel,
   ErrorsMap,
   DeepMapTo,
-  FieldModel,
   FieldErrors,
   FieldUIEvent,
   BaseFieldModel,
-  ListFieldModel,
   RejectionPayload,
   ValidationTriggersConfiguration
 };
