@@ -34,6 +34,7 @@
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/yup"],
       "options": {
+        "coverage": true,
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/packages/yup"
       }

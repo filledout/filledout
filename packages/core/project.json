@@ -33,6 +33,7 @@
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/core"],
       "options": {
+        "coverage": true,
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/packages/core"
       }

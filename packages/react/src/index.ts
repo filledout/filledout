@@ -1,42 +1,17 @@
 import {
+  BaseFieldModel,
+  FieldKey,
   Fields,
   FormMeta,
   FormModel,
-  BaseFieldModel,
   getFieldFormMeta,
-  ValidationVisibilityCondition,
-  FieldKey,
-  FieldModel
+  ValidationVisibilityCondition
 } from '@filledout/core';
-import {
-  Store,
-  StoreValue,
-  Scope,
-  scopeBind,
-  sample,
-  clearNode
-} from 'effector';
+import { Store, StoreValue } from 'effector';
 import { useStoreMap, useUnit } from 'effector-react';
-import { Provider } from 'effector-react';
 
-import { useContext, useEffect, useMemo, useRef } from 'react';
-
-const get = <T extends object, R = any>(
-  source: T,
-  path: string | string[]
-): R => {
-  const split = Array.isArray(path) ? path : path.split('.');
-
-  const name = split[0];
-
-  const value = source[name as keyof T];
-
-  if (typeof value === 'object' && split.length > 1) {
-    return get(value as any, split.slice(1));
-  }
-
-  return value as R;
-};
+import { useEffect, useMemo, useRef } from 'react';
+import { get } from './utils';
 
 const useDirty = ({ $dirty }: FormMeta<any>, name: string) =>
   useStoreMap({
@@ -230,24 +205,24 @@ const useFields = <T>(form: FormModel<T>) => {
   }, [form]) as Fields<T>;
 };
 
-const useFieldListeners = (
-  field: FieldModel<any>,
-  listeners: Record<string | number | symbol, (payload: any) => any>
-) => {
-  const meta = getFieldFormMeta(field);
-  // @ts-expect-error Until effector-react context gonna be public
-  const scope: Scope = useContext(Provider['_context']);
+// const useFieldListeners = (
+//   field: FieldModel<any>,
+//   listeners: Record<string | number | symbol, (payload: any) => any>
+// ) => {
+//   const meta = getFieldFormMeta(field);
+//   // @ts-expect-error Until effector-react context gonna be public
+//   const scope: Scope = useContext(Provider['_context']);
 
-  useEffect(() => {
-    const _dispatch = scope
-      ? scopeBind(meta.dispatch, { scope })
-      : meta.dispatch;
+//   useEffect(() => {
+//     const _dispatch = scope
+//       ? scopeBind(meta.dispatch, { scope })
+//       : meta.dispatch;
 
-    console.log(scope);
+//     console.log(scope);
 
-    return () => {};
-  }, []);
-};
+//     return () => {};
+//   }, []);
+// };
 
 const useForm = <T>(
   form: FormModel<T>
@@ -280,6 +255,6 @@ export {
   useFocused,
   useTouched,
   useSubmitted,
-  useFieldListeners,
+  // useFieldListeners,
   useExternalErrors
 };

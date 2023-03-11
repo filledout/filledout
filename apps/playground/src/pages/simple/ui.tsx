@@ -1,5 +1,5 @@
-import { useFieldListeners, useForm } from '@filledout/react';
-import { FC, useRef } from 'react';
+import { useForm } from '@filledout/react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Field } from '../../shared/form';
 import { $$simple } from './model';
@@ -26,15 +26,15 @@ const Simple = () => {
 
   const { fields, onSubmit } = useForm($$simple.$$form);
 
-  useFieldListeners(fields.email, {
-    focus: () => {
-      console.log('focus');
-    },
+  // useFieldListeners(fields.email, {
+  //   focus: () => {
+  //     console.log('focus');
+  //   },
 
-    blur: () => {
-      console.log('focus');
-    }
-  });
+  //   blur: () => {
+  //     console.log('focus');
+  //   }
+  // });
 
   return (
     <form

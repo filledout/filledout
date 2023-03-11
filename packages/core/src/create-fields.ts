@@ -7,6 +7,7 @@ import { get } from 'object-path';
 import { FieldKey } from './config';
 
 import type { BaseFieldModel, Fields, FormMeta } from './types/common';
+
 import { nope } from './utils';
 
 const getFieldFormMeta = <V = any>(field: BaseFieldModel<any>) => {
