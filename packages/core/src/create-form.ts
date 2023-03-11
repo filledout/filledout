@@ -103,43 +103,11 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $isSubmitted = $submitCount.map(count => count > 0);
 
-    const $subscribers = createStore([]);
+    // const $subscribers = createStore([]);
 
     // const subscribe = createEvent();
 
     // const unsubscribe = createEvent();
-
-    const meta = {
-      $dirty,
-      $errors,
-      $values,
-      $focused,
-      $isDirty,
-      $touched,
-      $isDisabled,
-      $submitCount,
-      $subscribers,
-      $initialValues,
-      $externalErrors,
-
-      put,
-      set,
-      reset,
-      patch,
-      blured,
-      change,
-      submit,
-      focused,
-      changed,
-      rejected,
-      dispatch,
-      validate,
-      submitted,
-
-      showValidationOn
-    };
-
-    const fields = createFields(meta);
 
     sample({
       clock: patch as Event<V>,
@@ -330,7 +298,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       dispatch,
       submitted,
 
-      fields,
       showValidationOn
     };
 

@@ -4,15 +4,9 @@ import { createEvent, sample } from 'effector';
 
 import { get } from 'object-path';
 
-import { FieldKey } from './config';
-
-import type { BaseFieldModel, Fields, FormMeta } from './types/common';
+import type { Fields, FormMeta } from './types/common';
 
 import { nope } from './utils';
-
-const getFieldFormMeta = <V = any>(field: BaseFieldModel<any>) => {
-  return (field as any)[FieldKey.units] as FormMeta<V>;
-};
 
 const createFields = <V>(units: FormMeta<V>) => {
   const cache: Record<string, any> = {};
@@ -31,36 +25,6 @@ const createFields = <V>(units: FormMeta<V>) => {
             if (cached) return cached;
 
             switch (key) {
-              case FieldKey.$errors: {
-                return (cache[path] = units.$errors.map(
-                  state => state[path] ?? {}
-                ));
-              }
-
-              case FieldKey.$isDirty: {
-                return (cache[path] = units.$dirty.map(
-                  state => state[path] ?? false
-                ));
-              }
-
-              case FieldKey.$isFocused: {
-                return (cache[path] = units.$focused.map(
-                  state => state == path
-                ));
-              }
-
-              case FieldKey.$isTouched: {
-                return (cache[path] = units.$touched.map(
-                  state => state[path] ?? false
-                ));
-              }
-
-              case FieldKey.$value: {
-                return (cache[path] = units.$values.map(
-                  state => get(state as object, path) ?? null
-                ));
-              }
-
               case FieldKey.blured: {
                 return (cache[path] = sample({
                   clock: units.blured,
@@ -96,21 +60,6 @@ const createFields = <V>(units: FormMeta<V>) => {
 
                   fn: nope
                 }));
-              }
-
-              case FieldKey.path: {
-                return name;
-              }
-
-              case FieldKey.set: {
-                return (cache[path] = units.set.prepend((value: any) => ({
-                  name,
-                  value
-                })));
-              }
-
-              case FieldKey.units: {
-                return units;
               }
 
               // array methods
@@ -212,4 +161,4 @@ const createFields = <V>(units: FormMeta<V>) => {
   ) as Fields<V>;
 };
 
-export { createFields, getFieldFormMeta };
+export { createFields };
