@@ -6932,7 +6932,7 @@ nx@15.6.3:
     yargs "^17.6.2"
     yargs-parser "21.1.1"
 
-nx@15.8.6, nx@^15.6.3:
+nx@15.8.6, nx@^15.8.6:
   version "15.8.6"
   resolved "https://registry.yarnpkg.com/nx/-/nx-15.8.6.tgz#ffe9a32b0c4614ec25d7308e3a37455dc386d29f"
   integrity sha512-3OsT6HMyyUyRuP07vLr7iuWzqziQvkh/vSfOWQb3PXakm6N1IvaLxF+NuUCtSaBDUACfqoVO4MC7WE2270OrKQ==
