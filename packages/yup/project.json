@@ -33,10 +33,20 @@
     "test": {
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/yup"],
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true
+        },
+        
+        "run": {
+          "watch": false
+        }
+      },
       "options": {
         "coverage": true,
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/yup"
+        "reportsDirectory": "../../coverage/packages/react"
       }
     }
   },

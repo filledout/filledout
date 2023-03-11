@@ -34,7 +34,8 @@
       "outputs": ["coverage/packages/react"],
       "configurations": {
         "watch": {
-          "watch": true
+          "watch": true,
+          "ui": true
         },
         
         "run": {
@@ -42,7 +43,6 @@
         }
       },
       "options": {
-        "reporters": ["html"],
         "coverage": true,
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/packages/react"

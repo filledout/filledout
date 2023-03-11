@@ -32,10 +32,20 @@
     "test": {
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/core"],
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true
+        },
+        
+        "run": {
+          "watch": false
+        }
+      },
       "options": {
         "coverage": true,
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/core"
+        "reportsDirectory": "../../coverage/packages/react"
       }
     }
   },
