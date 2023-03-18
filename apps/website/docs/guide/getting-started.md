@@ -6,7 +6,7 @@ For certain things filledout uses js proxy which can also affect performance but
 Because of proxies there are fully typesafe field usage without string paths like it's done in different form libraries. 
 Form values can be fully dynamic because there are 1 values store under the hood and specific field units mapped on the go when requested (thanks to proxy) and in UI there are selectors to pick values from form model stores so they can be effectively mapped without need of making separate units for each field.
 
-## Instalation
+## Installation
 
 @filledout has few packages you would want to install
 For the purpose of fully functioning example we'll install all needed packages right away
