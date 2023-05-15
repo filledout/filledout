@@ -13,6 +13,7 @@
         "main": "packages/zod/src/index.ts",
         "tsConfig": "packages/zod/tsconfig.lib.json",
         "rollupConfig": ["packages/zod/rollup.config.js"],
+        "format": ["cjs", "esm"],
         "assets": []
       }
     },

@@ -12,6 +12,7 @@
         "outputPath": "dist/packages/react",
         "main": "packages/react/src/index.ts",
         "tsConfig": "packages/react/tsconfig.lib.json",
+        "format": ["cjs", "esm"],
         "assets": []
       }
     },

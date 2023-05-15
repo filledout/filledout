@@ -13,6 +13,7 @@
         "main": "packages/yup/src/index.ts",
         "tsConfig": "packages/yup/tsconfig.lib.json",
         "rollupConfig": ["packages/yup/rollup.config.js"],
+        "format": ["cjs", "esm"],
         "assets": []
       }
     },
