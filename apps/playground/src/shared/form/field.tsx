@@ -42,11 +42,10 @@ function useFieldProps<T extends FieldDescriptor<any, any>>(
     onFocus,
     focused,
     onChange,
-    externalErrors,
     shouldShowValidation
   } = field;
 
-  const error = errors?.[0] ?? externalErrors?.[0];
+  const error = errors?.[0];
 
   return {
     value,

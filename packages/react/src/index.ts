@@ -1,7 +1,6 @@
 export {
   useDirty,
   useErrors,
-  useExternalErrors,
   useFocused,
   useStoreMap,
   useSubmitted,

@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 import {
   useDirty,
   useErrors,
-  useExternalErrors,
   useFocused,
   useSubmitted,
   useTouched,
@@ -29,8 +28,6 @@ const useField = <F extends FieldDescriptor<any, any>>(field: F) => {
   const errors = useErrors(_form, path);
 
   const focused = useFocused(_form, path);
-
-  const externalErrors = useExternalErrors(_form, path);
 
   const shouldShowValidation =
     (showValidationWhen.includes(ValidationVisibilityCondition.Dirty) &&
@@ -64,7 +61,7 @@ const useField = <F extends FieldDescriptor<any, any>>(field: F) => {
       onFocus,
       onChange
     };
-  }, [name]);
+  }, [path]);
 
   return {
     value,
@@ -75,7 +72,6 @@ const useField = <F extends FieldDescriptor<any, any>>(field: F) => {
     touched,
     focused,
     onChange,
-    externalErrors,
     shouldShowValidation
   };
 };

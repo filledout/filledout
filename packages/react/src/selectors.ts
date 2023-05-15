@@ -38,19 +38,6 @@ const useErrors = ({ $errors }: FormModel<any>, name: string) =>
     }
   });
 
-const useExternalErrors = ({ $externalErrors }: FormModel<any>, name: string) =>
-  useStoreMap({
-    store: $externalErrors as Store<Record<string, any>>,
-
-    keys: [name],
-
-    defaultValue: null,
-
-    fn: (errors, [name]) => {
-      return errors[name] ?? get(errors, name) ?? null;
-    }
-  });
-
 const useValue = <V>({ $values }: FormModel<any>, name: string) =>
   useStoreMap({
     store: $values,
@@ -85,6 +72,5 @@ export {
   useTouched,
   useFocused,
   useStoreMap,
-  useSubmitted,
-  useExternalErrors
+  useSubmitted
 };

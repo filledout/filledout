@@ -72,8 +72,6 @@ const createFormFactory = ({
 
     const $touched = createStore<Record<string, boolean>>({});
 
-    const $externalErrors = errors ?? createStore<ErrorsMap>({});
-
     const $errors = createStore<ErrorsMap>({});
 
     // calculated
@@ -267,7 +265,6 @@ const createFormFactory = ({
       $isSubmitted,
       $submitCount,
       $initialValues,
-      $externalErrors,
 
       put,
       set,
