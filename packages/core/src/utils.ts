@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const nope = () => {};
-
-export { nope };
+export const noop = () => {
+  // Intentionally empty - this function does nothing.
+};

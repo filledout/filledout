@@ -1,0 +1,23 @@
+{
+  "plugins": [
+    [
+      "effector/babel-plugin",
+      {
+        "factories": [
+          "@filledout/core",
+          "patronum/reset",
+          "src/validate",
+          "src/index"
+        ]
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "@nrwl/js/babel",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
+}

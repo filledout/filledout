@@ -12,6 +12,7 @@
         "outputPath": "dist/packages/core",
         "main": "packages/core/src/index.ts",
         "tsConfig": "packages/core/tsconfig.lib.json",
+        "format": ["cjs", "esm"],
         "assets": []
       }
     },
@@ -32,9 +33,20 @@
     "test": {
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/core"],
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true
+        },
+        
+        "run": {
+          "watch": false
+        }
+      },
       "options": {
+        "coverage": true,
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/core"
+        "reportsDirectory": "../../coverage/packages/react"
       }
     }
   },

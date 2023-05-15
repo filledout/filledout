@@ -1,6 +1,6 @@
 import { Event, Store } from 'effector';
 import { ValidationVisibilityCondition } from './enums';
-import { DeepPartial, NamePayload, NameValuePair } from './utils';
+import { DeepPartial, PathPayload, PathValuePair } from './utils';
 
 type RejectionPayload<V> = { values: V; errors: ErrorsMap };
 
@@ -18,15 +18,10 @@ type DeepMapTo<Values, T> = {
     : T;
 };
 
-type FieldErrors = Record<string, any>[];
-
-type Fields<V> = {
-  [P in keyof V]: V[P] extends Array<any>
-    ? ListFieldModel<V[P]>
-    : V[P] extends object
-    ? FieldModel<V[P]> & Fields<V[P]>
-    : FieldModel<V[P]>;
-};
+type FieldErrors = {
+  name: string;
+  params: Record<string, any>;
+}[];
 
 type BaseFieldModel<V> = {
   $value: Store<V>;
@@ -35,7 +30,7 @@ type BaseFieldModel<V> = {
   $isTouched: Store<boolean>;
   $errors: Store<FieldErrors>;
 
-  name: string;
+  path: string;
   set: Event<V>;
   change: Event<V>;
   changed: Event<V>;
@@ -43,23 +38,25 @@ type BaseFieldModel<V> = {
   focused: Event<void>;
 };
 
-type ErrorsMap = Record<string, FieldErrors>;
-
-type FieldModel<V> = BaseFieldModel<V>;
-
-type ListFieldModel<V extends Array<any>> = BaseFieldModel<V> & {
-  remove: Event<'first' | 'last' | number>;
-
-  add: Event<{ at: 'start' | 'end' | number; value: V[number] }>;
+type FieldUIEvent<V = any> = {
+  name: string;
+  path: string;
+  payload: V;
 };
 
-type FormUnits<V> = {
+type ErrorsMap = Record<string, FieldErrors>;
+
+type FormUnits<V, O = V> = {
   // state
   $values: Store<V>;
 
   $focused: Store<string>;
 
   $initialValues: Store<V>;
+
+  $meta: Store<Record<string, any>>;
+
+  $errors: Store<ErrorsMap>;
 
   $isDisabled: Store<boolean>;
 
@@ -69,42 +66,39 @@ type FormUnits<V> = {
 
   $touched: Store<Record<string, boolean>>;
 
-  $errors: Store<ErrorsMap>;
-
-  $externalErrors: Store<ErrorsMap> | Store<DeepMapTo<V, FieldErrors>>;
-
   // events
-  submitted: Event<V>;
+  submitted: Event<O>;
 
-  blured: Event<NamePayload>;
+  blured: Event<PathPayload>;
 
-  focused: Event<NamePayload>;
+  focused: Event<PathPayload>;
 
-  changed: Event<NameValuePair>;
+  changed: Event<PathValuePair>;
 
   rejected: Event<RejectionPayload<V>>;
 
   // methods
   put: Event<V>;
 
-  reset: Event<V | void>;
+  reset: Event<void>;
 
-  set: Event<NameValuePair>;
+  validate: Event<void>;
+
+  set: Event<PathValuePair>;
+
+  submit: Event<void | any>;
 
   patch: Event<DeepPartial<V>>;
 
-  submit: Event<void | unknown>;
+  change: Event<PathValuePair>;
 
-  change: Event<NameValuePair>;
+  setMeta: Event<PathValuePair>;
 
-  validate: Event<void>;
+  clearMeta: Event<PathValuePair>;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type FormModel<V, P = {}> = FormUnits<V> &
+type FormModel<V, O = V> = FormUnits<V, O> &
   ValidationTriggersConfiguration & {
-    fields: Fields<V>;
-
     $isValid: Store<boolean>;
 
     $isDirty: Store<boolean>;
@@ -114,21 +108,16 @@ type FormModel<V, P = {}> = FormUnits<V> &
     $isTouched: Store<boolean>;
 
     $isSubmitted: Store<boolean>;
-  } & P;
-
-type FormMeta<V> = FormUnits<V> & ValidationTriggersConfiguration;
+  };
 
 export {
-  Fields,
-  FormMeta,
   FormUnits,
   FormModel,
   ErrorsMap,
   DeepMapTo,
-  FieldModel,
   FieldErrors,
+  FieldUIEvent,
   BaseFieldModel,
-  ListFieldModel,
   RejectionPayload,
   ValidationTriggersConfiguration
 };

@@ -2,37 +2,39 @@ import deepmerge from 'deepmerge';
 import { createEvent, createStore, Event, is, sample, Store } from 'effector';
 import { set as setProperty } from 'object-path-immutable';
 import { reset as resetAll } from 'patronum/reset';
-import { createFields } from './create-fields';
-import { ErrorsMap, FormModel, RejectionPayload } from './types/common';
+import {
+  ErrorsMap,
+  FieldUIEvent,
+  FormModel,
+  RejectionPayload
+} from './types/common';
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
-import { DeepPartial, NamePayload, NameValuePair } from './types/utils';
+import { DeepPartial, PathPayload, PathValuePair } from './types/utils';
 
-const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
-  factoryInterceptor,
+const createFormFactory = ({
   showValidationOn: showValidationOnDefaults
-}: CreateFormFactoryParams<
-  FactoryInterceptorParams,
-  FactoryInterceptorResult
->) => {
-  const createForm = <V>({
-    errors,
+}: CreateFormFactoryParams) => {
+  const createForm = <V, O = V>({
+    meta,
+    resetOn,
+    onSubmit,
+    onReject,
     isDisabled,
+    validateOn,
     reinitialize,
     initialValues,
-    showValidationOn = showValidationOnDefaults,
-    ...params
-  }: CreateFormParams<V> & FactoryInterceptorParams): FormModel<
-    V,
-    FactoryInterceptorResult
-  > => {
+    showValidationOn = showValidationOnDefaults
+  }: CreateFormParams<V, O>): FormModel<V, O> => {
     // events
-    const submitted = createEvent<V>();
+    const submitted = createEvent<O>();
 
-    const blured = createEvent<NamePayload>();
+    const blured = createEvent<PathPayload>();
 
-    const focused = createEvent<NamePayload>();
+    const focused = createEvent<PathPayload>();
 
-    const changed = createEvent<NameValuePair>();
+    const dispatch = createEvent<FieldUIEvent>();
+
+    const changed = createEvent<PathValuePair>();
 
     const rejected = createEvent<RejectionPayload<V>>();
 
@@ -40,15 +42,19 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const put = createEvent<V>();
 
-    const reset = createEvent<V | void>();
+    const reset = createEvent<void>();
 
     const patch = createEvent<DeepPartial<V>>();
 
-    const submit = createEvent<void | unknown>();
+    const submit = createEvent<void | any>();
 
-    const set = createEvent<NameValuePair>();
+    const set = createEvent<PathValuePair>();
 
-    const change = createEvent<NameValuePair>();
+    const setMeta = createEvent<PathValuePair>();
+
+    const clearMeta = createEvent<PathValuePair>();
+
+    const change = createEvent<PathValuePair>();
 
     const validate = createEvent<void>();
 
@@ -70,9 +76,13 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $touched = createStore<Record<string, boolean>>({});
 
-    const $externalErrors = errors ?? createStore<ErrorsMap>({});
-
     const $errors = createStore<ErrorsMap>({});
+
+    const $meta = meta
+      ? is.store(meta)
+        ? meta
+        : createStore(meta)
+      : createStore<Record<string, any>>({});
 
     // calculated
 
@@ -92,63 +102,31 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
     const $isSubmitted = $submitCount.map(count => count > 0);
 
-    const meta = {
-      $dirty,
-      $errors,
-      $values,
-      $focused,
-      $isDirty,
-      $touched,
-      $isDisabled,
-      $submitCount,
-      $initialValues,
-      $externalErrors,
-
-      put,
-      set,
-      reset,
-      patch,
-      blured,
-      change,
-      submit,
-      focused,
-      changed,
-      rejected,
-      validate,
-      submitted,
-
-      showValidationOn
-    };
-
-    const fields = createFields(meta);
-
     sample({
       clock: patch as Event<V>,
 
       source: $values,
 
       fn: (values, payload) =>
-        deepmerge(values as any, payload as any, {
+        deepmerge(values, payload, {
           arrayMerge: (_, sourceArray) => sourceArray
         }) as V,
 
       target: $values
     });
 
-    sample({
-      clock: $initialValues.updates,
+    if (reinitialize) {
+      sample({
+        clock: $initialValues.updates,
 
-      filter: () => Boolean(reinitialize),
-
-      target: reset
-    });
+        target: [reset, put]
+      });
+    }
 
     sample({
       clock: reset,
 
       source: $initialValues,
-
-      fn: (initialValues, values) => values ?? initialValues,
 
       target: $values
     });
@@ -164,8 +142,8 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $values,
 
-      fn: (values, { name, value }) => {
-        return setProperty(values, name, value);
+      fn: (values, { path, value }) => {
+        return setProperty(values, path, value);
       },
 
       target: $values
@@ -180,7 +158,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     sample({
       clock: focused,
 
-      fn: ({ name }) => name,
+      fn: ({ path }) => path,
 
       target: $focused
     });
@@ -208,9 +186,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $dirty,
 
-      fn: (state, { name }) => ({
+      fn: (state, { path }) => ({
         ...state,
-        [name]: true
+        [path]: true
       }),
 
       target: $dirty
@@ -221,9 +199,9 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
 
       source: $touched,
 
-      fn: (state, { name }) => ({
+      fn: (state, { path }) => ({
         ...state,
-        [name]: true
+        [path]: true
       }),
 
       target: $touched
@@ -251,7 +229,40 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       target: [$dirty, $errors, $focused, $submitCount, $touched]
     });
 
+    if (onSubmit) {
+      sample({
+        clock: submitted,
+
+        target: onSubmit
+      });
+    }
+
+    if (onReject) {
+      sample({
+        clock: rejected,
+
+        target: onReject
+      });
+    }
+
+    if (resetOn) {
+      sample({
+        clock: resetOn,
+
+        target: reset
+      });
+    }
+
+    if (validateOn) {
+      sample({
+        clock: validateOn,
+
+        target: validate
+      });
+    }
+
     const form = {
+      $meta,
       $dirty,
       $errors,
       $values,
@@ -265,7 +276,6 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       $isSubmitted,
       $submitCount,
       $initialValues,
-      $externalErrors,
 
       put,
       set,
@@ -276,19 +286,17 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       submit,
       changed,
       focused,
+      setMeta,
       rejected,
       validate,
+      dispatch,
+      clearMeta,
       submitted,
 
-      fields,
       showValidationOn
     };
 
-    return {
-      ...form,
-
-      ...(factoryInterceptor(form, params as FactoryInterceptorParams) ?? {})
-    } as FormModel<V, FactoryInterceptorResult>;
+    return form;
   };
 
   return createForm;

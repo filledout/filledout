@@ -1,30 +1,24 @@
-import { Store } from 'effector';
-import {
-  DeepMapTo,
-  ErrorsMap,
-  FieldErrors,
-  FormModel,
-  ValidationTriggersConfiguration
-} from './common';
+import { Effect, Event, Store } from 'effector';
+import { ErrorsMap, ValidationTriggersConfiguration } from './common';
 
-type CreateFormParams<V> = {
+type CreateFormParams<V, O = V> = {
   reinitialize?: boolean;
+
+  onSubmit?: Effect<O, any>;
 
   isDisabled?: Store<boolean>;
 
   initialValues: Store<V> | V;
 
-  errors?: Store<ErrorsMap> | Store<DeepMapTo<V, FieldErrors>>;
+  resetOn?: (Event<any> | Effect<any, any>)[];
+
+  validateOn?: (Event<any> | Effect<any, any>)[];
+
+  meta?: Record<string, any> | Store<Record<string, any>>;
+
+  onReject?: Effect<{ values: V; errors: ErrorsMap }, any>;
 } & ValidationTriggersConfiguration;
 
-type CreateFormFactoryParams<
-  FactoryInterceptorParams,
-  FactoryInterceptorResult
-> = {
-  factoryInterceptor: (
-    payload: FormModel<any>,
-    params: FactoryInterceptorParams
-  ) => FactoryInterceptorResult;
-} & ValidationTriggersConfiguration;
+type CreateFormFactoryParams = ValidationTriggersConfiguration;
 
 export type { CreateFormFactoryParams, CreateFormParams };

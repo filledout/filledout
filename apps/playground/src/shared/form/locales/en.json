@@ -1,0 +1,41 @@
+{
+  "mixed": {
+    "required": "Required",
+    "default": "Invalid'",
+    "oneOf": "{{label}} must be one of the following values: ${values}",
+    "notOneOf": "{{label}} must not be one of the following values: ${values}"
+  },
+  "string": {
+    "length": "{{label}} must be exactly ${length} characters",
+    "min": "{{label}} must be at least ${min} characters",
+    "max": "{{label}} must be at most ${max} characters",
+    "matches": "{{label}} must match the following: ${regex}",
+    "email": "{{label}} must be a valid email",
+    "url": "{{label}} must be a valid URL",
+    "trim": "{{label}} must be a trimmed string",
+    "lowercase": "{{label}} must be a lowercase string",
+    "uppercase": "{{label}} must be a upper case string"
+  },
+  "number": {
+    "min": "{{label}} must be greater than or equal to ${min}",
+    "max": "{{label}} must be less than or equal to ${max}",
+    "lessThan": "{{label}} must be less than ${less}",
+    "moreThan": "{{label}} must be greater than ${more}",
+    "notEqual": "{{label}} must be not equal to ${notEqual}",
+    "positive": "{{label}} must be a positive number",
+    "negative": "{{label}} must be a negative number",
+    "integer": "{{label}} must be an integer"
+  },
+  "date": {
+    "required": "Required",
+    "default": "{{label}} is invalid'",
+    "min": "{{label}} field must be later than ${min}",
+    "max": "{{label}} field must be at earlier than ${max}"
+  },
+  "array": {
+    "required": "{{label}} is required",
+    "default": "{{label}} is invalid'",
+    "min": "{{label}} field must have at least ${min} items",
+    "max": "{{label}} field must have less than or equal to ${max} items"
+  }
+}

@@ -1,10 +1,6 @@
-import StarterLayout from './components/starter-layout.vue';
-import DarkTheme from './styles/dark-theme.css';
+import DefaultTheme from 'vitepress/theme';
 
-export { DarkTheme };
 
 export default {
-  ...DarkTheme,
-  // override the Layout with a wrapper component that injects the slots
-  Layout: StarterLayout
+  ...DefaultTheme,
 };

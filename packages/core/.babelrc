@@ -1,4 +1,19 @@
 {
+  "plugins": [
+    [
+      "effector/babel-plugin",
+      {
+        "factories": [
+          "src/config",
+          "src/create-fields",
+          "src/create-form",
+          "src/selector",
+          "src/utils",
+          "src/index"
+        ]
+      }
+    ]
+  ],
   "presets": [
     [
       "@nrwl/js/babel",

@@ -12,6 +12,8 @@
         "outputPath": "dist/packages/yup",
         "main": "packages/yup/src/index.ts",
         "tsConfig": "packages/yup/tsconfig.lib.json",
+        "rollupConfig": ["packages/yup/rollup.config.js"],
+        "format": ["cjs", "esm"],
         "assets": []
       }
     },
@@ -32,9 +34,20 @@
     "test": {
       "executor": "@nrwl/vite:test",
       "outputs": ["coverage/packages/yup"],
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true
+        },
+        
+        "run": {
+          "watch": false
+        }
+      },
       "options": {
+        "coverage": true,
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/yup"
+        "reportsDirectory": "../../coverage/packages/react"
       }
     }
   },

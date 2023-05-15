@@ -1,0 +1,55 @@
+{
+  "name": "zod",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/zod/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "project": "packages/zod/package.json",
+        "outputPath": "dist/packages/zod",
+        "main": "packages/zod/src/index.ts",
+        "tsConfig": "packages/zod/tsconfig.lib.json",
+        "rollupConfig": ["packages/zod/rollup.config.js"],
+        "format": ["cjs", "esm"],
+        "assets": []
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs zod {args.ver} {args.tag}"
+      },
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/zod/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/packages/zod"],
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true
+        },
+        
+        "run": {
+          "watch": false
+        }
+      },
+      "options": {
+        "coverage": true,
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/packages/react"
+      }
+    }
+  },
+  "tags": []
+}

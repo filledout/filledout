@@ -1,16 +1,29 @@
 ---
-home: true
-heroImage: /logo.png
-heroAlt: Logo image
-heroText: Vitepress
-tagline: Nx powered project
-actionText: Get Started
-actionLink: /guide/
+layout: home
+
+hero:
+  name: Filledout
+  text: Forms with ease
+  tagline: Dynamic forms powered by Effector
+  image:
+    src: /logo.png
+    alt: Filledout
+  actions:
+    - theme: brand
+      text: Get Started
+      link: /guide/getting-started
+    - theme: alt
+      text: Github
+      link: https://github.com/hyze2d/filledout
+
 features:
-  - title: Theming
-    details: Dark and light mode are already activated.
-  - title: Navigation
-    details: Enjoy having a ready-to-use navigation bar.
-  - title: Sidebar
-    details: Custom sidebar defined for _/guide_ route.
+  - icon: ☂️
+    title: UI Framework-agnostic
+    details: Written in effector with separate bindings for UI frameworks
+  - icon: 🔒
+    title: Typesafe
+    details: No string paths used to reference fields - typesafe field references powered by js proxy
+  - icon: 💨
+    title: All you need
+    details: Has most features you want from form library and can be extended at will
 ---
