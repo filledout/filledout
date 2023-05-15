@@ -233,18 +233,18 @@ class Selector {
     const path = this.getPath(selector);
 
     const $$field = {
+      set: this.set<T, V>($$form, path),
+      path: this.path<T, V>($$form, path),
       blured: this.blured<T, V>($$form, path),
       change: this.change<T, V>($$form, path),
       changed: this.changed<T, V>($$form, path),
       focused: this.focused<T, V>($$form, path),
-      path: this.path<T, V>($$form, path),
-      set: this.set<T, V>($$form, path),
 
+      $value: this.value<T, V>($$form, path),
       $errors: this.errors<T, V>($$form, path),
       $isDirty: this.isDirty<T, V>($$form, path),
       $isFocused: this.isFocused<T, V>($$form, path),
-      $isTouched: this.isTouched<T, V>($$form, path),
-      $value: this.value<T, V>($$form, path)
+      $isTouched: this.isTouched<T, V>($$form, path)
     };
 
     return $$field;

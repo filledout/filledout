@@ -11,14 +11,10 @@ import {
 import { CreateFormFactoryParams, CreateFormParams } from './types/create-form';
 import { DeepPartial, PathPayload, PathValuePair } from './types/utils';
 
-const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
-  factoryInterceptor,
+const createFormFactory = ({
   showValidationOn: showValidationOnDefaults
-}: CreateFormFactoryParams<
-  FactoryInterceptorParams,
-  FactoryInterceptorResult
->) => {
-  const createForm = <V>({
+}: CreateFormFactoryParams) => {
+  const createForm = <V, O = V>({
     errors,
     resetOn,
     onSubmit,
@@ -27,14 +23,10 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
     validateOn,
     reinitialize,
     initialValues,
-    showValidationOn = showValidationOnDefaults,
-    ...params
-  }: CreateFormParams<V> & FactoryInterceptorParams): FormModel<
-    V,
-    FactoryInterceptorResult
-  > => {
+    showValidationOn = showValidationOnDefaults
+  }: CreateFormParams<V, O>): FormModel<V, O> => {
     // events
-    const submitted = createEvent<V>();
+    const submitted = createEvent<O>();
 
     const blured = createEvent<PathPayload>();
 
@@ -294,13 +286,7 @@ const createFormFactory = <FactoryInterceptorParams, FactoryInterceptorResult>({
       showValidationOn
     };
 
-    return {
-      ...form,
-
-      ...(factoryInterceptor
-        ? factoryInterceptor(form, params as FactoryInterceptorParams) ?? {}
-        : {})
-    } as FormModel<V, FactoryInterceptorResult>;
+    return form;
   };
 
   return createForm;

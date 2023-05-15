@@ -1,14 +1,12 @@
 import { ZodType } from 'zod';
 
-type SchemaType<V> = ZodType<V>;
-
 type ValidateValuesParams<V> = {
   values: any;
-  schema: SchemaType<V>;
+  schema: ZodType<V>;
 };
 
 type ApplyZodParams<V> = {
-  schema: SchemaType<V>;
+  schema: ZodType<V>;
 };
 
-export type { ValidateValuesParams, ApplyZodParams, SchemaType };
+export type { ValidateValuesParams, ApplyZodParams };

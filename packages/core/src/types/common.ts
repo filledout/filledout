@@ -43,13 +43,15 @@ type FieldUIEvent<V = any> = {
 
 type ErrorsMap = Record<string, FieldErrors>;
 
-type FormUnits<V> = {
+type FormUnits<V, O = V> = {
   // state
   $values: Store<V>;
 
   $focused: Store<string>;
 
   $initialValues: Store<V>;
+
+  $errors: Store<ErrorsMap>;
 
   $isDisabled: Store<boolean>;
 
@@ -59,12 +61,8 @@ type FormUnits<V> = {
 
   $touched: Store<Record<string, boolean>>;
 
-  $errors: Store<ErrorsMap>;
-
-  $externalErrors: Store<ErrorsMap>;
-
   // events
-  submitted: Event<V>;
+  submitted: Event<O>;
 
   blured: Event<PathPayload>;
 
@@ -79,21 +77,18 @@ type FormUnits<V> = {
 
   reset: Event<void>;
 
-  set: Event<PathValuePair>;
+  validate: Event<void>;
 
-  patch: Event<DeepPartial<V>>;
+  set: Event<PathValuePair>;
 
   submit: Event<void | any>;
 
+  patch: Event<DeepPartial<V>>;
+
   change: Event<PathValuePair>;
-
-  validate: Event<void>;
-
-  dispatch: Event<FieldUIEvent>;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type FormModel<V, P = {}> = FormUnits<V> &
+type FormModel<V, O = V> = FormUnits<V, O> &
   ValidationTriggersConfiguration & {
     $isValid: Store<boolean>;
 
@@ -104,12 +99,9 @@ type FormModel<V, P = {}> = FormUnits<V> &
     $isTouched: Store<boolean>;
 
     $isSubmitted: Store<boolean>;
-  } & P;
-
-type FormMeta<V> = FormUnits<V> & ValidationTriggersConfiguration;
+  };
 
 export {
-  FormMeta,
   FormUnits,
   FormModel,
   ErrorsMap,

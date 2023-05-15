@@ -4,13 +4,15 @@ import {
   combine,
   createEffect,
   createStore,
+  Event,
   is,
   sample,
-  Store
+  Store,
+  StoreValue
 } from 'effector';
 import { reset } from 'patronum/reset';
-import { AnyZodObject, ZodError, ZodIssue } from 'zod';
-import { ApplyZodParams, SchemaType, ValidateValuesParams } from './types';
+import { AnyZodObject, ZodError, ZodIssue, ZodType, z } from 'zod';
+import { ApplyZodParams, ValidateValuesParams } from './types';
 
 const zodErrorsToErrorMap = (error: ZodError) => {
   return error.issues.reduce(
@@ -58,8 +60,8 @@ const validateBySchema = async ({
 
 const applyZod = <V>($$form: FormModel<V>, { schema }: ApplyZodParams<V>) => {
   const $schema = is.store(schema)
-    ? (schema as Store<SchemaType<V>>)
-    : createStore(schema as SchemaType<V>);
+    ? (schema as Store<ZodType<V>>)
+    : createStore(schema as ZodType<V>);
 
   const baseValidateFx = createEffect<any, void, Record<string, FieldErrors>>(
     validateBySchema
@@ -140,7 +142,8 @@ const applyZod = <V>($$form: FormModel<V>, { schema }: ApplyZodParams<V>) => {
   return {
     ...$$form,
     $schema,
-    $validating
+    $validating,
+    submitted: $$form.submitted as Event<z.output<StoreValue<typeof $schema>>>
   };
 };
 

@@ -1,22 +1,14 @@
 import { createFormFactory } from './create-form';
 import { Selector } from './select';
-import { FormModel } from './types/common';
 import { CreateFormFactoryParams } from './types/create-form';
 import { ValidationVisibilityCondition } from './types/enums';
 
-type CreateLibParams<P, T> = {
-  factoryInterceptor?: (payload: FormModel<any>, params: P) => T;
-} & Pick<CreateFormFactoryParams<P, T>, 'showValidationOn'>;
+type CreateLibParams = Pick<CreateFormFactoryParams, 'showValidationOn'>;
 
 const select = new Selector();
 
-const createLib = <Params, Result>({
-  factoryInterceptor,
-  showValidationOn
-}: CreateLibParams<Params, Result>) => {
-  const createForm = createFormFactory<Params, Result>({
-    factoryInterceptor,
-
+const createLib = ({ showValidationOn }: CreateLibParams) => {
+  const createForm = createFormFactory({
     showValidationOn: showValidationOn ?? [
       ValidationVisibilityCondition.Touched,
       ValidationVisibilityCondition.Submitted
@@ -31,7 +23,6 @@ const createLib = <Params, Result>({
 export { createLib, select, ValidationVisibilityCondition };
 
 export type {
-  FormMeta,
   FormModel,
   FormUnits,
   ErrorsMap,
