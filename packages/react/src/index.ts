@@ -1,11 +1,12 @@
 export {
+  useMeta,
+  useValue,
   useDirty,
   useErrors,
   useFocused,
-  useStoreMap,
-  useSubmitted,
   useTouched,
-  useValue
+  useStoreMap,
+  useSubmitted
 } from './selectors';
 
 export { useField } from './field';

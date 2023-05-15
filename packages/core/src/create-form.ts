@@ -15,7 +15,7 @@ const createFormFactory = ({
   showValidationOn: showValidationOnDefaults
 }: CreateFormFactoryParams) => {
   const createForm = <V, O = V>({
-    errors,
+    meta,
     resetOn,
     onSubmit,
     onReject,
@@ -50,6 +50,10 @@ const createFormFactory = ({
 
     const set = createEvent<PathValuePair>();
 
+    const setMeta = createEvent<PathValuePair>();
+
+    const clearMeta = createEvent<PathValuePair>();
+
     const change = createEvent<PathValuePair>();
 
     const validate = createEvent<void>();
@@ -73,6 +77,12 @@ const createFormFactory = ({
     const $touched = createStore<Record<string, boolean>>({});
 
     const $errors = createStore<ErrorsMap>({});
+
+    const $meta = meta
+      ? is.store(meta)
+        ? meta
+        : createStore(meta)
+      : createStore<Record<string, any>>({});
 
     // calculated
 
@@ -252,6 +262,7 @@ const createFormFactory = ({
     }
 
     const form = {
+      $meta,
       $dirty,
       $errors,
       $values,
@@ -275,9 +286,11 @@ const createFormFactory = ({
       submit,
       changed,
       focused,
+      setMeta,
       rejected,
       validate,
       dispatch,
+      clearMeta,
       submitted,
 
       showValidationOn

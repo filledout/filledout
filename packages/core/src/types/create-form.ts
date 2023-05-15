@@ -6,8 +6,6 @@ type CreateFormParams<V, O = V> = {
 
   onSubmit?: Effect<O, any>;
 
-  errors?: Store<ErrorsMap>;
-
   isDisabled?: Store<boolean>;
 
   initialValues: Store<V> | V;
@@ -15,6 +13,8 @@ type CreateFormParams<V, O = V> = {
   resetOn?: (Event<any> | Effect<any, any>)[];
 
   validateOn?: (Event<any> | Effect<any, any>)[];
+
+  meta?: Record<string, any> | Store<Record<string, any>>;
 
   onReject?: Effect<{ values: V; errors: ErrorsMap }, any>;
 } & ValidationTriggersConfiguration;

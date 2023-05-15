@@ -1,5 +1,4 @@
 import { FormModel } from '@filledout/core';
-import { Store } from 'effector';
 import { useStoreMap } from 'effector-react';
 import { get } from './utils';
 
@@ -65,7 +64,18 @@ const useSubmitted = ({ $submitCount }: FormModel<any>) =>
     fn: count => count >= 1
   });
 
+const useMeta = ({ $meta }: FormModel<any>, name: string) => {
+  return useStoreMap({
+    store: $meta,
+
+    keys: [name],
+
+    fn: (meta, [name]) => get(meta, name)
+  });
+};
+
 export {
+  useMeta,
   useDirty,
   useValue,
   useErrors,

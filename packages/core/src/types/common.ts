@@ -18,7 +18,10 @@ type DeepMapTo<Values, T> = {
     : T;
 };
 
-type FieldErrors = { name: string; params: Record<string, any> }[];
+type FieldErrors = {
+  name: string;
+  params: Record<string, any>;
+}[];
 
 type BaseFieldModel<V> = {
   $value: Store<V>;
@@ -50,6 +53,8 @@ type FormUnits<V, O = V> = {
   $focused: Store<string>;
 
   $initialValues: Store<V>;
+
+  $meta: Store<Record<string, any>>;
 
   $errors: Store<ErrorsMap>;
 
@@ -86,6 +91,10 @@ type FormUnits<V, O = V> = {
   patch: Event<DeepPartial<V>>;
 
   change: Event<PathValuePair>;
+
+  setMeta: Event<PathValuePair>;
+
+  clearMeta: Event<PathValuePair>;
 };
 
 type FormModel<V, O = V> = FormUnits<V, O> &
