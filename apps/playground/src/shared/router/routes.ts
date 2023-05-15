@@ -1,9 +1,6 @@
 import { createRoute } from 'atomic-router';
 
-const routes = {
+export const routes = {
   home: createRoute(),
-
   simple: createRoute()
 };
-
-export { routes };

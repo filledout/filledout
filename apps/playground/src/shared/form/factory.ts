@@ -18,7 +18,6 @@ const createForm = <V>(params: CreateFormParams<V> & ApplyZodParams<V>) => {
 
   return {
     ...$$form,
-
     ...applyZod($$form, params)
   };
 };

@@ -1,9 +1,7 @@
 enum ValidationVisibilityCondition {
-  Submitted = 0,
-
-  Touched = 1,
-
-  Dirty = 2
+  Submitted,
+  Touched,
+  Dirty
 }
 
 export { ValidationVisibilityCondition };

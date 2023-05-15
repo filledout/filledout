@@ -1,38 +1,37 @@
 import { FieldDescriptor, useField } from '@filledout/react';
+import { noop } from 'packages/core/src/utils';
 import { ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type FieldWrappedComponentProps<V = any> = {
-  value?: V;
+interface FieldWrappedComponentProps<V> {
+  value: V;
   error?: string;
-  focused?: boolean;
-  hasError?: boolean;
-  onBlur?: (...args: any[]) => any | void;
-  onFocus?: (...args: any[]) => any | void;
-  onChange?: (...args: any[]) => any | void;
-};
+  focused: boolean;
+  hasError: boolean;
+  onBlur: (...args: unknown[]) => unknown | void;
+  onFocus: (...args: unknown[]) => unknown | void;
+  onChange: (...args: unknown[]) => unknown | void;
+}
 
-type UseFieldPropsParams<V = any, T = any> = {
+interface UseFieldPropsParams<V, T> {
   field: FieldDescriptor<V, T>;
+}
+
+type Fn = (...args: any[]) => any;
+
+const compose = (...fns: Fn[]): Fn => {
+  return fns.reduceRight(
+    (f, g) =>
+      (...args) =>
+        f(g(...args))
+  );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const nope = (..._: any[]) => {};
-
-const compose =
-  (g: any, f = nope) =>
-  (x: any) => {
-    g(x);
-
-    f(x);
-  };
-
-function useFieldProps<T extends FieldDescriptor<any, any>>(
-  _field: T,
-  props: FieldWrappedComponentProps
-) {
+const useFieldProps = <V, T>(
+  _field: FieldDescriptor<V, T>,
+  props: Partial<FieldWrappedComponentProps<V>>
+): FieldWrappedComponentProps<V> => {
   const field = useField(_field);
-
   const { t } = useTranslation();
 
   const {
@@ -48,26 +47,29 @@ function useFieldProps<T extends FieldDescriptor<any, any>>(
   const error = errors?.[0];
 
   return {
-    value,
+    value: value as V,
     focused,
     hasError: shouldShowValidation,
-    error: error ? t(error.name, { replace: error.params }) : undefined,
-    onBlur: compose(onBlur, props.onBlur),
-    onFocus: compose(onFocus, props.onFocus),
-    onChange: compose(onChange, props.onChange)
+    error: error ? t(error.name, { replace: error.params }) ?? '' : undefined,
+    onBlur: compose(onBlur, props.onBlur ?? noop),
+    onFocus: compose(onFocus, props.onFocus ?? noop),
+    onChange: compose(onChange, props.onChange ?? noop)
   };
-}
+};
 
-function withField<P extends FieldWrappedComponentProps>(
-  Component: ComponentType<P>
-) {
-  return (({ field, ...props }: P & UseFieldPropsParams) => {
+const withField = <V, T>(
+  Component: ComponentType<FieldWrappedComponentProps<V>>
+) => {
+  return (({
+    field,
+    ...props
+  }: UseFieldPropsParams<V, T> & Partial<FieldWrappedComponentProps<V>>) => {
     const _props = useFieldProps(field, props);
 
-    return <Component {...props} {...(_props as any)} />;
+    return <Component {...props} {..._props} />;
   }) as ComponentType<
-    Omit<P, 'value' | 'onChange' | 'error' | 'hasError'> & UseFieldPropsParams
+    UseFieldPropsParams<V, T> & Partial<FieldWrappedComponentProps<V>>
   >;
-}
+};
 
-export { withField };
+export { withField, useFieldProps };

@@ -2,61 +2,43 @@ import { FormModel } from '@filledout/core';
 import { useEffect, useMemo, useRef } from 'react';
 import { FormFieldsSelector } from './types';
 
-const shouldCache = typeof window !== 'undefined';
-
 const useFields = <V>($$form: FormModel<V>): FormFieldsSelector<V> => {
-  const cacheRef = useRef<Record<string, any>>({});
+  // Create a cache for memoization.
+  const cacheRef = useRef<Record<string, unknown>>({});
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    // Clear the cache on unmount.
+    return () => {
       cacheRef.current = {};
-    },
-
-    []
-  );
+    };
+  }, []);
 
   return useMemo(() => {
-    const spawn = (parent: string, name: string) => {
-      const path = `${parent ? `${parent}.` : ''}${name}`;
-
-      if (name == '_path') {
-        return parent;
-      }
-
-      if (name == '_form') {
-        return $$form;
-      }
-
-      if (cacheRef.current[path] && shouldCache) return cacheRef.current[path];
-
+    const createProxy = (parentPath: string) => {
       return new Proxy(
         {},
-
         {
           get: (_, key: string): any => {
-            return (cacheRef.current[`${path}.${key}`] = spawn(path, key));
+            const path = `${parentPath}.${key}`;
+
+            // Use cache if possible.
+            if (cacheRef.current[path]) return cacheRef.current[path];
+
+            // If key is special, return related value directly.
+            if (key === '_path') return parentPath;
+            if (key === '_form') return $$form;
+
+            // Otherwise, create a new proxy for the nested path and cache it.
+            const proxy = createProxy(path);
+            cacheRef.current[path] = proxy;
+
+            return proxy;
           }
         }
       );
     };
 
-    return new Proxy(
-      {},
-
-      {
-        get: (_, key: string) => {
-          if (cacheRef.current[key]) return cacheRef.current[key];
-
-          const proxy = spawn('', key);
-
-          if (shouldCache) {
-            cacheRef.current[key] = proxy;
-          }
-
-          return proxy;
-        }
-      }
-    );
+    return createProxy('');
   }, [$$form]) as FormFieldsSelector<V>;
 };
 

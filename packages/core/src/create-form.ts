@@ -108,7 +108,7 @@ const createFormFactory = ({
       source: $values,
 
       fn: (values, payload) =>
-        deepmerge(values as any, payload as any, {
+        deepmerge(values, payload, {
           arrayMerge: (_, sourceArray) => sourceArray
         }) as V,
 

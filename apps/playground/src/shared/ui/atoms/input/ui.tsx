@@ -9,9 +9,7 @@ type InputProps = {
 const Input = ({ value, label, onChange, hasError, error }: InputProps) => (
   <div>
     {label && <label>{label}</label>}
-
     <input value={value} onChange={event => onChange(event.target.value)} />
-
     {hasError && <div style={{ color: 'red' }}>{error}</div>}
   </div>
 );
