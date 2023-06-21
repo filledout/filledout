@@ -19,7 +19,6 @@ const zodErrorsToErrorMap = (error: ZodError) => {
     (errors, issue) => {
       const {
         code,
-        message: _,
         validation,
         path: pathArray,
         ...params

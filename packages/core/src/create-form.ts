@@ -119,7 +119,7 @@ const createFormFactory = ({
       sample({
         clock: $initialValues.updates,
 
-        target: [reset, put]
+        target: [reset, put, validate]
       });
     }
 
