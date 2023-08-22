@@ -36,6 +36,8 @@ const $$simple = atom(() => {
           name: string()
         })
       })
+    }).superRefine(data => {
+      console.log(data, 'sr');
     })
   });
 

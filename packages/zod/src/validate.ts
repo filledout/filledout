@@ -47,7 +47,11 @@ const validateBySchema = async ({
   schema
 }: ValidateValuesParams<any>) => {
   try {
-    (schema as AnyZodObject).passthrough().parse(values);
+    const _schema = schema as AnyZodObject;
+
+    _schema.passthrough
+      ? _schema.passthrough().parse(values)
+      : _schema.parse(values);
   } catch (error) {
     if (error instanceof ZodError) {
       throw zodErrorsToErrorMap(error);

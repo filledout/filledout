@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge';
 import { createEvent, createStore, Event, is, sample, Store } from 'effector';
+import { isPlainObject } from 'is-plain-object';
 import { set as setProperty } from 'object-path-immutable';
 import { reset as resetAll } from 'patronum/reset';
 import {
@@ -109,6 +110,8 @@ const createFormFactory = ({
 
       fn: (values, payload) =>
         deepmerge(values as any, payload as any, {
+          isMergeableObject: isPlainObject,
+
           arrayMerge: (_, sourceArray) => sourceArray
         }) as V,
 
