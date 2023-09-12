@@ -4,7 +4,9 @@ import { FormFieldsSelector } from './types';
 
 const shouldCache = typeof window !== 'undefined';
 
-const useFields = <V>($$form: FormModel<V>): FormFieldsSelector<V> => {
+const useFields = <V>(
+  $$form: FormModel<V>
+): FormFieldsSelector<Required<V>> => {
   const cacheRef = useRef<Record<string, any>>({});
 
   useEffect(
@@ -57,7 +59,7 @@ const useFields = <V>($$form: FormModel<V>): FormFieldsSelector<V> => {
         }
       }
     );
-  }, [$$form]) as FormFieldsSelector<V>;
+  }, [$$form]) as FormFieldsSelector<Required<V>>;
 };
 
 export { useFields };
