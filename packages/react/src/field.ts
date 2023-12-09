@@ -1,5 +1,4 @@
 import { ValidationVisibilityCondition } from '@filledout/core';
-import { StoreValue } from 'effector';
 import { useUnit } from 'effector-react';
 import { useMemo } from 'react';
 import {
@@ -12,14 +11,14 @@ import {
 } from './selectors';
 import { FieldDescriptor } from './types';
 
-const useField = <F extends FieldDescriptor<any, any>>(field: F) => {
+const useField = <T, F>(field: FieldDescriptor<F, T>) => {
   const { _form, _path: path } = field;
 
   const showValidationWhen = field._form.showValidationOn!;
 
   const submitted = useSubmitted(_form);
 
-  const value = useValue<StoreValue<F['__valueType__']>>(_form, path);
+  const value = useValue<T>(_form, path);
 
   const dirty = useDirty(_form, path);
 
@@ -44,7 +43,7 @@ const useField = <F extends FieldDescriptor<any, any>>(field: F) => {
   });
 
   const { onChange, onBlur, onFocus } = useMemo(() => {
-    const onChange = (value: StoreValue<F['__valueType__']>) => {
+    const onChange = (value: T) => {
       handlers.change({ path, value });
     };
 

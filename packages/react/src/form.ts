@@ -6,7 +6,7 @@ import { FormFieldsSelector } from './types';
 const useForm = <V>(
   $$form: FormModel<V>
 ): {
-  fields: FormFieldsSelector<V>;
+  fields: FormFieldsSelector<Required<V>>;
   isSubmitted: boolean;
   onSubmit: (payload: void) => void;
 } => {

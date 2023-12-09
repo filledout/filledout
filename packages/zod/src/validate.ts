@@ -42,10 +42,7 @@ const zodErrorsToErrorMap = (error: ZodError) => {
   );
 };
 
-const validateBySchema = async ({
-  values,
-  schema
-}: ValidateValuesParams<any>) => {
+const validateBySchema = async ({ values, schema }: ValidateValuesParams) => {
   try {
     const _schema = schema as AnyZodObject;
 
@@ -61,7 +58,7 @@ const validateBySchema = async ({
   }
 };
 
-const applyZod = <V>($$form: FormModel<V>, { schema }: ApplyZodParams<V>) => {
+const applyZod = <V>($$form: FormModel<V>, { schema }: ApplyZodParams) => {
   const $schema = is.store(schema)
     ? (schema as Store<ZodType<V>>)
     : createStore(schema as ZodType<V>);
