@@ -24,10 +24,10 @@ const $$simple = atom(() => {
 
         role: {
           name: ''
-        }
-      },
+        },
 
-      interests: []
+        interests: []
+      }
     },
 
     schema: object({

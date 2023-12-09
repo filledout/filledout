@@ -13,7 +13,7 @@ const lib = createLib({
   ]
 });
 
-const createForm = <V>(params: CreateFormParams<V> & ApplyZodParams<V>) => {
+const createForm = <V>(params: CreateFormParams<V> & ApplyZodParams) => {
   const $$form = lib.createForm<V>(params);
 
   return {
