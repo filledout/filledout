@@ -1,9 +1,21 @@
-import { array, object, string, z } from 'zod';
+import { array, object, string } from 'zod';
 import { atom } from '../../shared/factory';
 import { createForm } from '../../shared/form';
 
 const $$simple = atom(() => {
-  const $$form = createForm({
+  const $$form = createForm<{
+    email: string;
+    user: {
+      firstName: string;
+      role: {
+        name: string;
+      };
+      interests: {
+        id: string;
+        name: string;
+      }[];
+    };
+  }>({
     initialValues: {
       email: '',
 
@@ -36,12 +48,8 @@ const $$simple = atom(() => {
           name: string()
         })
       })
-    }).superRefine(data => {
-      console.log(data, 'sr');
     })
   });
-
-  $$form.rejected.watch(console.log);
 
   return {
     $$form

@@ -1,4 +1,4 @@
-import { createEvent, sample, Store } from 'effector';
+import { createEvent, sample, Store, StoreValue } from 'effector';
 import { get } from 'object-path-immutable';
 import { typedPath, DefaultHandlers } from 'typed-path';
 import { FormModel } from './types/common';
@@ -6,75 +6,75 @@ import { nope } from './utils';
 
 type PathSelector<V, T> = (values: V) => T;
 
+type FormValue<F extends FormModel<any>> = StoreValue<F['$values']>;
+
 class Selector {
-  private getPath<T, V>(selector: PathSelector<V, T>) {
-    return (selector(typedPath() as V) as DefaultHandlers)
+  private getPath<T, F extends FormModel<any>>(
+    selector: PathSelector<FormValue<F>, T>
+  ) {
+    return (selector(typedPath() as FormValue<F>) as DefaultHandlers)
       .$path as any as string;
   }
 
-  public value<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public value<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.$values.map(state => get(state, path) ?? null) as Store<T>;
   }
 
-  public isDirty<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public isDirty<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.$dirty.map(state => state[path] ?? false);
   }
 
-  public isTouched<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public isTouched<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.$touched.map(state => state[path] ?? false);
   }
 
-  public isFocused<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public isFocused<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.$focused.map(state => state === path);
   }
 
-  public path<T, V>(_: FormModel<V>, selector: PathSelector<V, T> | string) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+  public path<T, F extends FormModel<any>>(
+    _: F,
+    selector: PathSelector<FormValue<F>, T>
+  ) {
+    const path = this.getPath(selector);
 
     return path;
   }
 
-  public errors<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public errors<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.$errors.map(state => state[path] ?? {});
   }
 
-  public set<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public set<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.set.prepend((value: T) => ({
       path,
@@ -82,12 +82,11 @@ class Selector {
     }));
   }
 
-  public change<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public change<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return $$form.change.prepend((value: T) => ({
       path,
@@ -95,12 +94,11 @@ class Selector {
     }));
   }
 
-  public changed<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public changed<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return sample({
       clock: $$form.changed,
@@ -111,12 +109,11 @@ class Selector {
     });
   }
 
-  public blured<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public blured<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return sample({
       clock: $$form.blured,
@@ -127,12 +124,11 @@ class Selector {
     });
   }
 
-  public focused<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public focused<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     return sample({
       clock: $$form.focused,
@@ -143,17 +139,16 @@ class Selector {
     });
   }
 
-  public insert<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public insert<T extends any[], F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     const insert = createEvent<{
       at: 'start' | 'end' | number;
 
-      value: V;
+      value: T[number];
     }>();
 
     sample({
@@ -188,12 +183,11 @@ class Selector {
     return insert;
   }
 
-  public remove<T, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T> | string
+  public remove<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
-    const path =
-      typeof selector == 'string' ? selector : this.getPath(selector);
+    const path = this.getPath(selector);
 
     const remove = createEvent<'first' | 'last' | number>();
 
@@ -229,37 +223,38 @@ class Selector {
     return remove;
   }
 
-  public field<T, V>($$form: FormModel<V>, selector: PathSelector<V, T>) {
-    const path = this.getPath(selector);
-
+  public field<T, F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
+  ) {
     const $$field = {
-      set: this.set<T, V>($$form, path),
-      path: this.path<T, V>($$form, path),
-      blured: this.blured<T, V>($$form, path),
-      change: this.change<T, V>($$form, path),
-      changed: this.changed<T, V>($$form, path),
-      focused: this.focused<T, V>($$form, path),
+      set: this.set<T, F>($$form, selector),
+      path: this.path<T, F>($$form, selector),
+      blured: this.blured<T, F>($$form, selector),
+      change: this.change<T, F>($$form, selector),
+      changed: this.changed<T, F>($$form, selector),
+      focused: this.focused<T, F>($$form, selector),
 
-      $value: this.value<T, V>($$form, path),
-      $errors: this.errors<T, V>($$form, path),
-      $isDirty: this.isDirty<T, V>($$form, path),
-      $isFocused: this.isFocused<T, V>($$form, path),
-      $isTouched: this.isTouched<T, V>($$form, path)
+      $value: this.value<T, F>($$form, selector),
+      $errors: this.errors<T, F>($$form, selector),
+      $isDirty: this.isDirty<T, F>($$form, selector),
+      $isFocused: this.isFocused<T, F>($$form, selector),
+      $isTouched: this.isTouched<T, F>($$form, selector)
     };
 
     return $$field;
   }
 
-  public listField<T extends Array<any>, V>(
-    $$form: FormModel<V>,
-    selector: PathSelector<V, T>
+  public listField<T extends any[], F extends FormModel<any>>(
+    $$form: F,
+    selector: PathSelector<FormValue<F>, T>
   ) {
     const $$field = this.field($$form, selector);
 
     return {
       ...$$field,
-      insert: this.insert<T, V>($$form, $$field.path),
-      remove: this.remove<T, V>($$form, $$field.path)
+      insert: this.insert<T, F>($$form, selector),
+      remove: this.remove<T, F>($$form, selector)
     };
   }
 }
