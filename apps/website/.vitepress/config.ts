@@ -11,13 +11,59 @@ export default defineConfig({
 
   srcDir: 'docs',
 
+  cleanUrls: true,
+  ignoreDeadLinks: true,
+  lastUpdated: true,
+  markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'nord'
+    },
+    lineNumbers: true
+  },
+
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
-    ['link', { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' }],
-    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }]
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/favicon/favicon-32x32.png'
+      }
+    ],
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/favicon/favicon-16x16.png'
+      }
+    ],
+    ['link', { rel: 'manifest', href: '/favicon/site.webmanifest' }],
+    [
+      'link',
+      {
+        rel: 'mask-icon',
+        href: '/favicon/safari-pinned-tab.svg',
+        color: '#5bbad5'
+      }
+    ],
+    ['link', { rel: 'shortcut icon', href: '/favicon/favicon.ico' }],
+    ['meta', { name: 'msapplication-TileColor', content: '#3f3f3f' }],
+    [
+      'meta',
+      { name: 'msapplication-config', content: '/favicon/browserconfig.xml' }
+    ],
+    ['meta', { name: 'theme-color', content: '#3f3f3f' }]
   ],
 
   themeConfig: {
+    logo: '/logo.svg',
+    search: {
+      provider: 'local'
+    },
     nav: [
       {
         text: 'Guide',
@@ -146,56 +192,81 @@ function api() {
 function guide() {
   return [
     {
-      text: 'Guide',
+      text: 'Getting Started',
+      items: [
+        {
+          text: 'Introduction',
+          link: '/guide/introduction'
+        },
+        {
+          text: 'Installation',
+          link: '/guide/installation'
+        },
+        {
+          text: 'Configure',
+          link: '/guide/configure'
+        },
+        {
+          text: 'CLI',
+          link: '/guide/cli'
+        },
+        {
+          text: 'Quick start',
+          link: '/guide/quick-start'
+        }
+      ]
+    },
+    {
+      text: 'Guide old',
 
       items: [
         {
           text: 'Getting started',
 
-          link: '/guide/getting-started'
+          link: '/guide-old/getting-started'
         },
 
         {
           text: 'Field',
 
-          link: '/guide/field-decorator'
+          link: '/guide-old/field-decorator'
         },
 
         {
           text: `Let's make a form`,
 
-          link: '/guide/first-form'
+          link: '/guide-old/first-form'
         },
 
         {
           text: `Manipulating the form`,
 
-          link: '/guide/manipulating-the-form'
+          link: '/guide-old/manipulating-the-form'
         },
 
         {
           text: `Dynamic values`,
 
-          link: '/guide/arrays'
+          link: '/guide-old/arrays'
         },
 
         {
           text: `Validation`,
 
-          link: '/guide/validation'
+          link: '/guide-old/validation'
         },
 
         {
           text: `UI bindings`,
 
-          link: '/guide/ui'
+          link: '/guide-old/ui'
         },
 
         {
           text: `What's next?`,
 
-          link: '/guide/whatsnext'
-        },
+          link: '/guide-old/whatsnext'
+        }
       ]
     }
   ];

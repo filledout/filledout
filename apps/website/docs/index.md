@@ -6,7 +6,7 @@ hero:
   text: Forms with ease
   tagline: Dynamic forms powered by Effector
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Filledout
   actions:
     - theme: brand
