@@ -178,7 +178,7 @@ pnpm add --save-dev @effector/swc-plugin @swc/core
 ```
 
 ```sh [npm <img src="/pm/npm.svg"/>]
-npm install --dev @effector/swc-plugin @swc/core
+npm install --save-dev @effector/swc-plugin @swc/core
 ```
 
 :::
