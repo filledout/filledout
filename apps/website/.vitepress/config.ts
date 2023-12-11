@@ -192,11 +192,11 @@ function api() {
 function guide() {
   return [
     {
-      text: 'Getting Started',
+      text: 'Guide',
       items: [
         {
-          text: 'Introduction',
-          link: '/guide/introduction'
+          text: 'Getting Started',
+          link: '/guide/getting-started'
         },
         {
           text: 'Installation',
@@ -207,12 +207,8 @@ function guide() {
           link: '/guide/configure'
         },
         {
-          text: 'CLI',
-          link: '/guide/cli'
-        },
-        {
-          text: 'Quick start',
-          link: '/guide/quick-start'
+          text: 'Adapters for form components',
+          link: '/guide/adapters-for-form-components'
         }
       ]
     },
@@ -220,12 +216,6 @@ function guide() {
       text: 'Guide old',
 
       items: [
-        {
-          text: 'Getting started',
-
-          link: '/guide-old/getting-started'
-        },
-
         {
           text: 'Field',
 
