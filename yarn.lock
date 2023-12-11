@@ -1759,14 +1759,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docsearch/css@npm:3.5.2, @docsearch/css@npm:^3.2.1, @docsearch/css@npm:^3.5.2":
+"@docsearch/css@npm:3.5.2, @docsearch/css@npm:^3.5.2":
   version: 3.5.2
   resolution: "@docsearch/css@npm:3.5.2"
   checksum: 736e029b65dba3b2fafb98b4bc4e6f7f411863fed4ef2798c82be8dcdcbdcb9dea6a75376b19d013e9d2f8607b2e3f8d8353938343b08b382894d8b16883ccb3
   languageName: node
   linkType: hard
 
-"@docsearch/js@npm:^3.2.1, @docsearch/js@npm:^3.5.2":
+"@docsearch/js@npm:^3.5.2":
   version: 3.5.2
   resolution: "@docsearch/js@npm:3.5.2"
   dependencies:
@@ -4142,13 +4142,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web-bluetooth@npm:^0.0.16":
-  version: 0.0.16
-  resolution: "@types/web-bluetooth@npm:0.0.16"
-  checksum: 9a265fdd048319e174f9a0ae2dfb748d0b3e07f888d9797f89dd78b96d680fd304fbfa9fd0e11ccf283bd6a441641333ec8c3184e61a50c7ee61507add63f0a2
-  languageName: node
-  linkType: hard
-
 "@types/web-bluetooth@npm:^0.0.20":
   version: 0.0.20
   resolution: "@types/web-bluetooth@npm:0.0.20"
@@ -4513,19 +4506,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/theme@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@vue/theme@npm:1.3.0"
-  dependencies:
-    "@docsearch/css": "npm:^3.2.1"
-    "@docsearch/js": "npm:^3.2.1"
-    "@vueuse/core": "npm:^9.1.1"
-    body-scroll-lock: "npm:^3.1.5"
-    normalize.css: "npm:^8.0.1"
-  checksum: 2fd1c9d75c81e8ee6cd35dc78e9348746c187f55b3bdb742234854d59ee17a804b2ccbbe710ead922a69ee34a8e9e457a543d2d966ed57b3f9b361c68241a2af
-  languageName: node
-  linkType: hard
-
 "@vueuse/core@npm:10.7.0, @vueuse/core@npm:^10.6.1":
   version: 10.7.0
   resolution: "@vueuse/core@npm:10.7.0"
@@ -4535,18 +4515,6 @@ __metadata:
     "@vueuse/shared": "npm:10.7.0"
     vue-demi: "npm:>=0.14.6"
   checksum: 512b381031f7ba582f4d1633512eb800372425d69a476365a8ed8b5b5ff5ba86ef7091be0706b14fa8d59457243e64ffbf0a28f53c390364c5404344607392fe
-  languageName: node
-  linkType: hard
-
-"@vueuse/core@npm:^9.1.1":
-  version: 9.13.0
-  resolution: "@vueuse/core@npm:9.13.0"
-  dependencies:
-    "@types/web-bluetooth": "npm:^0.0.16"
-    "@vueuse/metadata": "npm:9.13.0"
-    "@vueuse/shared": "npm:9.13.0"
-    vue-demi: "npm:*"
-  checksum: 59791dbfad5725810139c22adb4d8266ca9de419a4b252cb99f1b2a0bdb2f500988a7aabd42583c255fa45499ebb43dafc9d6ddc45fdf09ef15fdadd02958f42
   languageName: node
   linkType: hard
 
@@ -4606,28 +4574,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/metadata@npm:9.13.0":
-  version: 9.13.0
-  resolution: "@vueuse/metadata@npm:9.13.0"
-  checksum: c2a8a85946f382b9b51b4e96f17f0913091e7c271fbde565b59d3c4fd8f67f2f34778e002d65dd78c420700781e725c05d72cb65acec9c773a423116e8d49cd4
-  languageName: node
-  linkType: hard
-
 "@vueuse/shared@npm:10.7.0":
   version: 10.7.0
   resolution: "@vueuse/shared@npm:10.7.0"
   dependencies:
     vue-demi: "npm:>=0.14.6"
   checksum: ff2625439ae0c2ac733f95f86784b7286e45c2b915cb9d013d01a4ede9d101c8cb949b8c9040d753d980ff7815b169b7c19292115d596d0c6d5a21daaf2ca9c1
-  languageName: node
-  linkType: hard
-
-"@vueuse/shared@npm:9.13.0":
-  version: 9.13.0
-  resolution: "@vueuse/shared@npm:9.13.0"
-  dependencies:
-    vue-demi: "npm:*"
-  checksum: 22c453dc3c9ccd389e32d4dcfb6e6facfbb29860376c0b1c4d40d2745edd733857d1a1f82835c1d698dedf0c9f697bd9d1265e4e70a6702c85b61cc295bd7352
   languageName: node
   linkType: hard
 
@@ -5334,13 +5286,6 @@ __metadata:
     inherits: "npm:^2.0.4"
     readable-stream: "npm:^3.4.0"
   checksum: 02847e1d2cb089c9dc6958add42e3cdeaf07d13f575973963335ac0fdece563a50ac770ac4c8fa06492d2dd276f6cc3b7f08c7cd9c7a7ad0f8d388b2a28def5f
-  languageName: node
-  linkType: hard
-
-"body-scroll-lock@npm:^3.1.5":
-  version: 3.1.5
-  resolution: "body-scroll-lock@npm:3.1.5"
-  checksum: 657c948d64ffe17d2c89958f57c2c636203cf5216e3ba33ad76604bf1b5144fd8f4b5d832d09105f8782d5b8bc96f38780331ec55f3af5f27694dff38a0cc9d7
   languageName: node
   linkType: hard
 
@@ -7559,7 +7504,6 @@ __metadata:
     "@vitejs/plugin-react": "npm:^3.1.0"
     "@vitest/coverage-c8": "npm:^0.29.2"
     "@vitest/ui": "npm:^0.29.2"
-    "@vue/theme": "npm:^1.3.0"
     atomic-router: "npm:^0.8.0"
     atomic-router-react: "npm:^0.8.1"
     chalk: "npm:^5.2.0"
@@ -7610,7 +7554,7 @@ __metadata:
     vite-tsconfig-paths: "npm:^4.0.5"
     vitepress: "npm:^1.0.0-rc.31"
     vitest: "npm:^0.29.2"
-    vue: "npm:^3.2.45"
+    vue: "npm:^3.3.11"
     yup: "npm:^1.0.0"
     zod: "npm:^3.21.4"
   languageName: unknown
@@ -10700,13 +10644,6 @@ __metadata:
   version: 6.1.0
   resolution: "normalize-url@npm:6.1.0"
   checksum: 95d948f9bdd2cfde91aa786d1816ae40f8262946e13700bf6628105994fe0ff361662c20af3961161c38a119dc977adeb41fc0b41b1745eb77edaaf9cb22db23
-  languageName: node
-  linkType: hard
-
-"normalize.css@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "normalize.css@npm:8.0.1"
-  checksum: 4ddf56d1af5ca755fa5e692e718316d8758ecb792aa96e1ad206824b5810a043763d681d6f7697d46573515f5e9690038b4c91a95c1997567128815545fb8cd7
   languageName: node
   linkType: hard
 
@@ -14494,7 +14431,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:*, vue-demi@npm:>=0.14.6":
+"vue-demi@npm:>=0.14.6":
   version: 0.14.6
   resolution: "vue-demi@npm:0.14.6"
   peerDependencies:
@@ -14510,7 +14447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.45, vue@npm:^3.3.8":
+"vue@npm:^3.3.11, vue@npm:^3.3.8":
   version: 3.3.11
   resolution: "vue@npm:3.3.11"
   dependencies:
