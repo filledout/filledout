@@ -51,12 +51,12 @@ export default defineConfig({
       }
     ],
     ['link', { rel: 'shortcut icon', href: '/favicon/favicon.ico' }],
-    ['meta', { name: 'msapplication-TileColor', content: '#3f3f3f' }],
+    ['meta', { name: 'msapplication-TileColor', content: '#1c1e23' }],
     [
       'meta',
       { name: 'msapplication-config', content: '/favicon/browserconfig.xml' }
     ],
-    ['meta', { name: 'theme-color', content: '#3f3f3f' }]
+    ['meta', { name: 'theme-color', content: '#1c1e23' }]
   ],
 
   themeConfig: {
