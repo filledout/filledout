@@ -1,16 +1,7 @@
-# filledout
+### IMPORTANT
 
-Temp README
+Docs are outdated and in need of updates according to current API
 
-## IMPORTANT
+Library is not supported ATM so if you want to use it it's recommended to fork it locally if you're desparate 
 
-Docs LINK: https://filledout.github.io/ (outdated tho)
-
-Currently finished with API and features 
-
-TODO: 
-- Update docs to match current version
-- Provide examples in the apps/playground
-- Write unit tests
-
-Will be happy if someone is willing to contribute with the unit testing when first 2 are done 
+If you want to help with supporting/developing this library you can tag me in official effector TG chat via @hyze2d handle
