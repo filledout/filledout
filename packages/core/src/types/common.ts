@@ -1,4 +1,4 @@
-import { EventCallable, Store } from 'effector';
+import { EventCallable, Store, StoreWritable } from 'effector';
 import { ValidationVisibilityCondition } from './enums';
 import { DeepPartial, PathPayload, PathValuePair } from './utils';
 
@@ -56,7 +56,7 @@ type FormUnits<V, O = V> = {
 
   $meta: Store<Record<string, any>>;
 
-  $errors: Store<ErrorsMap>;
+  $errors: StoreWritable<ErrorsMap>;
 
   $isDisabled: Store<boolean>;
 
