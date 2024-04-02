@@ -1,3 +1,7 @@
 {
-    "testing.automaticallyOpenPeekView": "never"
+    "testing.automaticallyOpenPeekView": "never",
+    "i18n-ally.localesPaths": [
+        "apps/playground/src/shared/i18n",
+        "apps/playground/src/shared/form/locales"
+    ]
 }
