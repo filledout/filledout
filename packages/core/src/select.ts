@@ -157,7 +157,7 @@ class Selector {
       source: $$form.$values,
 
       fn: (values, { value, at }) => {
-        const result: any[] = [...get(values as object, path)];
+        const result: any[] = [...get(values as any, path)];
 
         if (at == 'start') {
           result.unshift(value);

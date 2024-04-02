@@ -1,4 +1,4 @@
-import { Event, Store } from 'effector';
+import { EventCallable, Store, StoreWritable } from 'effector';
 import { ValidationVisibilityCondition } from './enums';
 import { DeepPartial, PathPayload, PathValuePair } from './utils';
 
@@ -31,11 +31,11 @@ type BaseFieldModel<V> = {
   $errors: Store<FieldErrors>;
 
   path: string;
-  set: Event<V>;
-  change: Event<V>;
-  changed: Event<V>;
-  blured: Event<void>;
-  focused: Event<void>;
+  set: EventCallable<V>;
+  change: EventCallable<V>;
+  changed: EventCallable<V>;
+  blured: EventCallable<void>;
+  focused: EventCallable<void>;
 };
 
 type FieldUIEvent<V = any> = {
@@ -56,7 +56,7 @@ type FormUnits<V, O = V> = {
 
   $meta: Store<Record<string, any>>;
 
-  $errors: Store<ErrorsMap>;
+  $errors: StoreWritable<ErrorsMap>;
 
   $isDisabled: Store<boolean>;
 
@@ -67,34 +67,34 @@ type FormUnits<V, O = V> = {
   $touched: Store<Record<string, boolean>>;
 
   // events
-  submitted: Event<O>;
+  submitted: EventCallable<O>;
 
-  blured: Event<PathPayload>;
+  blured: EventCallable<PathPayload>;
 
-  focused: Event<PathPayload>;
+  focused: EventCallable<PathPayload>;
 
-  changed: Event<PathValuePair>;
+  changed: EventCallable<PathValuePair>;
 
-  rejected: Event<RejectionPayload<V>>;
+  rejected: EventCallable<RejectionPayload<V>>;
 
   // methods
-  put: Event<V>;
+  put: EventCallable<V>;
 
-  reset: Event<void>;
+  reset: EventCallable<void>;
 
-  validate: Event<void>;
+  validate: EventCallable<void>;
 
-  set: Event<PathValuePair>;
+  set: EventCallable<PathValuePair>;
 
-  submit: Event<void | any>;
+  submit: EventCallable<void | any>;
 
-  patch: Event<DeepPartial<V>>;
+  patch: EventCallable<DeepPartial<V>>;
 
-  change: Event<PathValuePair>;
+  change: EventCallable<PathValuePair>;
 
-  setMeta: Event<PathValuePair>;
+  setMeta: EventCallable<PathValuePair>;
 
-  clearMeta: Event<PathValuePair>;
+  clearMeta: EventCallable<PathValuePair>;
 };
 
 type FormModel<V, O = V> = FormUnits<V, O> &

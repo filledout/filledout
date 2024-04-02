@@ -1,4 +1,4 @@
-import { Effect, Event, Store } from 'effector';
+import { Effect, EventCallable, Store } from 'effector';
 import { ErrorsMap, ValidationTriggersConfiguration } from './common';
 
 type CreateFormParams<V, O = V> = {
@@ -10,9 +10,9 @@ type CreateFormParams<V, O = V> = {
 
   initialValues: Store<V> | V;
 
-  resetOn?: (Event<any> | Effect<any, any>)[];
+  resetOn?: (EventCallable<any> | Effect<any, any>)[];
 
-  validateOn?: (Event<any> | Effect<any, any>)[];
+  validateOn?: (EventCallable<any> | Effect<any, any>)[];
 
   meta?: Record<string, any> | Store<Record<string, any>>;
 
