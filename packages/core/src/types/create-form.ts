@@ -1,10 +1,11 @@
-import { Effect, EventCallable, Store } from 'effector';
-import { ErrorsMap, ValidationTriggersConfiguration } from './common';
+import { Effect } from 'effector';
+import type { EventCallable, Store } from 'effector';
+import type { ErrorsMap, ValidationTriggersConfiguration } from './common';
 
 type CreateFormParams<V, O = V> = {
   reinitialize?: boolean;
 
-  onSubmit?: Effect<O, any>;
+  onSubmit?: Effect<O, any> | EventCallable<O>;
 
   isDisabled?: Store<boolean>;
 
