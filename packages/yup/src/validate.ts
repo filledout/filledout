@@ -12,24 +12,34 @@ import { reset } from 'patronum/reset';
 import { ValidationError } from 'yup';
 import { ApplyYupParams, SchemaType, ValidateValuesParams } from './types';
 
+function getErrorPath(path: string = '') {
+  // Yup returns errors in arrays as foo[0].bar
+  // We replace it to be like foo.0.bar
+  return path.replaceAll(/\[/, '.').replaceAll(/\]/, '');
+}
+
 const yupErrorToMapError = (err: ValidationError) => {
   const result: Record<any, any> = {};
 
   if (err.inner.length == 0) {
-    result[err.path!] = [{ name: err.message, params: err.params }];
+    const errorPath = getErrorPath(err.path);
+
+    result[errorPath] = [{ name: err.message, params: err.params }];
 
     return result;
   }
 
   err.inner.forEach(error => {
-    if (!result[error.path!]) {
-      result[error.path!] = [];
+    const errorPath = getErrorPath(error.path);
+
+    if (!result[errorPath]) {
+      result[errorPath] = [];
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { originalValue, value, path, ...params } = error.params! as any;
 
-    result[error.path!].push({ name: error.message, params });
+    result[errorPath].push({ name: error.message, params });
   });
 
   return result;
